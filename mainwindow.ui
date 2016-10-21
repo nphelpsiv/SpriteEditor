@@ -29,12 +29,12 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>152</width>
+       <width>151</width>
        <height>191</height>
       </rect>
      </property>
@@ -87,7 +87,7 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QToolButton" name="toolButton_6">
+       <widget class="QToolButton" name="ColorCasterButton">
         <property name="text">
          <string>Color Caster</string>
         </property>
@@ -280,7 +280,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QPushButton" name="DuplicateFramButton">
+      <widget class="QPushButton" name="DuplicateFrameButton">
        <property name="text">
         <string>Duplicate Frame</string>
        </property>
@@ -368,13 +368,6 @@
      </property>
     </widget>
    </widget>
-   <zorder>label</zorder>
-   <zorder>groupBox</zorder>
-   <zorder>groupBox_2</zorder>
-   <zorder>Canvas</zorder>
-   <zorder>FramesViewArea</zorder>
-   <zorder>gridLayoutWidget_2</zorder>
-   <zorder>groupBox_3</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

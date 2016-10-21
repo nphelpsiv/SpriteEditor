@@ -14,7 +14,24 @@ public:
     explicit Model(QObject *parent = 0);
 
 public slots:
-    void undoClicked();
+    void undoButtonClicked();
+    void redoButtonClicked();
+    void penButtonClicked();
+    void eraserButtonClicked();
+    void rectButtonClicked();
+    void lineButtonClicked();
+    void colorPickerButtonClicked();
+    void colorCasterButtonClicked();
+    void bucketButtonClicked();
+    void mirrorButtonClicked();
+    void rotateButtonClicked();
+    void flipButtonClicked();
+
+    void previewButtonClicked();
+    void addFrameButtonClicked();
+    void duplicateFrameButtonClicked();
+    void removeFrameButtonClicked();
+
 };
 
 #endif // MODEL_H
