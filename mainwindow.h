@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "model.h"
+#include <QGridLayout>
 
 namespace Ui {
 class MainWindow;
@@ -51,6 +52,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
+    QGridLayout* canvasLayout;
 
     Model model;
 };
