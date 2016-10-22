@@ -76,7 +76,7 @@ void MainWindow::on_FlipButton_clicked()
 
 void MainWindow::on_PreviewButton_clicked()
 {
-    emit model.previewButtonClicked();
+    preview.show();
 }
 
 void MainWindow::on_AddFrameButton_clicked()
@@ -94,7 +94,13 @@ void MainWindow::on_RemoveFrameButton_clicked()
     emit model.removeFrameButtonClicked();
 }
 
-//void MainWindow::on_actionSave_clicked()
-//{
-//    emit model.saveButtonClicked();
-//}
+void MainWindow::getDrawingSize(string size)
+{
+    cout << size << " from mainwindow" << endl;
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+        tr("Save Sprite"), "/home/McKay", tr("Sprite Files (*.ssp)"));
+}

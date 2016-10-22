@@ -2,7 +2,13 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QFileDialog>
 #include "model.h"
+#include "preview.h"
+#include <string>
+#include <iostream>
+
+using namespace std;
 
 namespace Ui {
 class MainWindow;
@@ -15,6 +21,9 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+public slots:
+    void getDrawingSize(string s);
 
 private slots:
     void on_UndoButton_clicked();
@@ -48,13 +57,14 @@ private slots:
     void on_DuplicateFrameButton_clicked();
 
     void on_RemoveFrameButton_clicked();
-
-    void on_actionSave_clicked();
+    void on_actionSave_triggered();
 
 private:
     Ui::MainWindow *ui;
 
     Model model;
+
+    Preview preview;
 };
 
 #endif // MAINWINDOW_H
