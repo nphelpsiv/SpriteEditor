@@ -8,6 +8,7 @@
 #include "export.h"
 #include <string>
 #include <iostream>
+#include <QGridLayout>
 
 using namespace std;
 
@@ -66,6 +67,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
+    QGridLayout* canvasLayout;
 
     Model model;
 

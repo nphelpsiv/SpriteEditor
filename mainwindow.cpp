@@ -6,6 +6,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    QRect rect;
+    rect.setX(170);
+    rect.setY(20);
+    rect.setSize(QSize(512,512));
+
+    canvasLayout = new QGridLayout(ui->Canvas);
+
+    canvasLayout->addWidget(&model, 0, 0);
+    //ui->Canvas = &model;
+    //ui->Canvas->setGeometry(190, 20, 512, 512);
 }
 
 MainWindow::~MainWindow()

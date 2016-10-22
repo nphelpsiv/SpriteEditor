@@ -3,15 +3,26 @@
 
 #include <QObject>
 #include <QWidget>
+#include <vector>
+#include <QPixmap>
+
 namespace ui {
 class Model;
 }
 
-class Model: public QObject
+class Model: public QWidget
 {
     Q_OBJECT
 public:
-    explicit Model(QObject *parent = 0);
+    Model(QWidget *parent = 0);
+
+
+
+protected:
+    void paintEvent(QPaintEvent *event);
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
 public slots:
     void undoButtonClicked();
@@ -34,6 +45,20 @@ public slots:
 
     void saveButtonClicked();
 
+
+
+private:
+    std::vector<QImage> frames;
+    int currentFrame;
+
+    QImage image;
+    int scale;
+
+    void draw(QPoint);
+    QPoint lastPoint;
+
+    enum Tool {Pen, Eraser};
+    int currentTool;
 };
 
 #endif // MODEL_H

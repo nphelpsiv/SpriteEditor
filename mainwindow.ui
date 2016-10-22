@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>697</width>
-    <height>550</height>
+    <width>730</width>
+    <height>719</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,8 +34,8 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>151</width>
-       <height>220</height>
+       <width>161</width>
+       <height>191</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
@@ -227,24 +227,24 @@
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>10</y>
-      <width>451</width>
-      <height>361</height>
+      <y>20</y>
+      <width>512</width>
+      <height>512</height>
      </rect>
     </property>
     <property name="autoFillBackground">
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
+     <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
     </property>
    </widget>
    <widget class="QScrollArea" name="FramesViewArea">
     <property name="geometry">
      <rect>
       <x>240</x>
-      <y>380</y>
-      <width>401</width>
+      <y>560</y>
+      <width>471</width>
       <height>101</height>
      </rect>
     </property>
@@ -256,7 +256,7 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>399</width>
+       <width>469</width>
        <height>99</height>
       </rect>
      </property>
@@ -266,9 +266,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>380</y>
-      <width>221</width>
-      <height>106</height>
+      <y>560</y>
+      <width>211</width>
+      <height>101</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_3">
@@ -374,8 +374,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>697</width>
-     <height>21</height>
+     <width>730</width>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
