@@ -49,6 +49,8 @@ private slots:
 
     void on_RemoveFrameButton_clicked();
 
+    void on_actionSave_clicked();
+
 private:
     Ui::MainWindow *ui;
 

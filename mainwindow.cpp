@@ -93,3 +93,8 @@ void MainWindow::on_RemoveFrameButton_clicked()
 {
     emit model.removeFrameButtonClicked();
 }
+
+//void MainWindow::on_actionSave_clicked()
+//{
+//    emit model.saveButtonClicked();
+//}

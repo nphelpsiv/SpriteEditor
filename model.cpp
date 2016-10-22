@@ -85,3 +85,8 @@ void Model::removeFrameButtonClicked()
 {
     cout << "removeF (model)" << endl;
 }
+
+void Model::saveButtonClicked()
+{
+    cout << "Save button (model)" << endl;
+}

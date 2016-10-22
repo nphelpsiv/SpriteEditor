@@ -32,6 +32,8 @@ public slots:
     void duplicateFrameButtonClicked();
     void removeFrameButtonClicked();
 
+    void saveButtonClicked();
+
 };
 
 #endif // MODEL_H
