@@ -77,6 +77,7 @@ void MainWindow::on_FlipButton_clicked()
 void MainWindow::on_PreviewButton_clicked()
 {
     preview.show();
+    ui->PreviewButton->setEnabled(false);
 }
 
 void MainWindow::on_AddFrameButton_clicked()
@@ -103,4 +104,15 @@ void MainWindow::on_actionSave_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this,
         tr("Save Sprite"), "/home/McKay", tr("Sprite Files (*.ssp)"));
+}
+
+void MainWindow::on_actionOpen_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open Sprite"), "/home/McKay", tr("Sprite Files (*.spp)"));
+}
+
+void MainWindow::on_actionExport_triggered()
+{
+    exportWindow.show();
 }

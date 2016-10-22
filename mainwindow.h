@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include "model.h"
 #include "preview.h"
+#include "export.h"
 #include <string>
 #include <iostream>
 
@@ -59,12 +60,18 @@ private slots:
     void on_RemoveFrameButton_clicked();
     void on_actionSave_triggered();
 
+    void on_actionOpen_triggered();
+
+    void on_actionExport_triggered();
+
 private:
     Ui::MainWindow *ui;
 
     Model model;
 
     Preview preview;
+
+    Export exportWindow;
 };
 
 #endif // MAINWINDOW_H

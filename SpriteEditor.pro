@@ -16,13 +16,16 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     model.cpp \
     startup.cpp \
-    preview.cpp
+    preview.cpp \
+    export.cpp
 
 HEADERS  += mainwindow.h \
     model.h \
     startup.h \
-    preview.h
+    preview.h \
+    export.h
 
 FORMS    += mainwindow.ui \
     startup.ui \
-    preview.ui
+    preview.ui \
+    export.ui
