@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QWidget>
+#include <vector>
 namespace ui {
 class Model;
 }
@@ -31,6 +32,10 @@ public slots:
     void addFrameButtonClicked();
     void duplicateFrameButtonClicked();
     void removeFrameButtonClicked();
+
+private:
+    std::vector<QImage> frames;
+    int currentFrame;
 
 };
 

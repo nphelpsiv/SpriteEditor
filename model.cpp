@@ -6,6 +6,7 @@ Model::Model(QObject *parent) : QObject(parent)
 {
 
 }
+
 void Model::undoButtonClicked()
 {
     cout << "undoClick (model)" << endl;
