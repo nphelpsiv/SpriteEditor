@@ -9,6 +9,7 @@
 #include <string>
 #include <iostream>
 #include <QGridLayout>
+#include <QString>
 
 using namespace std;
 
@@ -64,6 +65,18 @@ private slots:
     void on_actionOpen_triggered();
 
     void on_actionExport_triggered();
+
+    void on_ActualSizeCheck_stateChanged(int arg1);
+
+    void on_FPSSpinBox_valueChanged(int arg1);
+
+    void on_SizeSlider_valueChanged(int value);
+
+    void on_RotateDropdown_currentTextChanged(const QString &arg1);
+
+    void on_MirrorDropdown_currentTextChanged(const QString &arg1);
+
+    void on_FlipDropdown_currentTextChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;

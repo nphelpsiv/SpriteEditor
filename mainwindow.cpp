@@ -109,6 +109,7 @@ void MainWindow::on_RemoveFrameButton_clicked()
 void MainWindow::getDrawingSize(string size)
 {
     cout << size << " from mainwindow" << endl;
+    //change
 }
 
 void MainWindow::on_actionSave_triggered()
@@ -126,4 +127,35 @@ void MainWindow::on_actionOpen_triggered()
 void MainWindow::on_actionExport_triggered()
 {
     exportWindow.show();
+}
+
+void MainWindow::on_ActualSizeCheck_stateChanged(int arg1)
+{
+    emit model.actualSizeBoxChecked(arg1);
+}
+
+void MainWindow::on_FPSSpinBox_valueChanged(int arg1)
+{
+    emit model.FPSSpinBoxChanged(arg1);
+}
+
+void MainWindow::on_SizeSlider_valueChanged(int value)
+{
+    emit model.sliderValueChanged(value);
+}
+
+void MainWindow::on_RotateDropdown_currentTextChanged(const QString &arg1)
+{
+
+    emit model.rotateDropdownChanged(arg1.toStdString());
+}
+
+void MainWindow::on_MirrorDropdown_currentTextChanged(const QString &arg1)
+{
+    emit model.mirrorDropdownChanged(arg1.toStdString());
+}
+
+void MainWindow::on_FlipDropdown_currentTextChanged(const QString &arg1)
+{
+    emit model.flipDropdownChanged(arg1.toStdString());
 }

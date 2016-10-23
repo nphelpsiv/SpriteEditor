@@ -10,6 +10,8 @@ Model::Model(QWidget *parent) : QWidget(parent)
 
     currentTool = 0;
 
+    toolSize = 1;
+
     //Create new QImage of size and fill in.
     QSize size(32,32);
     QImage newImage(size, QImage::Format_ARGB32);
@@ -122,14 +124,29 @@ void Model::mirrorButtonClicked()
     cout << "mirror (model)" << endl;
 }
 
+void Model::mirrorDropdownChanged(const std::string &choice)
+{
+    cout << "Mirror Selection: " << choice << endl;
+}
+
 void Model::rotateButtonClicked()
 {
     cout << "rotate (model)" << endl;
 }
 
+void Model::rotateDropdownChanged(const std::string &choice)
+{
+    cout << "Rotate Selection: " << choice << endl;
+}
+
 void Model::flipButtonClicked()
 {
     cout << "flip (model)" << endl;
+}
+
+void Model::flipDropdownChanged(const std::string &choice)
+{
+    cout << "Flip Selection: " << choice << endl;
 }
 
 void Model::previewButtonClicked()
@@ -156,7 +173,33 @@ void Model::saveButtonClicked()
 {
     cout << "Save button (model)" << endl;
 }
+void Model::actualSizeBoxChecked(int checked)
+{
+    //2 is checked, o is unchecked
+    if(checked == 2){
+        cout << "Checked equals true" << endl;
+    }
+    else{
+        cout << "Checked equals false" << endl;
+    }
 
+}
+void Model::FPSSpinBoxChanged(int change)
+{
+    cout << "Desired Fps: " << change << endl;
+}
+
+void Model::sliderValueChanged(int change)
+{
+    cout << "Slider Value: " << change << endl;
+    if(change  > 0){
+        toolSize = change;
+    }
+    else{
+        toolSize = 1;
+    }
+
+}
 
 void Model::draw(QPoint point)
 {
@@ -168,7 +211,7 @@ void Model::draw(QPoint point)
 
     //Use QPainter to modify QImage to be drawn by paintEvent.
     QPainter painter(&image);
-    painter.setPen(QPen(Qt::blue, 1));
+    painter.setPen(QPen(Qt::blue, toolSize));
 
     switch (currentTool)
     {
@@ -177,7 +220,7 @@ void Model::draw(QPoint point)
         lastPoint = point;
         break;
     case Tool::Eraser:
-        painter.setPen(QPen(Qt::white, 1));
+        painter.setPen(QPen(Qt::white, toolSize));
         painter.drawLine(lastPoint, point);
         lastPoint = point;
     default:
