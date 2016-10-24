@@ -6,6 +6,7 @@
 #include <vector>
 #include <QPixmap>
 #include <string.h>
+#include <QColor>
 
 namespace ui {
 class Model;
@@ -54,7 +55,7 @@ public slots:
 
     void saveButtonClicked();
 
-
+    void colorPicked(QColor c);
 
 private:
     std::vector<QImage> frames;
@@ -63,6 +64,8 @@ private:
     QImage image;
     int scale;
 
+    QColor currentColor;
+
     void draw(QPoint);
     QPoint lastPoint;
 
@@ -70,6 +73,8 @@ private:
 
     enum Tool {Pen, Eraser};
     int currentTool;
+
+
 };
 
 #endif // MODEL_H

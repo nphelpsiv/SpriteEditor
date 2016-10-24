@@ -73,6 +73,11 @@ void Model::mouseReleaseEvent(QMouseEvent *event)
 
 }
 
+void Model::colorPicked(QColor c)
+{
+    currentColor = c;
+}
+
 
 void Model::undoButtonClicked()
 {
@@ -216,6 +221,7 @@ void Model::draw(QPoint point)
     switch (currentTool)
     {
     case Tool::Pen:
+        painter.setPen(QPen(currentColor, toolSize));
         painter.drawLine(lastPoint, point);
         lastPoint = point;
         break;

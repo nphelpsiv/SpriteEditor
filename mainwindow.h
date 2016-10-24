@@ -10,6 +10,8 @@
 #include <iostream>
 #include <QGridLayout>
 #include <QString>
+#include <QPixmap>
+#include <QColorDialog>
 
 using namespace std;
 
@@ -82,6 +84,8 @@ private slots:
     void on_FlipDropdown_currentTextChanged(const QString &arg1);
 
 
+    void on_ColorButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 
@@ -92,6 +96,8 @@ private:
     Preview preview;
 
     Export exportWindow;
+
+    QColorDialog colorDialog;
 };
 
 #endif // MAINWINDOW_H
