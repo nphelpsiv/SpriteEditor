@@ -20,6 +20,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(&preview, SIGNAL(renableButton()),
                         this, SLOT(renablePreview()));
+
+    // Set the background color on startup to black
+    QColor originalColor(0,0,0,255);
+    QPixmap px(100, 100);
+    px.fill(originalColor);
+    ui->ColorButton->setIcon(px);
 }
 
 MainWindow::~MainWindow()
@@ -165,4 +171,16 @@ void MainWindow::on_FlipDropdown_currentTextChanged(const QString &arg1)
 void MainWindow::renablePreview()
 {
     ui->PreviewButton->setEnabled(true);
+}
+
+void MainWindow::on_ColorButton_clicked()
+{
+    // Get the color picked and then set the background of the button to that color.
+    QColor color = colorDialog.getColor();
+    QPixmap px(100, 100);
+    px.fill(color);
+    ui->ColorButton->setIcon(px);
+
+    // Now tell the model what color is picked.
+    emit model.colorPicked(color);
 }
