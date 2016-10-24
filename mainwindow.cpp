@@ -20,6 +20,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(&preview, SIGNAL(renableButton()),
                         this, SLOT(renablePreview()));
+
+    ui->PenButton->setIcon(QIcon("mario.png"));
+    ui->PenButton->setIconSize(QSize(24,24));
+    ui->PenButton->show();
 }
 
 MainWindow::~MainWindow()

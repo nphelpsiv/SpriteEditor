@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>120</y>
-      <width>171</width>
+      <width>191</width>
       <height>261</height>
      </rect>
     </property>
@@ -34,15 +34,43 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>200</width>
-       <height>191</height>
+       <width>161</width>
+       <height>210</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0" alignment="Qt::AlignHCenter">
-       <widget class="QToolButton" name="PenButton">
+      <item row="3" column="0" alignment="Qt::AlignHCenter">
+       <widget class="QToolButton" name="BucketButton">
         <property name="text">
-         <string>Pen</string>
+         <string>Bucket</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QToolButton" name="ColorCasterButton">
+        <property name="text">
+         <string>Color Caster</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" alignment="Qt::AlignHCenter">
+       <widget class="QToolButton" name="ColorPickerButton">
+        <property name="text">
+         <string>Color Picker</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" alignment="Qt::AlignHCenter">
+       <widget class="QToolButton" name="LineButton">
+        <property name="text">
+         <string>Line</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" alignment="Qt::AlignHCenter">
+       <widget class="QToolButton" name="RectButton">
+        <property name="text">
+         <string>Rect</string>
         </property>
        </widget>
       </item>
@@ -65,40 +93,30 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0" alignment="Qt::AlignHCenter">
-       <widget class="QToolButton" name="RectButton">
-        <property name="text">
-         <string>Rect</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1" alignment="Qt::AlignHCenter">
-       <widget class="QToolButton" name="LineButton">
-        <property name="text">
-         <string>Line</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" alignment="Qt::AlignHCenter">
-       <widget class="QToolButton" name="ColorPickerButton">
-        <property name="text">
-         <string>Color Picker</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QToolButton" name="ColorCasterButton">
-        <property name="text">
-         <string>Color Caster</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0" alignment="Qt::AlignHCenter">
-       <widget class="QToolButton" name="BucketButton">
-        <property name="text">
-         <string>Bucket</string>
-        </property>
-       </widget>
+      <item row="4" column="0">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item alignment="Qt::AlignHCenter">
+         <widget class="QToolButton" name="RotateButton">
+          <property name="text">
+           <string>Rotate</string>
+          </property>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignHCenter">
+         <widget class="QComboBox" name="RotateDropdown">
+          <item>
+           <property name="text">
+            <string>Clockwise</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Counter Clockwise</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item row="3" column="1">
        <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -119,31 +137,6 @@
           <item>
            <property name="text">
             <string>Horizontal</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="4" column="0">
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item alignment="Qt::AlignHCenter">
-         <widget class="QToolButton" name="RotateButton">
-          <property name="text">
-           <string>Rotate</string>
-          </property>
-         </widget>
-        </item>
-        <item alignment="Qt::AlignHCenter">
-         <widget class="QComboBox" name="RotateDropdown">
-          <item>
-           <property name="text">
-            <string>Clockwise</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Counter Clockwise</string>
            </property>
           </item>
          </widget>
@@ -174,6 +167,13 @@
          </widget>
         </item>
        </layout>
+      </item>
+      <item row="0" column="0" alignment="Qt::AlignHCenter">
+       <widget class="QToolButton" name="PenButton">
+        <property name="text">
+         <string>Pen</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -238,6 +238,7 @@
     <property name="styleSheet">
      <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
     </property>
+    <zorder>layoutWidget</zorder>
    </widget>
    <widget class="QScrollArea" name="FramesViewArea">
     <property name="geometry">
@@ -377,6 +378,13 @@
      </property>
     </widget>
    </widget>
+   <zorder>groupBox</zorder>
+   <zorder>groupBox_2</zorder>
+   <zorder>Canvas</zorder>
+   <zorder>FramesViewArea</zorder>
+   <zorder>gridLayoutWidget_2</zorder>
+   <zorder>groupBox_3</zorder>
+   <zorder>PenButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -384,7 +392,7 @@
      <x>0</x>
      <y>0</y>
      <width>730</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
