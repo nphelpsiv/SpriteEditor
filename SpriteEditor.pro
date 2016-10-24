@@ -29,3 +29,8 @@ FORMS    += mainwindow.ui \
     startup.ui \
     preview.ui \
     export.ui
+
+RESOURCES += \
+    icons/icons.qrc
+
+DISTFILES +=
