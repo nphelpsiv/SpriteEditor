@@ -6,7 +6,8 @@ using namespace std;
 Model::Model(QWidget *parent) : QWidget(parent)
 {
     //scale factor will be the size of the drawing pane in GUI (512) divided by size of actual image.
-    scale = 512 / 32;
+    int imageSize = 32;
+    scale = 512 / imageSize;
 
     currentTool = 0;
 
@@ -15,12 +16,35 @@ Model::Model(QWidget *parent) : QWidget(parent)
     //Create new QImage of size and fill in.
     QSize size(32,32);
     QImage newImage(size, QImage::Format_ARGB32);
-    newImage.fill(qRgba(255, 255, 255, 255));
+    newImage.fill(qRgba(120, 120, 120, 255));
 
+    for(int i = 0; i < imageSize; i++)
+    {
+        for(int j = 0; j < imageSize; j+=2)
+        {
+            if(i % 2 == 0)
+                newImage.setPixelColor(i, j, qRgba(190, 190, 190, 255));
+            else
+                newImage.setPixelColor(i, j + 1,qRgba(190, 190, 190, 255));
+        }
+    }
+
+
+    frames.push_back(newImage);
+    currentFrame = 0;
     //Use QPainter to draw image to screen and set this newImage to iamge.
-    QPainter painter(&newImage);
-    painter.drawImage(QPoint(0, 0), image);
-    image = newImage;
+    QPainter painter(&frames[currentFrame]);
+    painter.drawImage(QPoint(0, 0), frames[currentFrame]);
+    //image = newImage;
+
+    QImage firstFrame(size, QImage::Format_ARGB32);
+    firstFrame.fill(qRgba(100, 0, 0, 50));
+    frames.push_back(firstFrame);
+    currentFrame = 1;
+
+    QPainter newPaint(&frames[currentFrame]);
+    newPaint.drawImage(QPoint(0, 0), frames[currentFrame]);
+
 }
 
 void Model::paintEvent(QPaintEvent *event)
@@ -30,7 +54,7 @@ void Model::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.scale(scale, scale);
     QRect rect = event->rect();
-    painter.drawImage(rect, image, rect);
+    painter.drawImage(rect, frames[currentFrame], rect);
 }
 
 void Model::mousePressEvent(QMouseEvent *event)
@@ -215,7 +239,7 @@ void Model::draw(QPoint point)
     point.setY(point.y()/scale);
 
     //Use QPainter to modify QImage to be drawn by paintEvent.
-    QPainter painter(&image);
+    QPainter painter(&frames[currentFrame]);
     painter.setPen(QPen(Qt::blue, toolSize));
 
     switch (currentTool)
