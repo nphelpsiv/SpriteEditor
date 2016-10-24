@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>730</width>
+    <width>641</width>
     <height>719</height>
    </rect>
   </property>
@@ -394,7 +394,7 @@
    <widget class="QWidget" name="Canvas" native="true">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>120</x>
       <y>30</y>
       <width>512</width>
       <height>512</height>
@@ -410,9 +410,9 @@
    <widget class="QScrollArea" name="FramesViewArea">
     <property name="geometry">
      <rect>
-      <x>240</x>
+      <x>230</x>
       <y>560</y>
-      <width>471</width>
+      <width>401</width>
       <height>101</height>
      </rect>
     </property>
@@ -424,7 +424,7 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>469</width>
+       <width>399</width>
        <height>99</height>
       </rect>
      </property>
@@ -557,7 +557,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>730</width>
+     <width>641</width>
      <height>22</height>
     </rect>
    </property>
