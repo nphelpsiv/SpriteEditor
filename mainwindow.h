@@ -28,6 +28,8 @@ public:
 public slots:
     void getDrawingSize(string s);
 
+    void renablePreview();
+
 private slots:
     void on_UndoButton_clicked();
 
@@ -60,6 +62,7 @@ private slots:
     void on_DuplicateFrameButton_clicked();
 
     void on_RemoveFrameButton_clicked();
+
     void on_actionSave_triggered();
 
     void on_actionOpen_triggered();
@@ -77,6 +80,7 @@ private slots:
     void on_MirrorDropdown_currentTextChanged(const QString &arg1);
 
     void on_FlipDropdown_currentTextChanged(const QString &arg1);
+
 
 private:
     Ui::MainWindow *ui;

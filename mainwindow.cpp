@@ -17,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent) :
     canvasLayout->addWidget(&model, 0, 0);
     //ui->Canvas = &model;
     //ui->Canvas->setGeometry(190, 20, 512, 512);
+
+    connect(&preview, SIGNAL(renableButton()),
+                        this, SLOT(renablePreview()));
 }
 
 MainWindow::~MainWindow()
@@ -158,4 +161,9 @@ void MainWindow::on_MirrorDropdown_currentTextChanged(const QString &arg1)
 void MainWindow::on_FlipDropdown_currentTextChanged(const QString &arg1)
 {
     emit model.flipDropdownChanged(arg1.toStdString());
+}
+
+void MainWindow::renablePreview()
+{
+    ui->PreviewButton->setEnabled(true);
 }

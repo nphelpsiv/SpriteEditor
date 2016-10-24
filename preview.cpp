@@ -12,3 +12,12 @@ Preview::~Preview()
 {
     delete ui;
 }
+
+void Preview::closeEvent(QCloseEvent *event)
+{
+    emit renableButton();
+    event->ignore();
+    hide();
+}
+
+
