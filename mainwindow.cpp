@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Set the background color on startup to black
     QColor originalColor(0,0,0,255);
-    QPixmap px(100, 100);
+    QPixmap px(500, 500);
     px.fill(originalColor);
     ui->ColorButton->setIcon(px);
 }
@@ -78,21 +78,6 @@ void MainWindow::on_BucketButton_clicked()
     emit model.bucketButtonClicked();
 }
 
-void MainWindow::on_MirrorButton_clicked()
-{
-    emit model.mirrorButtonClicked();
-}
-
-void MainWindow::on_RotateButton_clicked()
-{
-    emit model.rotateButtonClicked();
-}
-
-void MainWindow::on_FlipButton_clicked()
-{
-    emit model.flipButtonClicked();
-}
-
 void MainWindow::on_PreviewButton_clicked()
 {
     preview.show();
@@ -123,7 +108,7 @@ void MainWindow::getDrawingSize(string size)
 void MainWindow::on_actionSave_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this,
-        tr("Save Sprite"), "/home/McKay", tr("Sprite Files (*.ssp)"));
+        tr("Save Sprite"), "~/", tr("Sprite Files (*.ssp)"));
 }
 
 void MainWindow::on_actionOpen_triggered()
@@ -152,20 +137,34 @@ void MainWindow::on_SizeSlider_valueChanged(int value)
     emit model.sliderValueChanged(value);
 }
 
-void MainWindow::on_RotateDropdown_currentTextChanged(const QString &arg1)
+void MainWindow::on_MirrorHorizontalButton_clicked()
 {
-
-    emit model.rotateDropdownChanged(arg1.toStdString());
+    emit model.mirrorHorizontalButtonClicked();
 }
 
-void MainWindow::on_MirrorDropdown_currentTextChanged(const QString &arg1)
+void MainWindow::on_MirrorVerticalButton_clicked()
 {
-    emit model.mirrorDropdownChanged(arg1.toStdString());
+    emit model.mirrorVerticalButtonClicked();
 }
 
-void MainWindow::on_FlipDropdown_currentTextChanged(const QString &arg1)
+void MainWindow::on_FlipHorizontalButton_clicked()
 {
-    emit model.flipDropdownChanged(arg1.toStdString());
+    emit model.flipHorizontalButtonClicked();
+}
+
+void MainWindow::on_FlipVerticalButton_clicked()
+{
+    emit model.flipVerticalButtonClicked();
+}
+
+void MainWindow::on_RotateClockwiseButton_clicked()
+{
+    emit model.rotateClockwiseButtonClicked();
+}
+
+void MainWindow::on_RotateCounterClockwiseButton_clicked()
+{
+    emit model.rotateCounterClockwiseButtonClicked();
 }
 
 void MainWindow::renablePreview()
@@ -184,3 +183,4 @@ void MainWindow::on_ColorButton_clicked()
     // Now tell the model what color is picked.
     emit model.colorPicked(color);
 }
+

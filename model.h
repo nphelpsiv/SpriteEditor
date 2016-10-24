@@ -30,8 +30,6 @@ public slots:
     void undoButtonClicked();
     void redoButtonClicked();
 
-    void sliderValueChanged(int change);
-
     void penButtonClicked();
     void eraserButtonClicked();
     void rectButtonClicked();
@@ -39,12 +37,15 @@ public slots:
     void colorPickerButtonClicked();
     void colorCasterButtonClicked();
     void bucketButtonClicked();
-    void mirrorButtonClicked();
-    void mirrorDropdownChanged(const std::string &choice);
-    void rotateButtonClicked();
-    void rotateDropdownChanged(const std::string &choice);
-    void flipButtonClicked();
-    void flipDropdownChanged(const std::string &choice);
+    void mirrorHorizontalButtonClicked();
+    void mirrorVerticalButtonClicked();
+    void flipHorizontalButtonClicked();
+    void flipVerticalButtonClicked();
+    void rotateClockwiseButtonClicked();
+    void rotateCounterClockwiseButtonClicked();
+
+    void sliderValueChanged(int change);
+    void colorPicked(QColor c);
 
     void previewButtonClicked();
     void addFrameButtonClicked();
@@ -55,7 +56,7 @@ public slots:
 
     void saveButtonClicked();
 
-    void colorPicked(QColor c);
+
 
 private:
     std::vector<QImage> frames;

@@ -124,34 +124,33 @@ void Model::bucketButtonClicked()
     cout << "bucket (model)" << endl;
 }
 
-void Model::mirrorButtonClicked()
+void Model::mirrorHorizontalButtonClicked()
 {
-    cout << "mirror (model)" << endl;
+    cout << "mirror horizontal (model)" << endl;
 }
 
-void Model::mirrorDropdownChanged(const std::string &choice)
+void Model::mirrorVerticalButtonClicked()
 {
-    cout << "Mirror Selection: " << choice << endl;
+    cout << "mirror vertical (model)" << endl;
 }
 
-void Model::rotateButtonClicked()
+void Model::flipHorizontalButtonClicked()
 {
-    cout << "rotate (model)" << endl;
+    cout << "flip horizontal (model)" << endl;
+}
+void Model::flipVerticalButtonClicked()
+{
+    cout << "flip vertical (model)" << endl;
 }
 
-void Model::rotateDropdownChanged(const std::string &choice)
+void Model::rotateClockwiseButtonClicked()
 {
-    cout << "Rotate Selection: " << choice << endl;
+    cout << "rotate Clockwise (model)" << endl;
 }
 
-void Model::flipButtonClicked()
+void Model::rotateCounterClockwiseButtonClicked()
 {
-    cout << "flip (model)" << endl;
-}
-
-void Model::flipDropdownChanged(const std::string &choice)
-{
-    cout << "Flip Selection: " << choice << endl;
+    cout << "rotate Counter Clockwise (model)" << endl;
 }
 
 void Model::previewButtonClicked()
