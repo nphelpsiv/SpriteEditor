@@ -6,21 +6,46 @@ using namespace std;
 Model::Model(QWidget *parent) : QWidget(parent)
 {
     //scale factor will be the size of the drawing pane in GUI (512) divided by size of actual image.
-    scale = 512 / 32;
+    int imageSize = 64;
+    scale = 512 / imageSize;
 
+    //Automatically set Pen tool.
     currentTool = 0;
 
     toolSize = 1;
 
-    //Create new QImage of size and fill in.
-    QSize size(32,32);
+    //Create new QImage (Background image) of size and fill in.
+    size.setHeight(imageSize);
+    size.setWidth(imageSize);
     QImage newImage(size, QImage::Format_ARGB32);
-    newImage.fill(qRgba(255, 255, 255, 255));
+    newImage.fill(qRgba(120, 120, 120, 255));
 
-    //Use QPainter to draw image to screen and set this newImage to iamge.
-    QPainter painter(&newImage);
-    painter.drawImage(QPoint(0, 0), image);
-    image = newImage;
+    //Fill background with checkerboard pattern
+    for(int i = 0; i < imageSize; i++)
+    {
+        for(int j = 0; j < imageSize; j+=2)
+        {
+            if(i % 2 == 0)
+                newImage.setPixelColor(i, j, qRgba(190, 190, 190, 255));
+            else
+                newImage.setPixelColor(i, j + 1,qRgba(190, 190, 190, 255));
+        }
+    }
+
+    //add background frame to the vector. Position 0.
+    frames.push_back(newImage);
+    currentFrame = 0;
+
+    //create Frame 1 which is filled transparent. Add Frame 1 to vector.
+    QImage firstFrame(size, QImage::Format_ARGB32);
+    firstFrame.fill(qRgba(0, 0, 0, 0));
+    frames.push_back(firstFrame);
+    currentFrame = 1;
+
+    //Draw frames.
+    QPainter newPaint(&frames[currentFrame]);
+    newPaint.drawImage(QPoint(0, 0), frames[currentFrame]);
+
 }
 
 void Model::paintEvent(QPaintEvent *event)
@@ -30,7 +55,10 @@ void Model::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.scale(scale, scale);
     QRect rect = event->rect();
-    painter.drawImage(rect, image, rect);
+    painter.drawImage(rect, frames[0], rect);
+    painter.drawImage(rect, frames[currentFrame], rect);
+
+    emit updated(frames[currentFrame]);
 }
 
 void Model::mousePressEvent(QMouseEvent *event)
@@ -161,6 +189,8 @@ void Model::previewButtonClicked()
 void Model::addFrameButtonClicked()
 {
     cout << "addF (model)" << endl;
+
+    addFrame();
 }
 
 void Model::duplicateFrameButtonClicked()
@@ -205,6 +235,39 @@ void Model::sliderValueChanged(int change)
 
 }
 
+/*
+ * Adds new frame.
+ */
+void Model::addFrame()
+{
+    //create new transparent frame, add it to the vector, and increase currentFrame.
+    QImage newImage(size, QImage::Format_ARGB32);
+    newImage.fill(qRgba(0, 0, 0, 0));
+    frames.push_back(newImage);
+    currentFrame += 1;
+
+    emit frameAdded(frames[currentFrame]);
+}
+
+/*
+ * Returns current frame index.
+ */
+QImage Model::getFrame(int i)
+{
+    return frames[i];
+}
+
+void Model::changeFrame(int i)
+{
+    std::cout << "changeFrame " << i << std::endl;
+    currentFrame = i + 1;
+
+    //Draw frames.
+    QPainter newPaint(&frames[currentFrame]);
+    newPaint.drawImage(QPoint(0, 0), frames[currentFrame]);
+    update();
+}
+
 void Model::draw(QPoint point)
 {
     //Scale the points along with the scale of the image.
@@ -214,7 +277,7 @@ void Model::draw(QPoint point)
     point.setY(point.y()/scale);
 
     //Use QPainter to modify QImage to be drawn by paintEvent.
-    QPainter painter(&image);
+    QPainter painter(&frames[currentFrame]);
     painter.setPen(QPen(Qt::blue, toolSize));
 
     switch (currentTool)
@@ -232,8 +295,5 @@ void Model::draw(QPoint point)
         break;
     }
 
-    //painter.drawPoint(point);
-    //painter.drawLine(lastPoint, point);
-    //lastPoint = point;
     update();
 }

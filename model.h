@@ -18,7 +18,9 @@ class Model: public QWidget
 public:
     Model(QWidget *parent = 0);
 
-
+signals:
+    void frameAdded(QImage);
+    void updated(QImage);
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -58,12 +60,17 @@ public slots:
 
 
 
+    void addFrame();
+    QImage getFrame(int i);
+    void changeFrame(int i);
+
 private:
     std::vector<QImage> frames;
     int currentFrame;
 
     QImage image;
     int scale;
+    QSize size;
 
     QColor currentColor;
 

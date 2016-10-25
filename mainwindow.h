@@ -32,6 +32,12 @@ public slots:
 
     void renablePreview();
 
+    void frameAdded(QImage);
+
+    void frameUpdated(QImage);
+
+    void frameButtonPressed();
+
 private slots:
     void on_UndoButton_clicked();
     void on_RedoButton_clicked();
@@ -76,6 +82,9 @@ private:
 
     QColorDialog colorDialog;
 
+    int currentFrame;
+
+    std::vector<QPushButton*> frameButtons;
 };
 
 #endif // MAINWINDOW_H
