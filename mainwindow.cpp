@@ -29,12 +29,6 @@ MainWindow::MainWindow(QWidget *parent) :
     px.fill(originalColor);
     ui->ColorButton->setIcon(px);
 
-    // icon background
-    ui->UndoButton->setIcon(QIcon(":../../images.jpg"));
-    ui->UndoButton->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    //ui->UndoButton->show();
-
-
     //Create the Frame viewing area.
     QWidget *view = new QWidget;
     QWidget *w = new QWidget;
@@ -189,14 +183,14 @@ void MainWindow::on_SizeSlider_valueChanged(int value)
     emit model.sliderValueChanged(value);
 }
 
-void MainWindow::on_MirrorHorizontalButton_clicked()
+void MainWindow::on_MirrorHorizontalButton_toggled(bool checked)
 {
-    emit model.mirrorHorizontalButtonClicked();
+    emit model.mirrorHorizontalButtonToggled();
 }
 
-void MainWindow::on_MirrorVerticalButton_clicked()
+void MainWindow::on_MirrorVerticalButton_toggled(bool checked)
 {
-    emit model.mirrorVerticalButtonClicked();
+    emit model.mirrorVerticalButtonToggled();
 }
 
 void MainWindow::on_FlipHorizontalButton_clicked()

@@ -12,8 +12,8 @@
         <file>line.png</file>
         <file>photo-frame.png</file>
         <file>redo.png</file>
-        <file>undo.png</file>
         <file>mirror-vertical.png</file>
         <file>mirror-horizontal.png</file>
+        <file>undo.png</file>
     </qresource>
 </RCC>

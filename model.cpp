@@ -6,7 +6,7 @@ using namespace std;
 Model::Model(QWidget *parent) : QWidget(parent)
 {
     //scale factor will be the size of the drawing pane in GUI (512) divided by size of actual image.
-    int imageSize = 64;
+    int imageSize = 32;
     scale = 512 / imageSize;
 
     //Automatically set Pen tool.
@@ -152,12 +152,12 @@ void Model::bucketButtonClicked()
     cout << "bucket (model)" << endl;
 }
 
-void Model::mirrorHorizontalButtonClicked()
+void Model::mirrorHorizontalButtonToggled()
 {
     cout << "mirror horizontal (model)" << endl;
 }
 
-void Model::mirrorVerticalButtonClicked()
+void Model::mirrorVerticalButtonToggled()
 {
     cout << "mirror vertical (model)" << endl;
 }

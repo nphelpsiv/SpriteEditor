@@ -39,8 +39,8 @@ public slots:
     void colorPickerButtonClicked();
     void colorCasterButtonClicked();
     void bucketButtonClicked();
-    void mirrorHorizontalButtonClicked();
-    void mirrorVerticalButtonClicked();
+    void mirrorHorizontalButtonToggled();
+    void mirrorVerticalButtonToggled();
     void flipHorizontalButtonClicked();
     void flipVerticalButtonClicked();
     void rotateClockwiseButtonClicked();

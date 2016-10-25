@@ -6,112 +6,88 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>195</height>
+    <width>357</width>
+    <height>152</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Sprite Editor</string>
   </property>
-  <widget class="QPushButton" name="SelectFileButton">
+  <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>110</y>
-     <width>113</width>
-     <height>32</height>
+     <x>20</x>
+     <y>10</y>
+     <width>311</width>
+     <height>131</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Select File</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="SizeDrop">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>20</y>
-     <width>111</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <item>
-    <property name="text">
-     <string>16x16</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>32x32</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>64x64</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>128x128</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>256x256</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>30</y>
-     <width>111</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>For new project:</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="NewFileButton">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>20</y>
-     <width>101</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>New</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>120</y>
-     <width>141</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Open existing project:</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="LoadFileButton">
-   <property name="geometry">
-    <rect>
-     <x>284</x>
-     <y>112</y>
-     <width>101</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Load</string>
-   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="1" alignment="Qt::AlignHCenter">
+     <widget class="QComboBox" name="SizeDrop">
+      <item>
+       <property name="text">
+        <string>16x16</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>32x32</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>64x64</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>128x128</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>256x256</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="1" column="2" alignment="Qt::AlignHCenter">
+     <widget class="QPushButton" name="LoadFileButton">
+      <property name="text">
+       <string>Load</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2" alignment="Qt::AlignHCenter">
+     <widget class="QPushButton" name="NewFileButton">
+      <property name="text">
+       <string>New</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" alignment="Qt::AlignRight">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Open existing project:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1" alignment="Qt::AlignHCenter">
+     <widget class="QPushButton" name="SelectFileButton">
+      <property name="text">
+       <string>Select File</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" alignment="Qt::AlignRight">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>For new project:</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

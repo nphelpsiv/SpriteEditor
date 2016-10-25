@@ -49,8 +49,8 @@ private slots:
     void on_ColorPickerButton_clicked();
     void on_ColorCasterButton_clicked();
     void on_BucketButton_clicked();
-    void on_MirrorHorizontalButton_clicked();
-    void on_MirrorVerticalButton_clicked();
+    void on_MirrorHorizontalButton_toggled(bool checked);
+    void on_MirrorVerticalButton_toggled(bool checked);
     void on_FlipHorizontalButton_clicked();
     void on_FlipVerticalButton_clicked();
     void on_RotateClockwiseButton_clicked();
@@ -68,6 +68,8 @@ private slots:
     void on_actionExport_triggered();
     void on_ActualSizeCheck_stateChanged(int arg1);
     void on_FPSSpinBox_valueChanged(int arg1);
+
+
 
 private:
     Ui::MainWindow *ui;
