@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QGraphicsScene>
+#include <QGraphicsView>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -31,6 +33,51 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->UndoButton->setIcon(QIcon(":../../images.jpg"));
     ui->UndoButton->setToolButtonStyle(Qt::ToolButtonIconOnly);
     //ui->UndoButton->show();
+
+
+    //Create the Frame viewing area.
+    QWidget *view = new QWidget;
+    QWidget *w = new QWidget;
+    QWidget *w1 = new QWidget;
+    ui->FramesViewArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    ui->FramesViewArea->setWidget(view);
+    ui->FramesViewArea->setWidgetResizable(true);
+
+    //Horizontal Box Layout
+    QHBoxLayout *layout = new QHBoxLayout(view);
+
+    //Fill vector with 30 blank frame buttons.
+    for(int i = 0; i < 30; i++)
+    {
+
+
+        QPushButton *frame = new QPushButton("");
+        QPalette pal = frame->palette();
+        pal.setColor(QPalette::Button, QColor(Qt::white));
+        frame->setAutoFillBackground(true);
+        frame->setPalette(pal);
+        frame->setFixedSize(64, 64);
+        frame->setFlat(true);
+        frame->setVisible(false);
+        layout->addWidget(frame);
+        frameButtons.push_back(frame);
+
+        connect(frame, SIGNAL(pressed()), this, SLOT(frameButtonPressed()));
+    }
+
+    //Show first frame upon start.
+    frameButtons[0]->setVisible(true);
+    currentFrame = 0;
+
+    layout->addWidget(w);
+    layout->addWidget(w1);
+
+    //Connects for signals when frame is changed.
+    connect(&model, SIGNAL(frameAdded(QImage)),
+            this, SLOT(frameAdded(QImage)));
+
+    connect(&model, SIGNAL(updated(QImage)),
+            this, SLOT(frameUpdated(QImage)));
 }
 
 MainWindow::~MainWindow()
@@ -189,4 +236,54 @@ void MainWindow::on_ColorButton_clicked()
 
     // Now tell the model what color is picked.
     emit model.colorPicked(color);
+}
+
+/*
+ * Slot for when frame is added.
+ * Recieves a QImage from Model to add.
+ */
+void MainWindow::frameAdded(QImage image)
+{
+    frameButtons[++currentFrame]->setVisible(true);
+
+    QIcon icon;
+    icon.addPixmap(QPixmap::fromImage(model.getFrame(currentFrame + 1)), QIcon::Normal);
+    frameButtons[currentFrame]->setIcon(icon);
+    frameButtons[currentFrame]->setIconSize(QSize(64, 64));
+}
+
+/*
+ * Slot for when frame is updated.
+ * This will draw the frame in a mini version as an icon.
+ */
+void MainWindow::frameUpdated(QImage image)
+{
+    QIcon icon;
+    icon.addPixmap(QPixmap::fromImage(model.getFrame(currentFrame + 1)), QIcon::Normal);
+    frameButtons[currentFrame]->setIcon(icon);
+    frameButtons[currentFrame]->setIconSize(QSize(64, 64));
+}
+
+/*
+ * Slot for when a frame is selected.
+ * Should switch to that frame in the drawing pane.
+ */
+void MainWindow::frameButtonPressed()
+{
+    int frameIndex;
+
+    //From Stackoverflow:
+    //http://stackoverflow.com/questions/30611067/solvedqt-i-have-a-qpushbutton-qvector-which-one-was-pressed
+    QObject* obj = sender();
+    for(int i = 0; i < frameButtons.size(); i++)
+    {
+        if(obj == qobject_cast<QObject*>(frameButtons[i]))
+        {
+            std::cout << "Frame " << i << std::endl;
+            frameIndex = i;
+        }
+    }
+
+    currentFrame = frameIndex;
+    emit model.changeFrame(frameIndex);
 }
