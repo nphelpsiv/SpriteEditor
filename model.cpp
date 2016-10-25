@@ -246,6 +246,7 @@ void Model::addFrame()
     frames.push_back(newImage);
     currentFrame += 1;
 
+    update();
     emit frameAdded(frames[currentFrame]);
 }
 
