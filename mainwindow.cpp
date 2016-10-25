@@ -20,10 +20,11 @@ MainWindow::MainWindow(QWidget *parent) :
     //ui->Canvas = &model;
     //ui->Canvas->setGeometry(190, 20, 512, 512);
 
+    //Connection to renable preview button when preview window is closed.
     connect(&preview, SIGNAL(renableButton()),
                         this, SLOT(renablePreview()));
 
-    // Set the background color on startup to black
+    //Set the background color on startup to black
     QColor originalColor(0,0,0,255);
     QPixmap px(500, 500);
     px.fill(originalColor);
@@ -43,8 +44,6 @@ MainWindow::MainWindow(QWidget *parent) :
     //Fill vector with 30 blank frame buttons.
     for(int i = 0; i < 30; i++)
     {
-
-
         QPushButton *frame = new QPushButton("");
         QPalette pal = frame->palette();
         pal.setColor(QPalette::Button, QColor(Qt::white));
@@ -187,12 +186,12 @@ void MainWindow::on_SizeSlider_valueChanged(int value)
 
 void MainWindow::on_MirrorHorizontalButton_toggled(bool checked)
 {
-    emit model.mirrorHorizontalButtonToggled();
+    emit model.mirrorHorizontalButtonToggled(checked);
 }
 
 void MainWindow::on_MirrorVerticalButton_toggled(bool checked)
 {
-    emit model.mirrorVerticalButtonToggled();
+    emit model.mirrorVerticalButtonToggled(checked);
 }
 
 void MainWindow::on_FlipHorizontalButton_clicked()

@@ -71,8 +71,6 @@ private slots:
     void on_ActualSizeCheck_stateChanged(int arg1);
     void on_FPSSpinBox_valueChanged(int arg1);
 
-
-
 private:
     Ui::MainWindow *ui;
 
@@ -89,6 +87,7 @@ private:
     int currentFrame;
 
     std::vector<QPushButton*> frameButtons;
+
 };
 
 #endif // MAINWINDOW_H

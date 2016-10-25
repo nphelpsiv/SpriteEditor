@@ -519,7 +519,7 @@
      <enum>Qt::LeftToRight</enum>
     </property>
     <property name="title">
-     <string>Size/Color</string>
+     <string>Size / Color</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>

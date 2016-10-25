@@ -74,6 +74,16 @@ void Model::mousePressEvent(QMouseEvent *event)
        lastPoint = loc;
        lastPoint.setX(lastPoint.x()/scale);
        lastPoint.setY(lastPoint.y()/scale);
+
+       mirrorLastPointX = lastPoint;
+       mirrorLastPointY = lastPoint;
+
+
+       mirrorLastPointX.setX(size.width()-lastPoint.x()-1);
+       mirrorLastPointY.setY(size.height()-lastPoint.y()-1);
+
+       mirrorLastPointXY.setX(mirrorLastPointX.x());
+       mirrorLastPointXY.setY(mirrorLastPointY.y());
        //newPoint = loc;
        draw(loc);
     }
@@ -155,14 +165,14 @@ void Model::bucketButtonClicked()
     cout << "bucket (model)" << endl;
 }
 
-void Model::mirrorHorizontalButtonToggled()
+void Model::mirrorHorizontalButtonToggled(bool checked)
 {
-    cout << "mirror horizontal (model)" << endl;
+    mirrorHorizontalActive = checked;
 }
 
-void Model::mirrorVerticalButtonToggled()
+void Model::mirrorVerticalButtonToggled(bool checked)
 {
-    cout << "mirror vertical (model)" << endl;
+    mirrorVerticalActive = checked;
 }
 
 void Model::flipHorizontalButtonClicked()
@@ -278,12 +288,26 @@ void Model::changeFrame(int i)
 
 void Model::draw(QPoint point)
 {
+    QPoint mirrorPointX;
+    QPoint mirrorPointY;
+    QPoint mirrorPointXY;
+
     //Scale the points along with the scale of the image.
     //This is so the points of the mouse coorelate with the points of the new scaled image
     //not the old, small image.
     point.setX(point.x()/scale);
     point.setY(point.y()/scale);
 
+    mirrorPointX = point;
+    mirrorPointY = point;
+
+    mirrorPointX.setX(size.width()-point.x()-1);
+    mirrorPointY.setY(size.height()-point.y()-1);
+
+    mirrorPointXY.setX(mirrorPointX.x());
+    mirrorPointXY.setY(mirrorPointY.y());
+
+    //cout << "(" << point.x() << "," << point.y() << ")" << endl;
     //Use QPainter to modify QImage to be drawn by paintEvent.
     QPainter painter(&frames[currentFrame]);
     painter.setPen(QPen(Qt::blue, toolSize));
@@ -291,6 +315,24 @@ void Model::draw(QPoint point)
     switch (currentTool)
     {
     case Tool::Pen:
+        if(mirrorHorizontalActive)
+        {
+            painter.setPen(QPen(currentColor, toolSize));
+            painter.drawLine(mirrorLastPointX, mirrorPointX);
+            mirrorLastPointX = mirrorPointX;
+        }
+        if(mirrorVerticalActive)
+        {
+            painter.setPen(QPen(currentColor, toolSize));
+            painter.drawLine(mirrorLastPointY, mirrorPointY);
+            mirrorLastPointY = mirrorPointY;
+        }
+        if(mirrorHorizontalActive && mirrorVerticalActive)
+        {
+            painter.setPen(QPen(currentColor, toolSize));
+            painter.drawLine(mirrorLastPointXY, mirrorPointXY);
+            mirrorLastPointXY = mirrorPointXY;
+        }
         painter.setPen(QPen(currentColor, toolSize));
         painter.drawLine(lastPoint, point);
         lastPoint = point;

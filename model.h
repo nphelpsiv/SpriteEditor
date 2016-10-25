@@ -41,8 +41,8 @@ public slots:
     void colorPickerButtonClicked();
     void colorCasterButtonClicked();
     void bucketButtonClicked();
-    void mirrorHorizontalButtonToggled();
-    void mirrorVerticalButtonToggled();
+    void mirrorHorizontalButtonToggled(bool checked);
+    void mirrorVerticalButtonToggled(bool checked);
     void flipHorizontalButtonClicked();
     void flipVerticalButtonClicked();
     void rotateClockwiseButtonClicked();
@@ -78,12 +78,17 @@ private:
 
     void draw(QPoint);
     QPoint lastPoint;
+    QPoint mirrorLastPointX;
+    QPoint mirrorLastPointY;
+    QPoint mirrorLastPointXY;
 
     int toolSize;
 
     enum Tool {Pen, Eraser};
     int currentTool;
 
+    bool mirrorHorizontalActive;
+    bool mirrorVerticalActive;
 
 };
 
