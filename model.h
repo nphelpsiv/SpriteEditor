@@ -30,6 +30,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
 public slots:
+    void setUp(int canvasSize);
     void undoButtonClicked();
     void redoButtonClicked();
 

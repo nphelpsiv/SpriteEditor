@@ -5,8 +5,12 @@
 using namespace std;
 Model::Model(QWidget *parent) : QWidget(parent)
 {
+
+}
+
+void Model::setUp(int imageSize = 32)
+{
     //scale factor will be the size of the drawing pane in GUI (512) divided by size of actual image.
-    int imageSize = 32;
     scale = 512 / imageSize;
 
     //Automatically set Pen tool.
@@ -45,7 +49,6 @@ Model::Model(QWidget *parent) : QWidget(parent)
     //Draw frames.
     QPainter newPaint(&frames[currentFrame]);
     newPaint.drawImage(QPoint(0, 0), frames[currentFrame]);
-
 }
 
 void Model::paintEvent(QPaintEvent *event)

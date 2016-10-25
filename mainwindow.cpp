@@ -150,8 +150,7 @@ void MainWindow::on_RemoveFrameButton_clicked()
 
 void MainWindow::getDrawingSize(int size)
 {
-    cout << size << " from mainwindow" << endl;
-    //change
+    emit model.setUp(size);
 }
 
 void MainWindow::on_actionSave_triggered()
