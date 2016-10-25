@@ -28,7 +28,7 @@ public:
     ~MainWindow();
 
 public slots:
-    void getDrawingSize(string s);
+    void getDrawingSize(int s);
 
     void renablePreview();
 

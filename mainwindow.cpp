@@ -151,7 +151,7 @@ void MainWindow::on_RemoveFrameButton_clicked()
     emit model.removeFrameButtonClicked();
 }
 
-void MainWindow::getDrawingSize(string size)
+void MainWindow::getDrawingSize(int size)
 {
     cout << size << " from mainwindow" << endl;
     //change
@@ -166,7 +166,7 @@ void MainWindow::on_actionSave_triggered()
 void MainWindow::on_actionOpen_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Open Sprite"), "/home/McKay", tr("Sprite Files (*.spp)"));
+        tr("Open Sprite"), "~/", tr("Sprite Files (*.spp)"));
 }
 
 void MainWindow::on_actionExport_triggered()
