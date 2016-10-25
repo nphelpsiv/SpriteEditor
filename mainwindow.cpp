@@ -72,6 +72,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(&model, SIGNAL(updated(QImage)),
             this, SLOT(frameUpdated(QImage)));
+
+    connect(&model, SIGNAL(frameDuplicated(QImage,int)),
+            this, SLOT(frameDuplicated(QImage,int)));
 }
 
 MainWindow::~MainWindow()
@@ -137,7 +140,7 @@ void MainWindow::on_AddFrameButton_clicked()
 
 void MainWindow::on_DuplicateFrameButton_clicked()
 {
-    emit model.duplicateFrameButtonClicked();
+    emit model.duplicateFrameButtonClicked(currentFrame);
 }
 
 void MainWindow::on_RemoveFrameButton_clicked()
@@ -237,6 +240,17 @@ void MainWindow::on_ColorButton_clicked()
 void MainWindow::frameAdded(QImage image)
 {
     frameButtons[++currentFrame]->setVisible(true);
+
+    QIcon icon;
+    icon.addPixmap(QPixmap::fromImage(model.getFrame(currentFrame + 1)), QIcon::Normal);
+    frameButtons[currentFrame]->setIcon(icon);
+    frameButtons[currentFrame]->setIconSize(QSize(64, 64));
+}
+
+void MainWindow::frameDuplicated(QImage image, int i)
+{
+    currentFrame = i - 1;
+    frameButtons[currentFrame]->setVisible(true);
 
     QIcon icon;
     icon.addPixmap(QPixmap::fromImage(model.getFrame(currentFrame + 1)), QIcon::Normal);

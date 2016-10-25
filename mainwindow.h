@@ -34,6 +34,8 @@ public slots:
 
     void frameAdded(QImage);
 
+    void frameDuplicated(QImage, int i);
+
     void frameUpdated(QImage);
 
     void frameButtonPressed();

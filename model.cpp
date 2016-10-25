@@ -193,9 +193,13 @@ void Model::addFrameButtonClicked()
     addFrame();
 }
 
-void Model::duplicateFrameButtonClicked()
+void Model::duplicateFrameButtonClicked(int i)
 {
-    cout << "dupF (model)" << endl;
+    cout << "dupF (model) " << i+1 << endl;
+    frames.push_back(frames[i+1]);
+    currentFrame = frames.size() - 1;
+    update();
+    emit frameDuplicated(frames[currentFrame], currentFrame);
 }
 
 void Model::removeFrameButtonClicked()

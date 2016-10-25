@@ -20,6 +20,7 @@ public:
 
 signals:
     void frameAdded(QImage);
+    void frameDuplicated(QImage, int);
     void updated(QImage);
 
 protected:
@@ -51,7 +52,7 @@ public slots:
 
     void previewButtonClicked();
     void addFrameButtonClicked();
-    void duplicateFrameButtonClicked();
+    void duplicateFrameButtonClicked(int i);
     void removeFrameButtonClicked();
     void actualSizeBoxChecked(int checked);
     void FPSSpinBoxChanged(int change);
