@@ -239,8 +239,11 @@ void Model::saveButtonClicked(string fileName)
             {
                 for(int j = 0; j < size.width(); j++)
                 {
+                    // stream the pixel color
                     if (j == size.width() -1 )
                     {
+                        // I think it actually needs to be saved differently.
+                        // This saves it as a hex value which doesn't seem to be quite right.
                         stream << curFrame.pixelColor(i, j).name();
                     }
                     else
@@ -300,19 +303,14 @@ void Model::openButtonClicked(string fileName)
             // Now we're on the info for each pixel, start manipulating that frame
             else
             {
-
-                //QImage curFrame = frames[frameCount];
-
                 if (rowLine >= frames[frameCount].height())
                 {
                     break;
                 }
 
+                // Get the color at from the stringlist
                 QColor color = lineColumn.at(i);
-                //QString name = color.name();
-                cout << lineColumn.at(i).toStdString();
                 cout << "Current Frame = " << frameCount << ". Pixel at " << "(" << rowLine << ", " << i << "): " << lineColumn.at(i).toStdString() << endl;
-                QColor c(100, 100, 100, 155);
                 frames[frameCount].setPixelColor(rowLine - 1, i, color);
 
                 //Draw frames.
@@ -363,7 +361,7 @@ void Model::addFrame()
 {
     //create new transparent frame, add it to the vector, and increase currentFrame.
     QImage newImage(size, QImage::Format_ARGB32);
-    //newImage.fill(qRgba(0, 0, 0, 0));
+    newImage.fill(qRgba(0, 0, 0, 0));
     frames.push_back(newImage);
     currentFrame += 1;
 
