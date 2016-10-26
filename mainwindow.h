@@ -42,6 +42,8 @@ public slots:
 
     void frameRemoved(std::vector<QImage>);
 
+    void colorChanged(QColor color);
+
 private slots:
     void on_UndoButton_clicked();
     void on_RedoButton_clicked();
@@ -51,8 +53,8 @@ private slots:
     void on_RectButton_clicked();
     void on_LineButton_clicked();
     void on_ColorPickerButton_clicked();
-    void on_ColorCasterButton_clicked();
     void on_BucketButton_clicked();
+    void on_ColorCasterButton_clicked();
     void on_MirrorHorizontalButton_toggled(bool checked);
     void on_MirrorVerticalButton_toggled(bool checked);
     void on_FlipHorizontalButton_clicked();
@@ -72,6 +74,10 @@ private slots:
     void on_actionExport_triggered();
     void on_ActualSizeCheck_stateChanged(int arg1);
     void on_FPSSpinBox_valueChanged(int arg1);
+
+
+
+
 
 private:
     Ui::MainWindow *ui;

@@ -79,6 +79,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(&model, SIGNAL(frameRemoved(std::vector<QImage>)),
             this, SLOT(frameRemoved(std::vector<QImage>)));
+
+    connect(&model, SIGNAL(colorChanged(QColor)),
+            this, SLOT(colorChanged(QColor)));
 }
 
 MainWindow::~MainWindow()
@@ -119,11 +122,6 @@ void MainWindow::on_LineButton_clicked()
 void MainWindow::on_ColorPickerButton_clicked()
 {
     emit model.colorPickerButtonClicked();
-}
-
-void MainWindow::on_ColorCasterButton_clicked()
-{
-    emit model.colorCasterButtonClicked();
 }
 
 void MainWindow::on_BucketButton_clicked()
@@ -197,6 +195,11 @@ void MainWindow::on_MirrorHorizontalButton_toggled(bool checked)
 void MainWindow::on_MirrorVerticalButton_toggled(bool checked)
 {
     emit model.mirrorVerticalButtonToggled(checked);
+}
+
+void MainWindow::on_ColorCasterButton_clicked()
+{
+    emit model.colorCasterButtonClicked();
 }
 
 void MainWindow::on_FlipHorizontalButton_clicked()
@@ -321,8 +324,13 @@ void MainWindow::frameRemoved(std::vector<QImage> frames)
     emit model.changeFrame(currentFrame);
 }
 
-
-
+void MainWindow::colorChanged(QColor color)
+{
+  QPixmap px(100, 100);
+  px.fill(color);
+  ui->ColorButton->setIcon(px);
+  update();
+}
 
 
 

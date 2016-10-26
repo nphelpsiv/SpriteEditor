@@ -19,6 +19,7 @@ public:
     Model(QWidget *parent = 0);
 
 signals:
+    void colorChanged(QColor);
     void frameAdded(QImage);
     void frameDuplicated(QImage, int);
     void frameRemoved(std::vector<QImage>);
@@ -85,12 +86,11 @@ private:
 
     int toolSize;
 
-    enum Tool {Pen, Eraser};
+    enum Tool {Pen, Eraser, Caster, Picker};
     int currentTool;
 
     bool mirrorHorizontalActive;
     bool mirrorVerticalActive;
-
 };
 
 #endif // MODEL_H

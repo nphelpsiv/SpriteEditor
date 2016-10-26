@@ -117,6 +117,7 @@ void Model::mouseReleaseEvent(QMouseEvent *event)
 void Model::colorPicked(QColor c)
 {
     currentColor = c;
+    currentTool = Tool::Pen;
 }
 
 
@@ -152,12 +153,14 @@ void Model::lineButtonClicked()
 
 void Model::colorPickerButtonClicked()
 {
+    currentTool = Tool::Picker;
     cout << "colorP (model)" << endl;
 }
 
 void Model::colorCasterButtonClicked()
 {
-    cout << "ColorC (model)" << endl;
+    currentTool = Tool::Caster;
+    cout << "Tool is Caster"  << endl;
 }
 
 void Model::bucketButtonClicked()
@@ -332,7 +335,7 @@ void Model::draw(QPoint point)
     //cout << "(" << point.x() << "," << point.y() << ")" << endl;
     //Use QPainter to modify QImage to be drawn by paintEvent.
     QPainter painter(&frames[currentFrame]);
-    painter.setPen(QPen(Qt::blue, toolSize));
+    painter.setPen(QPen(currentColor, toolSize));
 
     switch (currentTool)
     {
@@ -363,6 +366,32 @@ void Model::draw(QPoint point)
         painter.setPen(QPen(Qt::white, toolSize));
         painter.drawLine(lastPoint, point);
         lastPoint = point;
+    case Tool::Caster:
+        {
+          QColor colorToCast( ((QImage)frames[currentFrame]).pixelColor(point) );
+
+          int count = 0;
+          for(int y = 0; y < ((QImage)frames[currentFrame]).height(); y++)
+          {
+              for(int x = 0; x < ((QImage)frames[currentFrame]).width(); x++)
+              {
+                  if( ((QImage)frames[currentFrame]).pixelColor(x,y) == colorToCast )
+                  {
+                      count++;
+                      //((QImage)frames[currentFrame]).setPixelColor(x, y , currentColor);
+                      painter.drawPoint(x, y);
+                  }
+              }
+          }
+          cout << count << endl;
+        }
+        break;
+    case Tool::Picker:
+        currentColor = ((QImage)frames[currentFrame]).pixelColor(point);
+        emit colorChanged(currentColor);
+        currentTool = Tool::Pen;
+
+        break;
     default:
         break;
     }
