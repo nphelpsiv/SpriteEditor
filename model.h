@@ -21,6 +21,7 @@ public:
 signals:
     void frameAdded(QImage);
     void frameDuplicated(QImage, int);
+    void frameRemoved(std::vector<QImage>);
     void updated(QImage);
 
 protected:
@@ -54,7 +55,7 @@ public slots:
     void previewButtonClicked();
     void addFrameButtonClicked();
     void duplicateFrameButtonClicked(int i);
-    void removeFrameButtonClicked();
+    void removeFrameButtonClicked(int i);
     void actualSizeBoxChecked(int checked);
     void FPSSpinBoxChanged(int change);
 

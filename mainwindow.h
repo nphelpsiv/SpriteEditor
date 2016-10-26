@@ -40,6 +40,8 @@ public slots:
 
     void frameButtonPressed();
 
+    void frameRemoved(std::vector<QImage>);
+
 private slots:
     void on_UndoButton_clicked();
     void on_RedoButton_clicked();
@@ -85,6 +87,8 @@ private:
     QColorDialog colorDialog;
 
     int currentFrame;
+
+    QHBoxLayout *layout;
 
     std::vector<QPushButton*> frameButtons;
 

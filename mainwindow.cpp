@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <algorithm>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -39,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->FramesViewArea->setWidgetResizable(true);
 
     //Horizontal Box Layout
-    QHBoxLayout *layout = new QHBoxLayout(view);
+    layout = new QHBoxLayout(view);
 
     //Fill vector with 30 blank frame buttons.
     for(int i = 0; i < 30; i++)
@@ -64,6 +65,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     layout->addWidget(w);
     layout->addWidget(w1);
+    layout->
 
     //Connects for signals when frame is changed.
     connect(&model, SIGNAL(frameAdded(QImage)),
@@ -74,6 +76,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(&model, SIGNAL(frameDuplicated(QImage,int)),
             this, SLOT(frameDuplicated(QImage,int)));
+
+    connect(&model, SIGNAL(frameRemoved(std::vector<QImage>)),
+            this, SLOT(frameRemoved(std::vector<QImage>)));
 }
 
 MainWindow::~MainWindow()
@@ -144,7 +149,7 @@ void MainWindow::on_DuplicateFrameButton_clicked()
 
 void MainWindow::on_RemoveFrameButton_clicked()
 {
-    emit model.removeFrameButtonClicked();
+    emit model.removeFrameButtonClicked(currentFrame);
 }
 
 void MainWindow::getDrawingSize(int size)
@@ -279,7 +284,7 @@ void MainWindow::frameButtonPressed()
     //From Stackoverflow:
     //http://stackoverflow.com/questions/30611067/solvedqt-i-have-a-qpushbutton-qvector-which-one-was-pressed
     QObject* obj = sender();
-    for(int i = 0; i < frameButtons.size(); i++)
+    for(unsigned int i = 0; i < frameButtons.size(); i++)
     {
         if(obj == qobject_cast<QObject*>(frameButtons[i]))
         {
@@ -291,3 +296,35 @@ void MainWindow::frameButtonPressed()
     currentFrame = frameIndex;
     emit model.changeFrame(frameIndex);
 }
+
+void MainWindow::frameRemoved(std::vector<QImage> frames)
+{
+
+    for(unsigned int i = 1; i < frames.size(); i++)
+    {
+        QIcon icon;
+        icon.addPixmap(QPixmap::fromImage(frames[i]), QIcon::Normal);
+        frameButtons[i-1]->setIcon(icon);
+        frameButtons[i-1]->setIconSize(QSize(64, 64));
+    }
+
+    for(unsigned int i = frames.size() - 1; i < frameButtons.size(); i++)
+    {
+        frameButtons[i]->setVisible(false);
+    }
+
+    if(currentFrame == frames.size() - 1)
+    {
+        currentFrame--;
+    }
+
+    emit model.changeFrame(currentFrame);
+}
+
+
+
+
+
+
+
+

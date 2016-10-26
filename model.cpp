@@ -215,9 +215,21 @@ void Model::duplicateFrameButtonClicked(int i)
     emit frameDuplicated(frames[currentFrame], currentFrame);
 }
 
-void Model::removeFrameButtonClicked()
+void Model::removeFrameButtonClicked(int i)
 {
-    cout << "removeF (model)" << endl;
+    if(frames.size() == 2)
+    {
+        return;
+    }
+
+    frames.erase(frames.begin() + i + 1);
+
+    if((i + 1) < frames.size())
+        currentFrame = i + 1;
+    else
+        currentFrame = frames.size() - 1;
+
+    emit frameRemoved(frames);
 }
 
 void Model::saveButtonClicked()
