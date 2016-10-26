@@ -366,6 +366,7 @@ void Model::draw(QPoint point)
         painter.setPen(QPen(Qt::white, toolSize));
         painter.drawLine(lastPoint, point);
         lastPoint = point;
+        break;
     case Tool::Caster:
         {
           QColor colorToCast( ((QImage)frames[currentFrame]).pixelColor(point) );
@@ -390,7 +391,6 @@ void Model::draw(QPoint point)
         currentColor = ((QImage)frames[currentFrame]).pixelColor(point);
         emit colorChanged(currentColor);
         currentTool = Tool::Pen;
-
         break;
     default:
         break;
