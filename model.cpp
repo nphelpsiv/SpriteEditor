@@ -177,21 +177,31 @@ void Model::mirrorVerticalButtonToggled(bool checked)
 
 void Model::flipHorizontalButtonClicked()
 {
-    cout << "flip horizontal (model)" << endl;
+  frames[currentFrame] = ((QImage)frames[currentFrame]).mirrored(true, false);
+  update();
 }
 void Model::flipVerticalButtonClicked()
 {
-    cout << "flip vertical (model)" << endl;
+  frames[currentFrame] = ((QImage)frames[currentFrame]).mirrored(false, true);
+  update();
 }
 
 void Model::rotateClockwiseButtonClicked()
 {
-    cout << "rotate Clockwise (model)" << endl;
+    QTransform transform;
+    transform.rotate(90);
+
+    frames[currentFrame] = ((QImage)frames[currentFrame]).transformed(transform);
+    update();
 }
 
 void Model::rotateCounterClockwiseButtonClicked()
 {
-    cout << "rotate Counter Clockwise (model)" << endl;
+    QTransform transform;
+    transform.rotate(-90);
+
+    frames[currentFrame] = ((QImage)frames[currentFrame]).transformed(transform);
+    update();
 }
 
 void Model::previewButtonClicked()
