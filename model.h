@@ -7,6 +7,10 @@
 #include <QPixmap>
 #include <string.h>
 #include <QColor>
+#include <QFile>
+#include <QTextStream>
+
+using namespace std;
 
 namespace ui {
 class Model;
@@ -58,7 +62,7 @@ public slots:
     void actualSizeBoxChecked(int checked);
     void FPSSpinBoxChanged(int change);
 
-    void saveButtonClicked();
+    void saveButtonClicked(string s);
 
 
 

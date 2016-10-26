@@ -155,14 +155,25 @@ void MainWindow::getDrawingSize(int size)
 
 void MainWindow::on_actionSave_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName(this,
+    QFileDialog save;
+    QString fileName = save.getSaveFileName(this,
         tr("Save Sprite"), "~/", tr("Sprite Files (*.ssp)"));
+    if (save.AcceptSave == 1)
+    {
+        emit model.saveButtonClicked(fileName.toStdString());
+    }
+    else
+    {
+        QMessageBox msgBox;
+        msgBox.setText("The document needs a name.");
+        msgBox.exec();
+    }
 }
 
 void MainWindow::on_actionOpen_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Open Sprite"), "~/", tr("Sprite Files (*.spp)"));
+        tr("Open Sprite"), "~/", tr("Sprite Files (*.ssp)"));
 }
 
 void MainWindow::on_actionExport_triggered()

@@ -12,6 +12,7 @@
 #include <QString>
 #include <QPixmap>
 #include <QColorDialog>
+#include <QMessageBox>
 
 using namespace std;
 

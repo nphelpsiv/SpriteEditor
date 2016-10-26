@@ -210,10 +210,49 @@ void Model::removeFrameButtonClicked()
     cout << "removeF (model)" << endl;
 }
 
-void Model::saveButtonClicked()
+void Model::saveButtonClicked(string fileName)
 {
-    cout << "Save button (model)" << endl;
+    // Set up saving
+    QString qFileName = QString::fromStdString(fileName);
+    QFile file(qFileName);
+
+    // Resize the file to clear everything that was in it.
+    file.resize(0);
+
+    // Open file to start saving
+    if (file.open(QIODevice::ReadWrite))
+    {
+        QTextStream stream( &file );
+        stream << size.height() << " " << size.width() << endl;
+        stream << frames.size() - 1 << endl;
+
+        // Go through the vector to get each frame
+        QImage curFrame;
+        for (int i = 1; i < frames.size(); i++)
+        {
+            curFrame = frames[i];
+            stream << "Frame = " << i << endl;
+
+            // Go through the pixels in rows and columns and print them.
+            for(int i = 0; i < size.height(); i++)
+            {
+                for(int j = 0; j < size.width(); j++)
+                {
+                    if (j == size.width() -1 )
+                    {
+                        stream << curFrame.pixel(i, j);
+                    }
+                    else
+                    {
+                        stream << curFrame.pixel(i, j) << " ";
+                    }
+                }
+                stream << endl;
+            }
+        }
+    }
 }
+
 void Model::actualSizeBoxChecked(int checked)
 {
     //2 is checked, o is unchecked
