@@ -86,7 +86,7 @@ private:
 
     int toolSize;
 
-    enum Tool {Pen, Eraser, Line, Caster, Picker};
+    enum Tool {Pen, Eraser, Line, Caster, Picker, Bucket};
     int currentTool;
 
     bool mirrorHorizontalActive;

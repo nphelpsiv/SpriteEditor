@@ -1,6 +1,7 @@
 #include "model.h"
 #include <iostream>
 #include <QtGui>
+#include <queue>
 
 using namespace std;
 Model::Model(QWidget *parent) : QWidget(parent)
@@ -15,7 +16,8 @@ void Model::setUp(int imageSize = 32)
 
     //Automatically set Pen tool.
     currentTool = 0;
-
+    QColor startColor(0,0,0,255);
+    currentColor = startColor;
     toolSize = 1;
 
     //Create new QImage (Background image) of size and fill in.
@@ -165,7 +167,7 @@ void Model::colorCasterButtonClicked()
 
 void Model::bucketButtonClicked()
 {
-    cout << "bucket (model)" << endl;
+    currentTool = Tool::Bucket;
 }
 
 void Model::mirrorHorizontalButtonToggled(bool checked)
@@ -392,8 +394,53 @@ void Model::draw(QPoint point)
         emit colorChanged(currentColor);
         currentTool = Tool::Pen;
         break;
-    default:
+    case Tool::Bucket:
+        QColor replacingColor = frames[currentFrame].pixelColor(point.x(), point.y());
+        queue<QPoint> q;
+        QPoint clickedPoint(point.x(), point.y());
+        cout<< clickedPoint.x()<< '; '<< clickedPoint.y()<<endl;
+        q.push(clickedPoint);
+        while (q.empty()!=true)
+        {
+            QPoint currentFlood = q.front();
+            frames[currentFrame].setPixelColor(currentFlood.x(), currentFlood.y(), currentColor);
+            if (currentFlood.x() != (size.width()-1))
+            {
+                if (frames[currentFrame].pixelColor(currentFlood.x()+1, currentFlood.y()) == replacingColor)
+                {
+                    QPoint rightPoint(currentFlood.x()+1, currentFlood.y());
+                    q.push(rightPoint);
+                }
+            }
+            if (currentFlood.x() != 0)
+            {
+                if (frames[currentFrame].pixelColor(currentFlood.x()-1, currentFlood.y()) == replacingColor)
+                {
+                    QPoint leftPoint(currentFlood.x()-1, currentFlood.y());
+                    q.push(leftPoint);
+                }
+            }
+            if (currentFlood.y() != 0)
+            {
+                if (frames[currentFrame].pixelColor(currentFlood.x(), currentFlood.y()-1) == replacingColor)
+                {
+                    QPoint upPoint(currentFlood.x(), currentFlood.y()-1);
+                    q.push(upPoint);
+                }
+            }
+            if (currentFlood.y() != (size.width()-1))
+            {
+                if (frames[currentFrame].pixelColor(currentFlood.x(), currentFlood.y()+1) == replacingColor)
+                {
+                    QPoint downPoint(currentFlood.x(), currentFlood.y()+1);
+                    q.push(downPoint);
+                }
+            }
+            q.pop();
+        }
         break;
+    //default:
+    //    break;
     }
 
     update();
