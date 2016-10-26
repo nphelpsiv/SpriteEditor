@@ -239,13 +239,15 @@ void Model::saveButtonClicked(string fileName)
             {
                 for(int j = 0; j < size.width(); j++)
                 {
+                    QColor color = curFrame.pixelColor(i, j);
                     if (j == size.width() -1 )
                     {
-                        stream << curFrame.pixelColor(i, j).rgba();
+                        stream << color.red() << color.green() << color.blue() << color.alpha();
                     }
                     else
                     {
-                        stream << curFrame.pixelColor(i, j).rgba() << " ";
+                        //stream << curFrame.pixelColor(i, j).rgba();
+                        stream << color.red() << color.green() << color.blue() << color.alpha() << " ";
                     }
                 }
                 stream << endl;
@@ -301,18 +303,26 @@ void Model::openButtonClicked(string fileName)
             else
             {
 
-                QImage curFrame = frames[frameCount];
-                if (rowLine >= curFrame.height())
+                //QImage curFrame = frames[frameCount];
+
+                if (rowLine >= frames[frameCount].height())
                 {
                     break;
                 }
-                cout << "Linecolumn Value: " << lineColumn.at(i).toStdString() << endl;
-                QColor color(lineColumn.at(i));
-                //cout << << " " << endl;
 
-                //curFrame.setPixelColor(i, j, color.setRgba(););
-                curFrame.setPixelColor(rowLine, i, qRgba(200, 200, 200, 255));
+                QColor color = lineColumn.at(i);
+                color.setRed();
+                //QString name = color.name();
+                cout << lineColumn.at(i).toStdString();
+                cout << "Current Frame = " << frameCount << ". Pixel at " << "(" << rowLine << ", " << i << "): " << lineColumn.at(i).toStdString() << endl;
+                QColor c(100, 100, 100, 155);
+                frames[frameCount].setPixelColor(rowLine - 1, i, color);
 
+                //Draw frames.
+                QPainter newPaint(&frames[frameCount]);
+                newPaint.drawImage(QPoint(0, 0), frames[frameCount]);
+
+                update();
             }
         }
         rowLine++;
