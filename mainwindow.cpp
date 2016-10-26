@@ -171,9 +171,21 @@ void MainWindow::on_actionSave_triggered()
 }
 
 void MainWindow::on_actionOpen_triggered()
-{
-    QString fileName = QFileDialog::getOpenFileName(this,
+{   
+    QFileDialog open;
+    QString fileName = open.getOpenFileName(this,
         tr("Open Sprite"), "~/", tr("Sprite Files (*.ssp)"));
+
+    if (open.AcceptOpen == 0)
+    {
+        emit model.openButtonClicked(fileName.toStdString());
+    }
+    else
+    {
+        QMessageBox msgBox;
+        msgBox.setText("The document needs a name.");
+        msgBox.exec();
+    }
 }
 
 void MainWindow::on_actionExport_triggered()

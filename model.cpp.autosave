@@ -311,7 +311,8 @@ void Model::openButtonClicked(string fileName)
                 //cout << << " " << endl;
 
                 //curFrame.setPixelColor(i, j, color.setRgba(););
-                curFrame.setPixelColor(rowLine, i, qRgba(200, 200, 200, 255));
+                curFrame.setPixelColor(rowLine, i, (QColor)qRgba(200, 200, 200, 255));
+                curFrame.
 
             }
         }

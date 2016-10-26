@@ -9,6 +9,7 @@
 #include <QColor>
 #include <QFile>
 #include <QTextStream>
+#include <QMessageBox>
 
 using namespace std;
 
@@ -63,6 +64,7 @@ public slots:
     void FPSSpinBoxChanged(int change);
 
     void saveButtonClicked(string s);
+    void openButtonClicked(string s);
 
 
 
