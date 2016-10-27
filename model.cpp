@@ -247,10 +247,160 @@ void Model::removeFrameButtonClicked(int i)
     emit frameRemoved(frames);
 }
 
-void Model::saveButtonClicked()
+void Model::saveButtonClicked(string fileName)
 {
-    cout << "Save button (model)" << endl;
+   // Set up saving
+   // Convert to QString for easy opening of file
+   QString qFileName = QString::fromStdString(fileName);
+   QFile file(qFileName);
+
+
+   // Resize the file to clear everything that was in it.
+   file.resize(0);
+
+
+   // Open file to start saving
+   if (file.open(QIODevice::ReadWrite))
+   {
+       QTextStream stream( &file );
+       stream << size.height() << " " << size.width() << endl;
+       stream << frames.size() - 1 << endl;
+
+
+       // Go through the vector to get each frame
+       QImage curFrame;
+       for (int z = 1; z < frames.size(); z++)
+       {
+           curFrame = frames[z];
+           stream << z << endl;
+
+
+           // Go through the pixels in rows and columns and print them.
+           for(int i = 0; i < size.height(); i++)
+           {
+               for(int j = 0; j < size.width(); j++)
+               {
+                   QColor color = curFrame.pixelColor(j, i);
+                   if (j == size.width() -1 )
+                   {
+                       stream << color.red() << " " << color.green() << " "  << color.blue() << " "  << color.alpha();
+                   }
+                   else
+                   {
+                       stream << color.red() << " " << color.green() << " "  << color.blue() << " "  << color.alpha() << " ";
+                   }
+               }
+               stream << endl;
+           }
+       }
+   }
 }
+
+void Model::openButtonClicked(string fileName)
+{
+   // covert to QString for easy opening of file
+   QString qFileName = QString::fromStdString(fileName);
+   QFile file(qFileName);
+
+
+   // If there's a problem opening the file
+   if(!file.open(QIODevice::ReadOnly)) {
+       QMessageBox::information(0, "error", file.errorString());
+   }
+
+
+   // Start reading in
+   QTextStream in(&file);
+
+
+   int countLine = 0;       //line number in .ssp file.
+   int frameCount = 0;      //number of frames
+   int currentFrameRow = 0; //constrained to (0 to size-1)
+   int size = 0;            //size of square frame
+   while(!in.atEnd()) {
+       countLine++;
+       QString line = in.readLine();
+
+
+       // split each line by space
+       QStringList tokens = line.split(" ");
+       for (int i = 0; i < tokens.count(); i+=4)
+       {
+           // if first line setup size
+           if (countLine == 1 && i == 0)
+           {
+               //for (int var = 0; var < total; ++var)
+               //{
+               //    removeFrame();
+               //}
+
+
+               size = tokens.at(0).toInt();
+               setUp(size);
+
+
+               cout << size << endl;
+           }
+           // if second line make that number of frames
+           else if (countLine == 2)
+           {
+              // dont need to do anything
+           }
+           // if line = "Frame =" then we're on a new frame
+           else if (tokens.count() == 1 && countLine != 2)
+           {
+               addFrame();
+               frameCount++;
+               currentFrameRow = 0;
+           }
+           // Now we're on the info for each pixel, start manipulating that frame
+           else
+           {
+               if (currentFrameRow > size)
+               {
+                   break;
+               }
+
+
+               //QColor color = lineColumn.at(i);
+               //QString name = color.name();
+               cout << "Current Frame = " << frameCount << ". Pixel at " << "(" << i/4 << ", " << currentFrameRow - 1 << "): " << tokens.at(i).toStdString() << "," << tokens.at(i + 1).toStdString() << "," << tokens.at(i + 2).toStdString() << "," << tokens.at(i + 3).toStdString() << endl;
+
+
+                   QColor c(tokens.at(i).toInt(), tokens.at(i + 1).toInt(), tokens.at(i + 2).toInt(), tokens.at(i + 3).toInt());
+
+
+                   //QPoint position(i/4, currentFrameRow - 1);
+                   //((QImage)frames[frameCount]).setPixelColor(position, c);
+
+
+
+
+                   QPainter newPaint(&frames[frameCount]);
+                   newPaint.setPen(QPen(c,1));
+                   newPaint.drawPoint(i/4 , currentFrameRow - 1);
+
+
+                   update();
+           }
+
+
+       }
+       currentFrameRow++;
+
+
+   }
+   //Draw frames.
+   for (int i = 0; i < frames.size() - 1; i++)
+   {
+      changeFrame(i);
+   }
+
+
+   file.close();
+}
+
+
 void Model::actualSizeBoxChecked(int checked)
 {
     //2 is checked, o is unchecked
