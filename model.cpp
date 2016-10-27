@@ -2,6 +2,8 @@
 #include <iostream>
 #include <QtGui>
 #include <queue>
+#include <unordered_set>
+#include <string>
 
 using namespace std;
 Model::Model(QWidget *parent) : QWidget(parent)
@@ -398,7 +400,10 @@ void Model::draw(QPoint point)
         QColor replacingColor = frames[currentFrame].pixelColor(point.x(), point.y());
         queue<QPoint> q;
         QPoint clickedPoint(point.x(), point.y());
-        cout<< clickedPoint.x()<< '; '<< clickedPoint.y()<<endl;
+        unordered_set <string> checked;
+        string clickedPointString = to_string(clickedPoint.x()) + "; " + to_string(clickedPoint.y());
+        cout<< clickedPointString <<endl;
+        checked.insert(clickedPointString);
         q.push(clickedPoint);
         while (q.empty()!=true)
         {
@@ -406,34 +411,56 @@ void Model::draw(QPoint point)
             frames[currentFrame].setPixelColor(currentFlood.x(), currentFlood.y(), currentColor);
             if (currentFlood.x() != (size.width()-1))
             {
-                if (frames[currentFrame].pixelColor(currentFlood.x()+1, currentFlood.y()) == replacingColor)
+                string rightString = to_string(currentFlood.x()+1) + "; " + to_string(currentFlood.y());
+                cout<<(rightString)<<endl;
+                cout<<(checked.count(rightString))<<endl;
+                if ((checked.count(rightString))<1)
                 {
-                    QPoint rightPoint(currentFlood.x()+1, currentFlood.y());
-                    q.push(rightPoint);
+                    if (frames[currentFrame].pixelColor(currentFlood.x()+1, currentFlood.y()) == replacingColor)
+                    {
+                        QPoint rightPoint(currentFlood.x()+1, currentFlood.y());
+                        q.push(rightPoint);
+                        checked.insert(rightString);
+                    }
                 }
             }
             if (currentFlood.x() != 0)
             {
-                if (frames[currentFrame].pixelColor(currentFlood.x()-1, currentFlood.y()) == replacingColor)
+                string leftString = to_string(currentFlood.x()-1) + "; " + to_string(currentFlood.y());
+                if ((checked.count(leftString))<1)
                 {
-                    QPoint leftPoint(currentFlood.x()-1, currentFlood.y());
-                    q.push(leftPoint);
+                    if (frames[currentFrame].pixelColor(currentFlood.x()-1, currentFlood.y()) == replacingColor)
+                    {
+                        QPoint leftPoint(currentFlood.x()-1, currentFlood.y());
+                        q.push(leftPoint);
+                        checked.insert(leftString);
+                    }
                 }
             }
             if (currentFlood.y() != 0)
             {
-                if (frames[currentFrame].pixelColor(currentFlood.x(), currentFlood.y()-1) == replacingColor)
+                string upString = to_string(currentFlood.x()) + "; " + to_string(currentFlood.y()-1);
+                if ((checked.count(upString))<1)
                 {
-                    QPoint upPoint(currentFlood.x(), currentFlood.y()-1);
-                    q.push(upPoint);
+                    if (frames[currentFrame].pixelColor(currentFlood.x(), currentFlood.y()-1) == replacingColor)
+                    {
+                        QPoint upPoint(currentFlood.x(), currentFlood.y()-1);
+                        q.push(upPoint);
+                        checked.insert(upString);
+                    }
                 }
             }
             if (currentFlood.y() != (size.width()-1))
             {
-                if (frames[currentFrame].pixelColor(currentFlood.x(), currentFlood.y()+1) == replacingColor)
+                string downString = to_string(currentFlood.x()) + "; " + to_string(currentFlood.y()+1);
+                if ((checked.count(downString))<1)
                 {
-                    QPoint downPoint(currentFlood.x(), currentFlood.y()+1);
-                    q.push(downPoint);
+                    if (frames[currentFrame].pixelColor(currentFlood.x(), currentFlood.y()+1) == replacingColor)
+                    {
+                        QPoint downPoint(currentFlood.x(), currentFlood.y()+1);
+                        q.push(downPoint);
+                        checked.insert(downString);
+                    }
                 }
             }
             q.pop();
