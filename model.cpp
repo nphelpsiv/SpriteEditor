@@ -436,7 +436,7 @@ void Model::addFrame()
 {
     //create new transparent frame, add it to the vector, and increase currentFrame.
     QImage newImage(size, QImage::Format_ARGB32);
-    newImage.fill(qRgba(0, 0, 0, 0));
+    //newImage.fill(qRgba(0, 0, 0, 0));
     frames.push_back(newImage);
     currentFrame += 1;
 
