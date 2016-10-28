@@ -62,7 +62,7 @@ public slots:
 
     void saveButtonClicked();
 
-
+    void exportSelected(int, std::string);
 
     void addFrame();
     QImage getFrame(int i);
@@ -91,6 +91,8 @@ private:
 
     bool mirrorHorizontalActive;
     bool mirrorVerticalActive;
+
+    void convertFrameToArray(uint8_t*, int);
 };
 
 #endif // MODEL_H

@@ -12,6 +12,9 @@ class Export : public QDialog
 {
     Q_OBJECT
 
+signals:
+    void exportSelected(int, std::string);
+
 public:
     explicit Export(QWidget *parent = 0);
     ~Export();
