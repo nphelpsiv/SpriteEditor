@@ -85,8 +85,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&model, SIGNAL(colorChanged(QColor)),
             this, SLOT(colorChanged(QColor)));
 
-    connect(&exportWindow, SIGNAL(exportSelected(int,std::string)),
-            &model, SLOT(exportSelected(int,std::string)));
+    connect(&exportWindow, SIGNAL(exportSelected(int, std::string, int)),
+            &model, SLOT(exportSelected(int, std::string, int)));
 }
 
 MainWindow::~MainWindow()
@@ -172,6 +172,7 @@ void MainWindow::on_RemoveFrameButton_clicked()
 
 void MainWindow::getDrawingSize(int size)
 {
+    exportWindow.setActualSize(size);
     emit model.setUp(size);
 }
 
