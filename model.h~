@@ -7,7 +7,6 @@
 #include <QPixmap>
 #include <string.h>
 #include <QColor>
-#include <stdint.h>
 
 namespace ui {
 class Model;
@@ -93,7 +92,7 @@ private:
     bool mirrorHorizontalActive;
     bool mirrorVerticalActive;
 
-    void convertFrameToArray(uint8_t*, int);
+    void convertFrameToArray(std::uint8_t*, int);
 };
 
 #endif // MODEL_H
