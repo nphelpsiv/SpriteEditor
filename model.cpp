@@ -297,7 +297,7 @@ void Model::convertFrameToArray(uint8_t *arr, int frameIndex)
         for(int j = 0; j < size.height(); j++)
         {
             //Grab pixel colors with .pixelColor method.
-            QColor pixColor = frames[frameIndex].pixelColor(i, j);
+            QColor pixColor = frames[frameIndex].pixelColor(j, i);
             uint8_t red = pixColor.red();
             uint8_t green = pixColor.green();
             uint8_t blue = pixColor.blue();
