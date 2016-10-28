@@ -503,7 +503,17 @@
         </widget>
        </item>
        <item alignment="Qt::AlignRight">
-        <widget class="QSpinBox" name="FPSSpinBox"/>
+        <widget class="QSpinBox" name="FPSSpinBox">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>30</number>
+         </property>
+         <property name="value">
+          <number>5</number>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>

@@ -40,6 +40,11 @@ void Model::setUp(int imageSize = 32)
         }
     }
 
+    mirrorHorizontalActive = false;
+    mirrorVerticalActive = false;
+
+
+
     //add background frame to the vector. Position 0.
     frames.push_back(newImage);
     currentFrame = 0;
@@ -253,17 +258,6 @@ void Model::saveButtonClicked()
 {
     cout << "Save button (model)" << endl;
 }
-void Model::actualSizeBoxChecked(int checked)
-{
-    //2 is checked, o is unchecked
-    if(checked == 2){
-        cout << "Checked equals true" << endl;
-    }
-    else{
-        cout << "Checked equals false" << endl;
-    }
-
-}
 void Model::FPSSpinBoxChanged(int change)
 {
     cout << "Desired Fps: " << change << endl;
@@ -304,6 +298,11 @@ QImage Model::getFrame(int i)
     return frames[i];
 }
 
+std::vector<QImage> Model::getFrames()
+{
+    return frames;
+}
+
 void Model::changeFrame(int i)
 {
     std::cout << "changeFrame " << i << std::endl;
@@ -317,6 +316,7 @@ void Model::changeFrame(int i)
 
 void Model::draw(QPoint point)
 {
+
     QPoint mirrorPointX;
     QPoint mirrorPointY;
     QPoint mirrorPointXY;
@@ -343,6 +343,7 @@ void Model::draw(QPoint point)
 
     switch (currentTool)
     {
+    painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
     case Tool::Pen:
         if(mirrorHorizontalActive)
         {
@@ -367,7 +368,8 @@ void Model::draw(QPoint point)
         lastPoint = point;
         break;
     case Tool::Eraser:
-        painter.setPen(QPen(Qt::white, toolSize));
+        painter.setCompositionMode(QPainter::CompositionMode_Clear);
+        painter.setPen(QPen(Qt::transparent, toolSize));
         painter.drawLine(lastPoint, point);
         lastPoint = point;
         break;

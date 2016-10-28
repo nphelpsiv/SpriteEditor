@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    connect(&timer, SIGNAL(timeout()), this, SLOT(previewUpdate()));
+
     QRect rect;
     rect.setX(170);
     rect.setY(20);
@@ -50,7 +52,7 @@ MainWindow::MainWindow(QWidget *parent) :
         pal.setColor(QPalette::Button, QColor(Qt::white));
         frame->setAutoFillBackground(true);
         frame->setPalette(pal);
-        frame->setFixedSize(64, 64);
+        frame->setFixedSize(64,64);
         frame->setFlat(true);
         frame->setVisible(false);
         layout->addWidget(frame);
@@ -65,8 +67,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     layout->addWidget(w);
     layout->addWidget(w1);
-    layout->
 
+    FPS = ui->FPSSpinBox->value();
     //Connects for signals when frame is changed.
     connect(&model, SIGNAL(frameAdded(QImage)),
             this, SLOT(frameAdded(QImage)));
@@ -131,8 +133,23 @@ void MainWindow::on_BucketButton_clicked()
 
 void MainWindow::on_PreviewButton_clicked()
 {
+    timerFrame = 0;
+    previewUpdate();
     preview.show();
     ui->PreviewButton->setEnabled(false);
+    int eq = 1000/FPS;
+    timer.start(eq);
+
+}
+
+void MainWindow::previewUpdate()
+{
+    timerFrame++;
+    timerFrame = timerFrame % (model.getFrames().size());
+    if(timerFrame == 0){
+        timerFrame = 1;
+    }
+    emit preview.displayImage(model.getFrame(timerFrame));
 }
 
 void MainWindow::on_AddFrameButton_clicked()
@@ -174,11 +191,12 @@ void MainWindow::on_actionExport_triggered()
 
 void MainWindow::on_ActualSizeCheck_stateChanged(int arg1)
 {
-    emit model.actualSizeBoxChecked(arg1);
+    emit preview.actualSizeBoxChecked(arg1);
 }
 
 void MainWindow::on_FPSSpinBox_valueChanged(int arg1)
 {
+    FPS = arg1;
     emit model.FPSSpinBoxChanged(arg1);
 }
 
@@ -225,6 +243,7 @@ void MainWindow::on_RotateCounterClockwiseButton_clicked()
 void MainWindow::renablePreview()
 {
     ui->PreviewButton->setEnabled(true);
+    timer.stop();
 }
 
 void MainWindow::on_ColorButton_clicked()
@@ -248,9 +267,9 @@ void MainWindow::frameAdded(QImage image)
     frameButtons[++currentFrame]->setVisible(true);
 
     QIcon icon;
-    icon.addPixmap(QPixmap::fromImage(model.getFrame(currentFrame + 1)), QIcon::Normal);
+    icon.addPixmap(QPixmap::fromImage(model.getFrame(currentFrame + 1).scaled(64,64)), QIcon::Normal);
     frameButtons[currentFrame]->setIcon(icon);
-    frameButtons[currentFrame]->setIconSize(QSize(64, 64));
+    frameButtons[currentFrame]->setIconSize(QSize(64,64));
 }
 
 void MainWindow::frameDuplicated(QImage image, int i)
@@ -259,9 +278,9 @@ void MainWindow::frameDuplicated(QImage image, int i)
     frameButtons[currentFrame]->setVisible(true);
 
     QIcon icon;
-    icon.addPixmap(QPixmap::fromImage(model.getFrame(currentFrame + 1)), QIcon::Normal);
+    icon.addPixmap(QPixmap::fromImage(model.getFrame(currentFrame + 1).scaled(64,64)), QIcon::Normal);
     frameButtons[currentFrame]->setIcon(icon);
-    frameButtons[currentFrame]->setIconSize(QSize(64, 64));
+    frameButtons[currentFrame]->setIconSize(QSize(64,64));
 }
 
 /*
@@ -271,9 +290,9 @@ void MainWindow::frameDuplicated(QImage image, int i)
 void MainWindow::frameUpdated(QImage image)
 {
     QIcon icon;
-    icon.addPixmap(QPixmap::fromImage(model.getFrame(currentFrame + 1)), QIcon::Normal);
+    icon.addPixmap(QPixmap::fromImage(model.getFrame(currentFrame + 1).scaled(64,64)), QIcon::Normal);
     frameButtons[currentFrame]->setIcon(icon);
-    frameButtons[currentFrame]->setIconSize(QSize(64, 64));
+    frameButtons[currentFrame]->setIconSize(QSize(64,64));
 }
 
 /*
@@ -306,7 +325,7 @@ void MainWindow::frameRemoved(std::vector<QImage> frames)
     for(unsigned int i = 1; i < frames.size(); i++)
     {
         QIcon icon;
-        icon.addPixmap(QPixmap::fromImage(frames[i]), QIcon::Normal);
+        icon.addPixmap(QPixmap::fromImage(frames[i]).scaled(64,64), QIcon::Normal);
         frameButtons[i-1]->setIcon(icon);
         frameButtons[i-1]->setIconSize(QSize(64, 64));
     }

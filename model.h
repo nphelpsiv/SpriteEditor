@@ -17,6 +17,7 @@ class Model: public QWidget
     Q_OBJECT
 public:
     Model(QWidget *parent = 0);
+    QSize size;
 
 signals:
     void colorChanged(QColor);
@@ -57,12 +58,11 @@ public slots:
     void addFrameButtonClicked();
     void duplicateFrameButtonClicked(int i);
     void removeFrameButtonClicked(int i);
-    void actualSizeBoxChecked(int checked);
     void FPSSpinBoxChanged(int change);
 
     void saveButtonClicked();
 
-
+    std::vector<QImage> getFrames();
 
     void addFrame();
     QImage getFrame(int i);
@@ -74,7 +74,6 @@ private:
 
     QImage image;
     int scale;
-    QSize size;
 
     QColor currentColor;
 

@@ -12,6 +12,7 @@
 #include <QString>
 #include <QPixmap>
 #include <QColorDialog>
+#include <QTimer>
 
 using namespace std;
 
@@ -43,6 +44,8 @@ public slots:
     void frameRemoved(std::vector<QImage>);
 
     void colorChanged(QColor color);
+
+    void previewUpdate();
 
 private slots:
     void on_UndoButton_clicked();
@@ -97,6 +100,11 @@ private:
     QHBoxLayout *layout;
 
     std::vector<QPushButton*> frameButtons;
+
+    QTimer timer;
+
+    int FPS;
+    int timerFrame;
 
 };
 
