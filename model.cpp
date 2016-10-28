@@ -4,6 +4,7 @@
 #include <queue>
 #include <unordered_set>
 #include <string>
+#include "gif.h"
 
 using namespace std;
 Model::Model(QWidget *parent) : QWidget(parent)
@@ -261,6 +262,63 @@ void Model::saveButtonClicked()
 void Model::FPSSpinBoxChanged(int change)
 {
     cout << "Desired Fps: " << change << endl;
+}
+
+void Model::exportSelected(int fps, string filename)
+{
+    const char *file = filename.c_str();
+
+    //Need to create a GifWriter struct -- uninitialized
+    GifWriter writer;
+    //This method writes the .gif header and initializes the writer struct
+    GifBegin(&writer, file, size.width(), size.height(), 100/fps);
+
+    //This is the array of color values from the frames.
+    //The values get filled with a call to convertFrameToArray.
+    uint8_t* image = new uint8_t[size.width()*size.height()*4];
+
+    for(unsigned int i = 1; i < frames.size(); i++)
+    {
+        //Here we convert the frames to the image array.
+        convertFrameToArray(image, i);
+
+        //Then we pass the writer struct and image array to this method.
+        //This method adds the frame to the gif with the specifed delay (100/fps). delay is in hundredths of a second.
+        GifWriteFrame(&writer, image, size.width(),size.height(),100/fps);
+    }
+    //Then we end and write the gif to file system by a call to this method.
+    GifEnd(&writer);
+}
+
+void Model::convertFrameToArray(uint8_t *arr, int frameIndex)
+{
+    for(int i = 0; i < size.width(); i++)
+    {
+        for(int j = 0; j < size.height(); j++)
+        {
+            //Grab pixel colors with .pixelColor method.
+            QColor pixColor = frames[frameIndex].pixelColor(i, j);
+            uint8_t red = pixColor.red();
+            uint8_t green = pixColor.green();
+            uint8_t blue = pixColor.blue();
+            uint8_t alpha = pixColor.alpha();
+
+            //Here we have to check if the alpha is 0 because gif-h ignores the alhpa value.
+            //So "background" color is simply set to white.
+            if(alpha == 0)
+            {
+                red = 255;
+                green = 255;
+                blue = 255;
+            }
+
+            arr[0] = red;
+            arr[1] = green;
+            arr[2] = blue;
+            arr[3] = alpha;
+            arr += 4;
+        }
+    }
 }
 
 void Model::sliderValueChanged(int change)

@@ -84,6 +84,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(&model, SIGNAL(colorChanged(QColor)),
             this, SLOT(colorChanged(QColor)));
+
+    connect(&exportWindow, SIGNAL(exportSelected(int,std::string)),
+            &model, SLOT(exportSelected(int,std::string)));
 }
 
 MainWindow::~MainWindow()
