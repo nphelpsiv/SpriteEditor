@@ -18,14 +18,16 @@ SOURCES += main.cpp\
     startup.cpp \
     preview.cpp \
     export.cpp \
-    addframecommand.cpp
+    addframecommand.cpp \
+    removeframecommand.cpp
 
 HEADERS  += mainwindow.h \
     model.h \
     startup.h \
     preview.h \
     export.h \
-    addframecommand.h
+    addframecommand.h \
+    removeframecommand.h
 
 FORMS    += mainwindow.ui \
     startup.ui \

@@ -8,7 +8,7 @@ RemoveFrameCommand::RemoveFrameCommand(int removedFrame, Model *mod, QUndoComman
 
 void RemoveFrameCommand::undo()
 {
-
+    
 }
 
 void RemoveFrameCommand::redo()
