@@ -44,8 +44,6 @@ void Model::setUp(int imageSize = 32)
     mirrorHorizontalActive = false;
     mirrorVerticalActive = false;
 
-
-
     //add background frame to the vector. Position 0.
     frames.push_back(newImage);
     currentFrame = 0;
@@ -130,17 +128,6 @@ void Model::colorPicked(QColor c)
     currentTool = Tool::Pen;
 }
 
-
-void Model::undoButtonClicked()
-{
-    cout << "undoClick (model)" << endl;
-}
-
-void Model::redoButtonClicked()
-{
-    cout << "redoClick (model)" << endl;
-}
-
 void Model::penButtonClicked()
 {
     currentTool = Tool::Pen;
@@ -220,13 +207,6 @@ void Model::rotateCounterClockwiseButtonClicked()
 void Model::previewButtonClicked()
 {
     cout << "preview (model)" << endl;
-}
-
-void Model::addFrameButtonClicked()
-{
-    cout << "addF (model)" << endl;
-
-    addFrame();
 }
 
 void Model::duplicateFrameButtonClicked(int i)

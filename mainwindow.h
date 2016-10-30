@@ -6,6 +6,7 @@
 #include "model.h"
 #include "preview.h"
 #include "export.h"
+#include "addframecommand.h"
 #include <string>
 #include <iostream>
 #include <QGridLayout>
@@ -13,6 +14,7 @@
 #include <QPixmap>
 #include <QColorDialog>
 #include <QTimer>
+#include <QUndoStack>
 
 using namespace std;
 
@@ -48,8 +50,6 @@ public slots:
     void previewUpdate();
 
 private slots:
-    void on_UndoButton_clicked();
-    void on_RedoButton_clicked();
 
     void on_PenButton_clicked();
     void on_EraserButton_clicked();
@@ -69,7 +69,6 @@ private slots:
     void on_ColorButton_clicked();
 
     void on_PreviewButton_clicked();
-    void on_AddFrameButton_clicked();
     void on_DuplicateFrameButton_clicked();
     void on_RemoveFrameButton_clicked();
     void on_actionSave_triggered();
@@ -78,11 +77,11 @@ private slots:
     void on_ActualSizeCheck_stateChanged(int arg1);
     void on_FPSSpinBox_valueChanged(int arg1);
 
-
-
-
+    void on_AddFrameButton_clicked();
 
 private:
+    void createActions();
+
     Ui::MainWindow *ui;
 
     QGridLayout* canvasLayout;
@@ -105,6 +104,11 @@ private:
 
     int FPS;
     int timerFrame;
+
+    QAction *undoAction;
+    QAction *redoAction;
+
+    QUndoStack *undoStack;
 
 };
 

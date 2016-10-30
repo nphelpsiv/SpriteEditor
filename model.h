@@ -35,8 +35,6 @@ protected:
 
 public slots:
     void setUp(int canvasSize);
-    void undoButtonClicked();
-    void redoButtonClicked();
 
     void penButtonClicked();
     void eraserButtonClicked();
@@ -56,7 +54,6 @@ public slots:
     void colorPicked(QColor c);
 
     void previewButtonClicked();
-    void addFrameButtonClicked();
     void duplicateFrameButtonClicked(int i);
     void removeFrameButtonClicked(int i);
     void FPSSpinBoxChanged(int change);
