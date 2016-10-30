@@ -75,14 +75,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     FPS = ui->FPSSpinBox->value();
     //Connects for signals when frame is changed.
-    connect(&model, SIGNAL(frameAdded(QImage)),
-            this, SLOT(frameAdded(QImage)));
+    connect(&model, SIGNAL(frameAdded(std::vector<QImage>)),
+            this, SLOT(frameAdded(std::vector<QImage>)));
 
     connect(&model, SIGNAL(updated(QImage)),
             this, SLOT(frameUpdated(QImage)));
-
-    connect(&model, SIGNAL(frameDuplicated(QImage,int)),
-            this, SLOT(frameDuplicated(QImage,int)));
 
     connect(&model, SIGNAL(frameRemoved(std::vector<QImage>)),
             this, SLOT(frameRemoved(std::vector<QImage>)));
@@ -265,27 +262,22 @@ void MainWindow::on_ColorButton_clicked()
 
 /*
  * Slot for when frame is added.
- * Recieves a QImage from Model to add.
+ * Recieves a vector of QImages from Model to update all the frames.
  */
-void MainWindow::frameAdded(QImage image)
+void MainWindow::frameAdded(vector<QImage> frames)
 {
-    frameButtons[++currentFrame]->setVisible(true);
+    for(unsigned int i = 1; i < frames.size(); i++)
+    {
+        QIcon icon;
+        icon.addPixmap(QPixmap::fromImage(frames[i]).scaled(64,64), QIcon::Normal);
+        frameButtons[i-1]->setIcon(icon);
+        frameButtons[i-1]->setIconSize(QSize(64, 64));
+        frameButtons[i-1]->setVisible(true);
+    }
 
-    QIcon icon;
-    icon.addPixmap(QPixmap::fromImage(model.getFrame(currentFrame + 1).scaled(64,64)), QIcon::Normal);
-    frameButtons[currentFrame]->setIcon(icon);
-    frameButtons[currentFrame]->setIconSize(QSize(64,64));
-}
+    currentFrame++;
 
-void MainWindow::frameDuplicated(QImage image, int i)
-{
-    currentFrame = i - 1;
-    frameButtons[currentFrame]->setVisible(true);
-
-    QIcon icon;
-    icon.addPixmap(QPixmap::fromImage(model.getFrame(currentFrame + 1).scaled(64,64)), QIcon::Normal);
-    frameButtons[currentFrame]->setIcon(icon);
-    frameButtons[currentFrame]->setIconSize(QSize(64,64));
+    emit model.changeFrame(currentFrame);
 }
 
 /*
@@ -326,7 +318,7 @@ void MainWindow::frameButtonPressed()
 
 void MainWindow::frameRemoved(std::vector<QImage> frames)
 {
-
+    //Need to update all buttons with the full vector of frames.
     for(unsigned int i = 1; i < frames.size(); i++)
     {
         QIcon icon;
@@ -335,11 +327,13 @@ void MainWindow::frameRemoved(std::vector<QImage> frames)
         frameButtons[i-1]->setIconSize(QSize(64, 64));
     }
 
+    //Set any remaining, "removed" frames to be non-visible
     for(unsigned int i = frames.size() - 1; i < frameButtons.size(); i++)
     {
         frameButtons[i]->setVisible(false);
     }
 
+    //decrement currentFrame if it was the last frame that was removed.
     if(currentFrame == frames.size() - 1)
     {
         currentFrame--;

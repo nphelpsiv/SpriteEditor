@@ -65,6 +65,7 @@ void Model::paintEvent(QPaintEvent *event)
     //So we paint to the QImage in other methods and then this method paints the QImage to the screen with scale.
     QPainter painter(this);
     painter.scale(scale, scale);
+
     QRect rect = event->rect();
     painter.drawImage(rect, frames[0], rect);
     painter.drawImage(rect, frames[currentFrame], rect);
@@ -211,22 +212,27 @@ void Model::previewButtonClicked()
 
 void Model::duplicateFrameButtonClicked(int i)
 {
-    cout << "dupF (model) " << i+1 << endl;
-    frames.push_back(frames[i+1]);
-    currentFrame = frames.size() - 1;
+    frames.insert(frames.begin() + i + 1, frames[i+1]);
+    currentFrame++;
     update();
-    emit frameDuplicated(frames[currentFrame], currentFrame);
+
+    emit frameAdded(frames);
 }
 
+/*
+ * When Remove Frame button is pressed this method is notified.
+ * It removes the current frame from the frames vector.
+ * It then sends a signal that a frame was removed back to mainwindow.
+ */
 void Model::removeFrameButtonClicked(int i)
 {
+    //Don't delete if there is only one frame.
     if(frames.size() == 2)
-    {
         return;
-    }
 
     frames.erase(frames.begin() + i + 1);
 
+    //If the current frame was the last frame, decrement current frame.
     if((i + 1) < frames.size())
         currentFrame = i + 1;
     else
@@ -244,6 +250,10 @@ void Model::FPSSpinBoxChanged(int change)
     cout << "Desired Fps: " << change << endl;
 }
 
+/*
+ * When gif parameters are selected, this method is notified.
+ * Gif-h library is used to create a .gif file and save it to file system.
+ */
 void Model::exportSelected(int fps, string filename, int gifSize)
 {
 
@@ -271,9 +281,15 @@ void Model::exportSelected(int fps, string filename, int gifSize)
     GifEnd(&writer);
 }
 
+/*
+ * Helper method to create the uint8_t array that represents the rgba values of each pixel.
+ * This method is used with the gif-h library to create a .gif file.
+ */
 void Model::convertFrameToArray(uint8_t *arr, int frameIndex, int gifSize)
 {
+    //We first need to scale the frame to the selected value given by user.
     QImage newImage = frames[frameIndex].scaled(gifSize, gifSize);
+
     for(int i = 0; i < gifSize; i++)
     {
         for(int j = 0; j < gifSize; j++)
@@ -316,18 +332,18 @@ void Model::sliderValueChanged(int change)
 }
 
 /*
- * Adds new frame.
+ * Adds new frame one location greater than the current frame.
  */
 void Model::addFrame()
 {
     //create new transparent frame, add it to the vector, and increase currentFrame.
     QImage newImage(size, QImage::Format_ARGB32);
     newImage.fill(qRgba(0, 0, 0, 0));
-    frames.push_back(newImage);
-    currentFrame += 1;
+    frames.insert(frames.begin() + currentFrame + 1, newImage);
+    currentFrame++;
 
     update();
-    emit frameAdded(frames[currentFrame]);
+    emit frameAdded(frames);
 }
 
 /*
@@ -343,9 +359,11 @@ std::vector<QImage> Model::getFrames()
     return frames;
 }
 
+/*
+ * This method changes the current frame and draws the chosen frame.
+ */
 void Model::changeFrame(int i)
 {
-    std::cout << "changeFrame " << i << std::endl;
     currentFrame = i + 1;
 
     //Draw frames.
