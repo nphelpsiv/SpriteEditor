@@ -33,9 +33,7 @@ public slots:
 
     void renablePreview();
 
-    void frameAdded(QImage);
-
-    void frameDuplicated(QImage, int i);
+    void frameAdded(std::vector<QImage>);
 
     void frameUpdated(QImage);
 

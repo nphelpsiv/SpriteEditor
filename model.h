@@ -22,8 +22,7 @@ public:
 
 signals:
     void colorChanged(QColor);
-    void frameAdded(QImage);
-    void frameDuplicated(QImage, int);
+    void frameAdded(std::vector<QImage>);
     void frameRemoved(std::vector<QImage>);
     void updated(QImage);
 
