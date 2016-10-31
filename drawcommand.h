@@ -15,6 +15,9 @@ private:
     QImage beforeFrame;
     QImage afterFrame;
     int frameIndex;
+
+    void viewCorrectFrame();
+
 };
 
 #endif // DRAWCOMMAND_H

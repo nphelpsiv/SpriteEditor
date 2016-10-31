@@ -92,6 +92,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(&model, SIGNAL(framesSaved(QImage, QImage)),
             this, SLOT(framesSaved(QImage, QImage)));
+
 }
 
 MainWindow::~MainWindow()
@@ -288,6 +289,7 @@ void MainWindow::frameAdded(vector<QImage> frames)
 
     emit model.changeFrame(currentFrame);
 }
+
 
 /*
  * Slot for when frame is updated.

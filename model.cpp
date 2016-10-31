@@ -71,6 +71,7 @@ void Model::paintEvent(QPaintEvent *event)
     painter.drawImage(rect, frames[currentFrame], rect);
 
     emit updated(frames[currentFrame]);
+    //Save frame for Undo stack.
     newFrame = frames[currentFrame];
 }
 
