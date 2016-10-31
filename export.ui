@@ -125,6 +125,12 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>ExportFPSSpinBox</tabstop>
+  <tabstop>actualSizeRadio</tabstop>
+  <tabstop>otherSizeRadio</tabstop>
+  <tabstop>sizeComboBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

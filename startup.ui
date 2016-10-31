@@ -90,6 +90,12 @@
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>SizeDrop</tabstop>
+  <tabstop>NewFileButton</tabstop>
+  <tabstop>SelectFileButton</tabstop>
+  <tabstop>LoadFileButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
