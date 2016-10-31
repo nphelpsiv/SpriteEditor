@@ -19,12 +19,15 @@ class Model: public QWidget
 public:
     Model(QWidget *parent = 0);
     QSize size;
+    int currentFrame;
+    std::vector<QImage> frames;
 
 signals:
     void colorChanged(QColor);
     void frameAdded(std::vector<QImage>);
     void frameRemoved(std::vector<QImage>);
     void updated(QImage);
+    void framesSaved(QImage, QImage);
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -34,8 +37,6 @@ protected:
 
 public slots:
     void setUp(int canvasSize);
-    void undoButtonClicked();
-    void redoButtonClicked();
 
     void penButtonClicked();
     void eraserButtonClicked();
@@ -55,7 +56,6 @@ public slots:
     void colorPicked(QColor c);
 
     void previewButtonClicked();
-    void addFrameButtonClicked();
     void duplicateFrameButtonClicked(int i);
     void removeFrameButtonClicked(int i);
     void FPSSpinBoxChanged(int change);
@@ -70,9 +70,6 @@ public slots:
     void changeFrame(int i);
 
 private:
-    std::vector<QImage> frames;
-    int currentFrame;
-
     QImage image;
     int scale;
 
@@ -84,6 +81,9 @@ private:
     QPoint mirrorLastPointY;
     QPoint mirrorLastPointXY;
 
+    QImage oldFrame;
+    QImage newFrame;
+
     int toolSize;
 
     enum Tool {Pen, Eraser, Line, Caster, Picker, Bucket};
@@ -91,7 +91,6 @@ private:
 
     bool mirrorHorizontalActive;
     bool mirrorVerticalActive;
-
     void convertFrameToArray(uint8_t*, int, int);
 };
 

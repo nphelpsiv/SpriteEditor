@@ -9,7 +9,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    //Initialize our Undostack
+    undoStack = new QUndoStack(this);
+    //Create undo and redo actions.
+    createActions();
 
+    //Timer for the preview window.
     connect(&timer, SIGNAL(timeout()), this, SLOT(previewUpdate()));
 
     QRect rect;
@@ -84,21 +89,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(&exportWindow, SIGNAL(exportSelected(int, std::string, int)),
             &model, SLOT(exportSelected(int, std::string, int)));
+
+    connect(&model, SIGNAL(framesSaved(QImage, QImage)),
+            this, SLOT(framesSaved(QImage, QImage)));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::on_UndoButton_clicked()
-{
-    emit model.undoButtonClicked();
-}
-
-void MainWindow::on_RedoButton_clicked()
-{
-    emit model.redoButtonClicked();
 }
 
 void MainWindow::on_PenButton_clicked()
@@ -154,17 +152,29 @@ void MainWindow::previewUpdate()
 
 void MainWindow::on_AddFrameButton_clicked()
 {
-    emit model.addFrameButtonClicked();
+    /*
+     * Create a command object that contains saved information about the current frame.
+     * Also a pointer to the model is passed in as well so it's delete frame
+    */
+    QUndoCommand *addFrameCommand = new AddFrameCommand(currentFrame, &model);
+    //Note* pushing onto the QUndoStack will automatically send a call to the redo function of the QUndoCommand.
+    undoStack->push(addFrameCommand);
 }
 
 void MainWindow::on_DuplicateFrameButton_clicked()
 {
-    emit model.duplicateFrameButtonClicked(currentFrame);
+    QUndoCommand *duplicateFrameCommand = new DuplicateFrameCommand(currentFrame, &model);
+    undoStack->push(duplicateFrameCommand);
 }
 
 void MainWindow::on_RemoveFrameButton_clicked()
 {
-    emit model.removeFrameButtonClicked(currentFrame);
+    //Don't delete if there is only one frame.
+    if(model.frames.size() == 2)
+        return;
+
+    QUndoCommand *removeFrameCommand = new RemoveFrameCommand(currentFrame, &model);
+    undoStack->push(removeFrameCommand);
 }
 
 void MainWindow::getDrawingSize(int size)
@@ -347,6 +357,32 @@ void MainWindow::colorChanged(QColor color)
   px.fill(color);
   ui->ColorButton->setIcon(px);
   update();
+}
+
+void MainWindow::framesSaved(QImage oldFrame, QImage newFrame)
+{
+    QUndoCommand *drawCommand = new DrawCommand(oldFrame, newFrame, &model);
+    undoStack->push(drawCommand);
+}
+
+//Setting up Actions
+void MainWindow::createActions()
+{
+
+    //Setting up our undoAction to connnect to our undoStack.
+    undoAction = undoStack->createUndoAction(this);
+    undoAction->setShortcut(QKeySequence::Undo);
+    undoAction->setIcon(QIcon(":undo.png"));
+
+    ui->UndoButton->setDefaultAction(undoAction);
+
+
+    //Setting up our redoAction to connnect to our undoStack.
+    redoAction = undoStack->createRedoAction(this, tr("&Redo"));
+    redoAction->setShortcut(QKeySequence::Redo);
+    redoAction->setIcon(QIcon(":redo.png"));
+
+    ui->RedoButton->setDefaultAction(redoAction);
 }
 
 
