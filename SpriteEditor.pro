@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     export.cpp \
     addframecommand.cpp \
     removeframecommand.cpp \
-    duplicateframecommand.cpp
+    duplicateframecommand.cpp \
+    drawcommand.cpp
 
 HEADERS  += mainwindow.h \
     model.h \
@@ -29,7 +30,8 @@ HEADERS  += mainwindow.h \
     export.h \
     addframecommand.h \
     removeframecommand.h \
-    duplicateframecommand.h
+    duplicateframecommand.h \
+    drawcommand.h
 
 FORMS    += mainwindow.ui \
     startup.ui \

@@ -27,6 +27,7 @@ signals:
     void frameAdded(std::vector<QImage>);
     void frameRemoved(std::vector<QImage>);
     void updated(QImage);
+    void framesSaved(QImage, QImage);
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -80,6 +81,9 @@ private:
     QPoint mirrorLastPointY;
     QPoint mirrorLastPointXY;
 
+    QImage oldFrame;
+    QImage newFrame;
+
     int toolSize;
 
     enum Tool {Pen, Eraser, Line, Caster, Picker, Bucket};
@@ -87,7 +91,6 @@ private:
 
     bool mirrorHorizontalActive;
     bool mirrorVerticalActive;
-
     void convertFrameToArray(uint8_t*, int, int);
 };
 

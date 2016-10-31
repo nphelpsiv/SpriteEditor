@@ -7,6 +7,7 @@
 #include "addframecommand.h"
 #include "removeframecommand.h"
 #include "duplicateframecommand.h"
+#include "drawcommand.h"
 #include <QMainWindow>
 #include <QFileDialog>
 #include <string>
@@ -50,7 +51,6 @@ public slots:
     void previewUpdate();
 
 private slots:
-
     void on_PenButton_clicked();
     void on_EraserButton_clicked();
     void on_RectButton_clicked();
@@ -78,6 +78,8 @@ private slots:
     void on_FPSSpinBox_valueChanged(int arg1);
 
     void on_AddFrameButton_clicked();
+
+    void framesSaved(QImage, QImage);
 
 private:
     void createActions();

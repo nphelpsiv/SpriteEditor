@@ -71,6 +71,7 @@ void Model::paintEvent(QPaintEvent *event)
     painter.drawImage(rect, frames[currentFrame], rect);
 
     emit updated(frames[currentFrame]);
+    newFrame = frames[currentFrame];
 }
 
 void Model::mousePressEvent(QMouseEvent *event)
@@ -79,6 +80,7 @@ void Model::mousePressEvent(QMouseEvent *event)
     QPoint loc;
     if(event->button() == Qt::LeftButton)
     {
+
        loc = event->pos();
        lastPoint = loc;
        lastPoint.setX(lastPoint.x()/scale);
@@ -87,13 +89,14 @@ void Model::mousePressEvent(QMouseEvent *event)
        mirrorLastPointX = lastPoint;
        mirrorLastPointY = lastPoint;
 
-
        mirrorLastPointX.setX(size.width()-lastPoint.x()-1);
        mirrorLastPointY.setY(size.height()-lastPoint.y()-1);
 
        mirrorLastPointXY.setX(mirrorLastPointX.x());
        mirrorLastPointXY.setY(mirrorLastPointY.y());
        //newPoint = loc;
+
+       oldFrame = frames[currentFrame];
        draw(loc);
     }
 
@@ -116,17 +119,14 @@ void Model::mouseMoveEvent(QMouseEvent *event)
     //send location to draw to be drawn to screen.
 }
 
-
-
 void Model::mouseReleaseEvent(QMouseEvent *event)
 {
-
+    emit framesSaved(oldFrame, newFrame);
 }
 
 void Model::colorPicked(QColor c)
 {
     currentColor = c;
-    currentTool = Tool::Pen;
 }
 
 void Model::penButtonClicked()
@@ -178,31 +178,39 @@ void Model::mirrorVerticalButtonToggled(bool checked)
 
 void Model::flipHorizontalButtonClicked()
 {
-  frames[currentFrame] = ((QImage)frames[currentFrame]).mirrored(true, false);
-  update();
+    oldFrame = frames[currentFrame];
+    frames[currentFrame] = ((QImage)frames[currentFrame]).mirrored(true, false);
+    update();
+    emit framesSaved(oldFrame, frames[currentFrame]);
 }
 void Model::flipVerticalButtonClicked()
 {
-  frames[currentFrame] = ((QImage)frames[currentFrame]).mirrored(false, true);
-  update();
+    oldFrame = frames[currentFrame];
+    frames[currentFrame] = ((QImage)frames[currentFrame]).mirrored(false, true);
+    update();
+    emit framesSaved(oldFrame, frames[currentFrame]);
 }
 
 void Model::rotateClockwiseButtonClicked()
 {
+    oldFrame = frames[currentFrame];
     QTransform transform;
     transform.rotate(90);
 
     frames[currentFrame] = ((QImage)frames[currentFrame]).transformed(transform);
     update();
+    emit framesSaved(oldFrame, frames[currentFrame]);
 }
 
 void Model::rotateCounterClockwiseButtonClicked()
 {
+    oldFrame = frames[currentFrame];
     QTransform transform;
     transform.rotate(-90);
 
     frames[currentFrame] = ((QImage)frames[currentFrame]).transformed(transform);
     update();
+    emit framesSaved(oldFrame, frames[currentFrame]);
 }
 
 void Model::previewButtonClicked()
@@ -252,7 +260,6 @@ void Model::FPSSpinBoxChanged(int change)
  */
 void Model::exportSelected(int fps, string filename, int gifSize)
 {
-
     const char *file = filename.c_str();
 
     //Need to create a GifWriter struct -- uninitialized
@@ -370,14 +377,13 @@ void Model::changeFrame(int i)
 
 void Model::draw(QPoint point)
 {
-
     QPoint mirrorPointX;
     QPoint mirrorPointY;
     QPoint mirrorPointXY;
 
-    //Scale the points along with the scale of the image.
-    //This is so the points of the mouse coorelate with the points of the new scaled image
-    //not the old, small image.
+    /*Scale the points along with the scale of the image.
+     *This is so the points of the mouse coorelate with the points of the new scaled image
+     *not the old, small image.*/
     point.setX(point.x()/scale);
     point.setY(point.y()/scale);
 
@@ -390,8 +396,7 @@ void Model::draw(QPoint point)
     mirrorPointXY.setX(mirrorPointX.x());
     mirrorPointXY.setY(mirrorPointY.y());
 
-    //cout << "(" << point.x() << "," << point.y() << ")" << endl;
-    //Use QPainter to modify QImage to be drawn by paintEvent.
+    // Use QPainter to modify QImage to be drawn by paintEvent.
     QPainter painter(&frames[currentFrame]);
     painter.setPen(QPen(currentColor, toolSize));
 

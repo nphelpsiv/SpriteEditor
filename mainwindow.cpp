@@ -89,6 +89,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(&exportWindow, SIGNAL(exportSelected(int, std::string, int)),
             &model, SLOT(exportSelected(int, std::string, int)));
+
+    connect(&model, SIGNAL(framesSaved(QImage, QImage)),
+            this, SLOT(framesSaved(QImage, QImage)));
 }
 
 MainWindow::~MainWindow()
@@ -356,9 +359,16 @@ void MainWindow::colorChanged(QColor color)
   update();
 }
 
+void MainWindow::framesSaved(QImage oldFrame, QImage newFrame)
+{
+    QUndoCommand *drawCommand = new DrawCommand(oldFrame, newFrame, &model);
+    undoStack->push(drawCommand);
+}
+
 //Setting up Actions
 void MainWindow::createActions()
 {
+
     //Setting up our undoAction to connnect to our undoStack.
     undoAction = undoStack->createUndoAction(this);
     undoAction->setShortcut(QKeySequence::Undo);
