@@ -10,12 +10,14 @@ DrawCommand::DrawCommand(QImage beforeF, QImage afterF, Model *mod, QUndoCommand
 
 void DrawCommand::undo()
 {
+
     model->frames[model->currentFrame] = beforeFrame;
     model->update();
 }
 
 void DrawCommand::redo()
 {
+
     model->frames[model->currentFrame] = afterFrame;
     model->update();
 }

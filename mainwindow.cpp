@@ -376,7 +376,6 @@ void MainWindow::createActions()
 
     ui->UndoButton->setDefaultAction(undoAction);
 
-
     //Setting up our redoAction to connnect to our undoStack.
     redoAction = undoStack->createRedoAction(this, tr("&Redo"));
     redoAction->setShortcut(QKeySequence::Redo);

@@ -112,8 +112,8 @@ void Model::mouseMoveEvent(QMouseEvent *event)
     {
         loc = event->pos();
         //newPoint = loc;
-
-        draw(loc);
+        if(currentTool!=Tool::Bucket && currentTool!=Tool::Caster)
+            draw(loc);
     }
 
     //send location to draw to be drawn to screen.
@@ -434,14 +434,14 @@ void Model::draw(QPoint point)
         break;
     case Tool::Caster:
         {
-          QColor colorToCast( ((QImage)frames[currentFrame]).pixelColor(point) );
+          QColor colorToCast(((QImage)frames[currentFrame]).pixelColor(point));
 
           int count = 0;
           for(int y = 0; y < ((QImage)frames[currentFrame]).height(); y++)
           {
               for(int x = 0; x < ((QImage)frames[currentFrame]).width(); x++)
               {
-                  if( ((QImage)frames[currentFrame]).pixelColor(x,y) == colorToCast )
+                  if( ((QImage)frames[currentFrame]).pixelColor(x,y) == colorToCast)
                   {
                       count++;
                       //((QImage)frames[currentFrame]).setPixelColor(x, y , currentColor);
