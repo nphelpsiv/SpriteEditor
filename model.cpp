@@ -329,10 +329,10 @@ void Model::openButtonClicked(string fileName)
            // if first line setup size
            if (countLine == 1 && i == 0)
            {
-               //for (int var = 0; var < total; ++var)
-               //{
-               //    removeFrame();
-               //}
+               for (int j = 0; j < frames.size(); j++)
+               {
+                   removeFrameButtonClicked(j);
+               }
 
 
                size = tokens.at(0).toInt();
@@ -361,27 +361,25 @@ void Model::openButtonClicked(string fileName)
                    break;
                }
 
-
-               //QColor color = lineColumn.at(i);
-               //QString name = color.name();
+               // Print out what the pixel values are to see if we are getting correct values
                cout << "Current Frame = " << frameCount << ". Pixel at " << "(" << i/4 << ", " << currentFrameRow - 1 << "): " << tokens.at(i).toStdString() << "," << tokens.at(i + 1).toStdString() << "," << tokens.at(i + 2).toStdString() << "," << tokens.at(i + 3).toStdString() << endl;
 
 
-                   QColor c(tokens.at(i).toInt(), tokens.at(i + 1).toInt(), tokens.at(i + 2).toInt(), tokens.at(i + 3).toInt());
+               QColor c(tokens.at(i).toInt(), tokens.at(i + 1).toInt(), tokens.at(i + 2).toInt(), tokens.at(i + 3).toInt());
 
 
-                   //QPoint position(i/4, currentFrameRow - 1);
-                   //((QImage)frames[frameCount]).setPixelColor(position, c);
+               // SetPixelColor was not doing anything
+               //QPoint position(i/4, currentFrameRow - 1);
+               //((QImage)frames[frameCount]).setPixelColor(position, c);
 
 
+               // So we draw with a painter
+               QPainter newPaint(&frames[frameCount]);
+               newPaint.setPen(QPen(c,1));
+               newPaint.drawPoint(i/4 , currentFrameRow - 1);
 
 
-                   QPainter newPaint(&frames[frameCount]);
-                   newPaint.setPen(QPen(c,1));
-                   newPaint.drawPoint(i/4 , currentFrameRow - 1);
-
-
-                   update();
+               update();
            }
 
 
@@ -436,7 +434,7 @@ void Model::addFrame()
 {
     //create new transparent frame, add it to the vector, and increase currentFrame.
     QImage newImage(size, QImage::Format_ARGB32);
-    //newImage.fill(qRgba(0, 0, 0, 0));
+    newImage.fill(qRgba(0, 0, 0, 0));
     frames.push_back(newImage);
     currentFrame += 1;
 
