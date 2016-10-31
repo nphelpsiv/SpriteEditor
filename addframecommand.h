@@ -3,7 +3,6 @@
 #include <QUndoCommand>
 #include "model.h"
 
-
 class AddFrameCommand : public QUndoCommand
 {
 public:

@@ -226,10 +226,6 @@ void Model::duplicateFrameButtonClicked(int i)
  */
 void Model::removeFrameButtonClicked(int i)
 {
-    //Don't delete if there is only one frame.
-    if(frames.size() == 2)
-        return;
-
     frames.erase(frames.begin() + i + 1);
 
     //If the current frame was the last frame, decrement current frame.

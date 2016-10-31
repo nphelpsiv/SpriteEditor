@@ -1,12 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QFileDialog>
 #include "model.h"
 #include "preview.h"
 #include "export.h"
 #include "addframecommand.h"
+#include "removeframecommand.h"
+#include "duplicateframecommand.h"
+#include <QMainWindow>
+#include <QFileDialog>
 #include <string>
 #include <iostream>
 #include <QGridLayout>

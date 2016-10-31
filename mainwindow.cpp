@@ -160,12 +160,18 @@ void MainWindow::on_AddFrameButton_clicked()
 
 void MainWindow::on_DuplicateFrameButton_clicked()
 {
-    emit model.duplicateFrameButtonClicked(currentFrame);
+    QUndoCommand *duplicateFrameCommand = new DuplicateFrameCommand(currentFrame, &model);
+    undoStack->push(duplicateFrameCommand);
 }
 
 void MainWindow::on_RemoveFrameButton_clicked()
 {
-    emit model.removeFrameButtonClicked(currentFrame);
+    //Don't delete if there is only one frame.
+    if(model.frames.size() == 2)
+        return;
+
+    QUndoCommand *removeFrameCommand = new RemoveFrameCommand(currentFrame, &model);
+    undoStack->push(removeFrameCommand);
 }
 
 void MainWindow::getDrawingSize(int size)

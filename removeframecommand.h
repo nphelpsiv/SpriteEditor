@@ -14,6 +14,7 @@ public:
 private:
     Model *model;
     int frameNumber;
+    QImage frame;
 };
 
 #endif // REMOVEFRAMECOMMAND_H

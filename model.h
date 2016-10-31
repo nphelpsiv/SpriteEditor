@@ -19,6 +19,8 @@ class Model: public QWidget
 public:
     Model(QWidget *parent = 0);
     QSize size;
+    int currentFrame;
+    std::vector<QImage> frames;
 
 signals:
     void colorChanged(QColor);
@@ -67,9 +69,6 @@ public slots:
     void changeFrame(int i);
 
 private:
-    std::vector<QImage> frames;
-    int currentFrame;
-
     QImage image;
     int scale;
 
