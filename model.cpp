@@ -397,8 +397,6 @@ void Model::openButtonClicked(string fileName)
    file.close();
 }
 
-
-void Model::actualSizeBoxChecked(int checked)
 void Model::FPSSpinBoxChanged(int change)
 {
     cout << "Desired Fps: " << change << endl;
