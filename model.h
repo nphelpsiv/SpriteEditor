@@ -7,7 +7,11 @@
 #include <QPixmap>
 #include <string.h>
 #include <QColor>
+#include <iostream>
+#include <QMessageBox>
 #include <stdint.h>
+
+using namespace std;
 
 namespace ui {
 class Model;
@@ -60,7 +64,8 @@ public slots:
     void removeFrameButtonClicked(int i);
     void FPSSpinBoxChanged(int change);
 
-    void saveButtonClicked();
+    void saveButtonClicked(string s);
+    void openButtonClicked(string s);
 
     std::vector<QImage> getFrames();
     void exportSelected(int, std::string, int);

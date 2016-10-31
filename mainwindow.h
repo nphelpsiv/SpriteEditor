@@ -18,6 +18,7 @@
 #include <QColorDialog>
 #include <QTimer>
 #include <QUndoStack>
+#include <QMessageBox>
 
 using namespace std;
 
