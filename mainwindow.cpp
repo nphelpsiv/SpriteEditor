@@ -14,9 +14,6 @@ MainWindow::MainWindow(QWidget *parent) :
     //Create undo and redo actions.
     createActions();
 
-    //Timer for the preview window.
-    connect(&timer, SIGNAL(timeout()), this, SLOT(previewUpdate()));
-
     QRect rect;
     rect.setX(170);
     rect.setY(20);
@@ -25,12 +22,41 @@ MainWindow::MainWindow(QWidget *parent) :
     canvasLayout = new QGridLayout(ui->Canvas);
 
     canvasLayout->addWidget(&model, 0, 0);
+
+
+    //Timer for the preview window.
+    connect(&timer, SIGNAL(timeout()),
+            this, SLOT(previewUpdate()));
+    connect(&preview, SIGNAL(renableButton()),
+            this, SLOT(renablePreview()));
+
+    //Used to notify undoStack that a new file is open and to clear itself.
+    connect(&model, SIGNAL(newFileOpened()),
+            this, SLOT(fileOpened()));
+
+    //Connects for signals when frame is changed.
+    connect(&model, SIGNAL(frameAdded(std::vector<QImage>)),
+            this, SLOT(frameAdded(std::vector<QImage>)));
+
+    connect(&model, SIGNAL(updated(QImage)),
+            this, SLOT(frameUpdated(QImage)));
+
+    connect(&model, SIGNAL(frameRemoved(std::vector<QImage>)),
+            this, SLOT(frameRemoved(std::vector<QImage>)));
+
+    connect(&model, SIGNAL(colorChanged(QColor)),
+            this, SLOT(colorChanged(QColor)));
+
+    connect(&exportWindow, SIGNAL(exportSelected(int, std::string, int)),
+            &model, SLOT(exportSelected(int, std::string, int)));
+
+    connect(&model, SIGNAL(framesSaved(QImage, QImage)),
+            this, SLOT(framesSaved(QImage, QImage)));
+
+
+
     //ui->Canvas = &model;
     //ui->Canvas->setGeometry(190, 20, 512, 512);
-
-    //Connection to renable preview button when preview window is closed.
-    connect(&preview, SIGNAL(renableButton()),
-                        this, SLOT(renablePreview()));
 
     //Set the background color on startup to black
     QColor originalColor(0,0,0,255);
@@ -63,7 +89,8 @@ MainWindow::MainWindow(QWidget *parent) :
         layout->addWidget(frame);
         frameButtons.push_back(frame);
 
-        connect(frame, SIGNAL(pressed()), this, SLOT(frameButtonPressed()));
+        connect(frame, SIGNAL(pressed()),
+                this, SLOT(frameButtonPressed()));
     }
 
     //Show first frame upon start.
@@ -74,28 +101,6 @@ MainWindow::MainWindow(QWidget *parent) :
     layout->addWidget(w1);
 
     FPS = ui->FPSSpinBox->value();
-    //Connects for signals when frame is changed.
-    connect(&model, SIGNAL(frameAdded(std::vector<QImage>)),
-            this, SLOT(frameAdded(std::vector<QImage>)));
-
-    connect(&model, SIGNAL(updated(QImage)),
-            this, SLOT(frameUpdated(QImage)));
-
-    connect(&model, SIGNAL(frameRemoved(std::vector<QImage>)),
-            this, SLOT(frameRemoved(std::vector<QImage>)));
-
-    connect(&model, SIGNAL(colorChanged(QColor)),
-            this, SLOT(colorChanged(QColor)));
-
-    connect(&exportWindow, SIGNAL(exportSelected(int, std::string, int)),
-            &model, SLOT(exportSelected(int, std::string, int)));
-
-    connect(&model, SIGNAL(framesSaved(QImage, QImage)),
-            this, SLOT(framesSaved(QImage, QImage)));
-
-    connect(&model, SIGNAL(newFileOpened()),
-            this, SLOT(fileOpened()));
-
 }
 
 MainWindow::~MainWindow()

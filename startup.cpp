@@ -17,8 +17,6 @@ Startup::~Startup()
     delete ui;
 }
 
-
-
 void Startup::on_NewFileButton_clicked()
 {
     QString value = ui->SizeDrop->currentText();

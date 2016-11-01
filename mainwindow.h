@@ -35,23 +35,18 @@ public:
     ~MainWindow();
 
 public slots:
-    void getDrawingSize(int s);
-
+    void getDrawingSize(int s); //Should this really be a slot?
+    void previewUpdate();
     void renablePreview();
 
+    void fileOpened();
+
     void frameAdded(std::vector<QImage>);
-
     void frameUpdated(QImage);
-
     void frameButtonPressed();
-
     void frameRemoved(std::vector<QImage>);
-
     void colorChanged(QColor color);
 
-    void previewUpdate();
-
-    void fileOpened();
 
 private slots:
     void on_PenButton_clicked();

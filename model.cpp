@@ -372,7 +372,6 @@ void Model::openButtonClicked(string fileName)
                newPaint.setPen(QPen(c,1));
                newPaint.drawPoint(i/4 , currentFrameRow - 1);
 
-
                update();
            }
        }
