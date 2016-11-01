@@ -42,7 +42,7 @@ public slots:
     void fileOpened();
 
     void frameAdded(std::vector<QImage>);
-    void frameUpdated(QImage);
+    void frameUpdated(QImage, int);
     void frameButtonPressed();
     void frameRemoved(std::vector<QImage>);
     void colorChanged(QColor color);
