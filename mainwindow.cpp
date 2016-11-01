@@ -14,10 +14,12 @@ MainWindow::MainWindow(QWidget *parent) :
     //Create undo and redo actions.
     createActions();
 
+    // Should we delete this???
+    /*
     QRect rect;
     rect.setX(170);
     rect.setY(20);
-    rect.setSize(QSize(512,512));
+    rect.setSize(QSize(512,512));*/ // Should we delete this???
 
     canvasLayout = new QGridLayout(ui->Canvas);
 
@@ -30,16 +32,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&preview, SIGNAL(renableButton()),
             this, SLOT(renablePreview()));
 
-    //Used to notify undoStack that a new file is open and to clear itself.
-    connect(&model, SIGNAL(newFileOpened()),
-            this, SLOT(fileOpened()));
-
     //Connects for signals when frame is changed.
     connect(&model, SIGNAL(frameAdded(std::vector<QImage>)),
             this, SLOT(frameAdded(std::vector<QImage>)));
 
-    connect(&model, SIGNAL(updated(QImage)),
-            this, SLOT(frameUpdated(QImage)));
+    connect(&model, SIGNAL(updated(QImage, int)),
+            this, SLOT(frameUpdated(QImage, int)));
 
     connect(&model, SIGNAL(frameRemoved(std::vector<QImage>)),
             this, SLOT(frameRemoved(std::vector<QImage>)));
@@ -101,8 +99,7 @@ MainWindow::MainWindow(QWidget *parent) :
     layout->addWidget(w1);
 
     FPS = ui->FPSSpinBox->value();
-    connect(&model, SIGNAL(updated(QImage, int)),
-            this, SLOT(frameUpdated(QImage, int)));
+
 }
 
 MainWindow::~MainWindow()
@@ -218,10 +215,10 @@ void MainWindow::on_actionOpen_triggered()
        QString fileName = open.getOpenFileName(this,
            tr("Open Sprite"), "~/", tr("Sprite Files (*.ssp)"));
 
-
        if (open.AcceptOpen == 0)
        {
            emit model.openButtonClicked(fileName.toStdString());
+           undoStack->clear();
        }
        else
        {
@@ -229,7 +226,6 @@ void MainWindow::on_actionOpen_triggered()
            msgBox.setText("The document needs a name.");
            msgBox.exec();
        }
-
 }
 
 void MainWindow::on_actionExport_triggered()
@@ -421,11 +417,6 @@ void MainWindow::createActions()
     redoAction->setIcon(QIcon(":redo.png"));
 
     ui->RedoButton->setDefaultAction(redoAction);
-}
-
-void MainWindow::fileOpened()
-{
-    undoStack->clear();
 }
 
 

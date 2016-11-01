@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>641</width>
-    <height>719</height>
+    <width>663</width>
+    <height>727</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -430,8 +430,8 @@
      <rect>
       <x>230</x>
       <y>560</y>
-      <width>401</width>
-      <height>101</height>
+      <width>411</width>
+      <height>100</height>
      </rect>
     </property>
     <property name="widgetResizable">
@@ -442,8 +442,8 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>399</width>
-       <height>99</height>
+       <width>409</width>
+       <height>98</height>
       </rect>
      </property>
     </widget>
@@ -454,7 +454,7 @@
       <x>10</x>
       <y>560</y>
       <width>211</width>
-      <height>101</height>
+      <height>100</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_3">
@@ -585,7 +585,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>641</width>
+     <width>663</width>
      <height>22</height>
     </rect>
    </property>

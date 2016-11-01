@@ -40,6 +40,6 @@ void Startup::on_LoadFileButton_clicked()
 void Startup::on_SelectFileButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Open Sprite"), "~/", tr("Sprite Files (*.spp)"));
+        tr("Open Sprite"), "~/", tr("Sprite Files (*.ssp)"));
     ui->SelectFileButton->setText(fileName);// = fileName;
 }

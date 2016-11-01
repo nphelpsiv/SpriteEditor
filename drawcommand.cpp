@@ -34,12 +34,5 @@ void DrawCommand::redo()
 void DrawCommand::viewCorrectFrame()
 {
     model->currentFrame = frameIndex;
-
-    //Draw frames.
-    /*QPainter newPaint(&(model->frames[model->currentFrame]));
-    newPaint.drawImage(QPoint(0, 0), model->frames[model->currentFrame]);
-    model->update();*/
-
     model->changeFrame(model->currentFrame - 1);
-    //emit model->updated(model->frames[model->currentFrame]);
 }

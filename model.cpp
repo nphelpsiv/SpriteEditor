@@ -9,19 +9,21 @@
 using namespace std;
 Model::Model(QWidget *parent) : QWidget(parent)
 {
+    //Automatically set Pen tool.
+    currentTool = 0;
+    QColor startColor(0,0,0,255);
+    currentColor = startColor;
+    toolSize = 1;
 
+    //Set all mirroring to off.
+    mirrorHorizontalActive = false;
+    mirrorVerticalActive = false;
 }
 
 void Model::setUp(int imageSize = 32)
 {
     //scale factor will be the size of the drawing pane in GUI (512) divided by size of actual image.
     scale = 512 / imageSize;
-
-    //Automatically set Pen tool.
-    currentTool = 0;
-    QColor startColor(0,0,0,255);
-    currentColor = startColor;
-    toolSize = 1;
 
     //Create new QImage (Background image) of size and fill in.
     size.setHeight(imageSize);
@@ -37,12 +39,9 @@ void Model::setUp(int imageSize = 32)
             if(i % 2 == 0)
                 newImage.setPixelColor(i, j, qRgba(190, 190, 190, 255));
             else
-                newImage.setPixelColor(i, j + 1,qRgba(190, 190, 190, 255));
+                newImage.setPixelColor(i, j + 1, qRgba(190, 190, 190, 255));
         }
     }
-
-    mirrorHorizontalActive = false;
-    mirrorVerticalActive = false;
 
     //add background frame to the vector. Position 0.
     frames.push_back(newImage);
@@ -376,7 +375,6 @@ void Model::openButtonClicked(string fileName)
            }
        }
        currentFrameRow++;
-       emit newFileOpened();
    }
    //Draw frames.
    for (int i = 0; i < frames.size()-1; i++)
