@@ -93,6 +93,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&model, SIGNAL(framesSaved(QImage, QImage)),
             this, SLOT(framesSaved(QImage, QImage)));
 
+    connect(&model, SIGNAL(newFileOpened()),
+            this, SLOT(fileOpened()));
+
 }
 
 MainWindow::~MainWindow()
@@ -410,6 +413,11 @@ void MainWindow::createActions()
     redoAction->setIcon(QIcon(":redo.png"));
 
     ui->RedoButton->setDefaultAction(redoAction);
+}
+
+void MainWindow::fileOpened()
+{
+    undoStack->clear();
 }
 
 

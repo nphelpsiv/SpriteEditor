@@ -51,6 +51,8 @@ public slots:
 
     void previewUpdate();
 
+    void fileOpened();
+
 private slots:
     void on_PenButton_clicked();
     void on_EraserButton_clicked();

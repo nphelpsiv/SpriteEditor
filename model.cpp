@@ -316,10 +316,10 @@ void Model::openButtonClicked(string fileName)
    int frameCount = 0;      //number of frames
    int currentFrameRow = 0; //constrained to (0 to size-1)
    int size = 0;            //size of square frame
-   while(!in.atEnd()) {
+   while(!in.atEnd())
+   {
        countLine++;
        QString line = in.readLine();
-
 
        // split each line by space
        QStringList tokens = line.split(" ");
@@ -333,10 +333,8 @@ void Model::openButtonClicked(string fileName)
                    removeFrameButtonClicked(j);
                }
 
-
                size = tokens.at(0).toInt();
                setUp(size);
-
 
                cout << size << endl;
            }
@@ -363,14 +361,11 @@ void Model::openButtonClicked(string fileName)
                // Print out what the pixel values are to see if we are getting correct values
                cout << "Current Frame = " << frameCount << ". Pixel at " << "(" << i/4 << ", " << currentFrameRow - 1 << "): " << tokens.at(i).toStdString() << "," << tokens.at(i + 1).toStdString() << "," << tokens.at(i + 2).toStdString() << "," << tokens.at(i + 3).toStdString() << endl;
 
-
                QColor c(tokens.at(i).toInt(), tokens.at(i + 1).toInt(), tokens.at(i + 2).toInt(), tokens.at(i + 3).toInt());
-
 
                // SetPixelColor was not doing anything
                //QPoint position(i/4, currentFrameRow - 1);
                //((QImage)frames[frameCount]).setPixelColor(position, c);
-
 
                // So we draw with a painter
                QPainter newPaint(&frames[frameCount]);
@@ -380,15 +375,12 @@ void Model::openButtonClicked(string fileName)
 
                update();
            }
-
-
        }
        currentFrameRow++;
-
-
+       emit newFileOpened();
    }
    //Draw frames.
-   for (int i = 0; i < frames.size() - 1; i++)
+   for (int i = 0; i < frames.size()-1; i++)
    {
       changeFrame(i);
    }

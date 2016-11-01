@@ -32,6 +32,7 @@ signals:
     void frameRemoved(std::vector<QImage>);
     void updated(QImage);
     void framesSaved(QImage, QImage);
+    void newFileOpened();
 
 protected:
     void paintEvent(QPaintEvent *event);
