@@ -78,8 +78,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&model, SIGNAL(frameAdded(std::vector<QImage>)),
             this, SLOT(frameAdded(std::vector<QImage>)));
 
-    connect(&model, SIGNAL(updated(QImage)),
-            this, SLOT(frameUpdated(QImage)));
+    connect(&model, SIGNAL(updated(QImage, int)),
+            this, SLOT(frameUpdated(QImage, int)));
 
     connect(&model, SIGNAL(frameRemoved(std::vector<QImage>)),
             this, SLOT(frameRemoved(std::vector<QImage>)));
@@ -324,10 +324,11 @@ void MainWindow::frameAdded(vector<QImage> frames)
  * Slot for when frame is updated.
  * This will draw the frame in a mini version as an icon.
  */
-void MainWindow::frameUpdated(QImage image)
+void MainWindow::frameUpdated(QImage image, int newIndex)
 {
+    currentFrame = newIndex - 1;
     QIcon icon;
-    icon.addPixmap(QPixmap::fromImage(model.getFrame(currentFrame + 1).scaled(64,64)), QIcon::Normal);
+    icon.addPixmap(QPixmap::fromImage(image.scaled(64,64)), QIcon::Normal);
     frameButtons[currentFrame]->setIcon(icon);
     frameButtons[currentFrame]->setIconSize(QSize(64,64));
 }

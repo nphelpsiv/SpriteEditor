@@ -30,7 +30,7 @@ signals:
     void colorChanged(QColor);
     void frameAdded(std::vector<QImage>);
     void frameRemoved(std::vector<QImage>);
-    void updated(QImage);
+    void updated(QImage, int);
     void framesSaved(QImage, QImage);
     void newFileOpened();
 

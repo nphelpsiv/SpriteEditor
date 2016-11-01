@@ -41,7 +41,7 @@ public slots:
 
     void frameAdded(std::vector<QImage>);
 
-    void frameUpdated(QImage);
+    void frameUpdated(QImage, int);
 
     void frameButtonPressed();
 
