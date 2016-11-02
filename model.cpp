@@ -113,7 +113,14 @@ void Model::mouseMoveEvent(QMouseEvent *event)
         loc = event->pos();
         //newPoint = loc;
         if(currentTool!=Tool::Bucket && currentTool!=Tool::Caster)
+        {
+            if(currentTool == Tool::Rect || currentTool == Tool::Line || currentTool == Tool::Ellipse)
+            {
+                frames[currentFrame] = oldFrame;
+                update();
+            }
             draw(loc);
+        }
     }
 
     //send location to draw to be drawn to screen.
@@ -141,12 +148,20 @@ void Model::eraserButtonClicked()
 
 void Model::rectButtonClicked()
 {
+    currentTool = Tool::Rect;
     cout << "rectum (model)" << endl;
 }
 
 void Model::lineButtonClicked()
 {
+    currentTool = Tool::Line;
     cout << "line (model)" << endl;
+}
+
+void Model::ellipseButtonClicked()
+{
+    currentTool = Tool::Ellipse;
+    cout << "ellipse (model)" << endl;
 }
 
 void Model::colorPickerButtonClicked()
@@ -183,6 +198,7 @@ void Model::flipHorizontalButtonClicked()
     update();
     emit framesSaved(oldFrame, frames[currentFrame]);
 }
+
 void Model::flipVerticalButtonClicked()
 {
     oldFrame = frames[currentFrame];
@@ -567,6 +583,19 @@ void Model::draw(QPoint point)
         painter.setPen(QPen(Qt::transparent, toolSize));
         painter.drawLine(lastPoint, point);
         lastPoint = point;
+        break;
+    case Tool::Rect:
+        painter.setPen(QPen(currentColor, toolSize));
+        painter.drawPoint(lastPoint);
+        painter.drawRect(lastPoint.x(),lastPoint.y(), point.x()-lastPoint.x(), point.y() - lastPoint.y());
+        break;
+    case Tool::Line:
+        painter.setPen(QPen(currentColor, toolSize));
+        painter.drawLine(lastPoint, point);
+        break;
+    case Tool::Ellipse:
+        painter.setPen(QPen(currentColor, toolSize));
+        painter.drawEllipse(lastPoint.x(),lastPoint.y(), point.x()-lastPoint.x(), point.y() - lastPoint.y());
         break;
     case Tool::Caster:
         {

@@ -46,6 +46,7 @@ public slots:
     void eraserButtonClicked();
     void rectButtonClicked();
     void lineButtonClicked();
+    void ellipseButtonClicked();
     void colorPickerButtonClicked();
     void colorCasterButtonClicked();
     void bucketButtonClicked();
@@ -91,7 +92,7 @@ private:
 
     int toolSize;
 
-    enum Tool {Pen, Eraser, Line, Caster, Picker, Bucket};
+    enum Tool {Pen, Eraser, Rect, Line, Ellipse, Caster, Picker, Bucket};
     int currentTool;
 
     bool mirrorHorizontalActive;

@@ -76,6 +76,8 @@ private slots:
 
     void framesSaved(QImage, QImage);
 
+    void on_EllipseButton_clicked();
+
 private:
     void createActions();
 

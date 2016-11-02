@@ -127,6 +127,11 @@ void MainWindow::on_LineButton_clicked()
     emit model.lineButtonClicked();
 }
 
+void MainWindow::on_EllipseButton_clicked()
+{
+    emit model.ellipseButtonClicked();
+}
+
 void MainWindow::on_ColorPickerButton_clicked()
 {
     emit model.colorPickerButtonClicked();
@@ -418,8 +423,3 @@ void MainWindow::createActions()
 
     ui->RedoButton->setDefaultAction(redoAction);
 }
-
-
-
-
-
