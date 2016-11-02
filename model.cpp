@@ -149,7 +149,7 @@ void Model::eraserButtonClicked()
 void Model::rectButtonClicked()
 {
     currentTool = Tool::Rect;
-    cout << "rectum (model)" << endl;
+    cout << "rect (model)" << endl;
 }
 
 void Model::lineButtonClicked()
