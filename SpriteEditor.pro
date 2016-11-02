@@ -39,6 +39,7 @@ FORMS    += mainwindow.ui \
     export.ui
 
 RESOURCES += \
-    icons/icons.qrc
+    icons/icons.qrc \
+    qdarkstyle/style.qrc
 
 DISTFILES +=

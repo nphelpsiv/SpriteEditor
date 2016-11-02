@@ -1,26 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ui version="4.0">
- <class>Startup</class>
- <widget class="QDialog" name="Startup">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>458</width>
-    <height>152</height>
-   </rect>
-  </property>
-  <property name="windowTitle">
-   <string>Sprite Editor</string>
-  </property>
-  <property name="styleSheet">
-   <string notr="true">/*
+/*
  * The MIT License (MIT)
  *
- * Copyright (c) &lt;2013-2014&gt; &lt;Colin Duquesnoy&gt;
+ * Copyright (c) <2013-2014> <Colin Duquesnoy>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the &quot;Software&quot;), to deal
+ * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
@@ -29,7 +13,7 @@
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
 
- * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -359,7 +343,7 @@ QGroupBox::title {
     subcontrol-position: top center;
     padding-left: 10px;
     padding-right: 10px;
-    padding-top: 0px;
+    padding-top: 10px;
 }
 
 QAbstractScrollArea
@@ -569,7 +553,7 @@ QFrame
     border: 1px solid #76797C;
 }
 
-QFrame[frameShape=&quot;0&quot;]
+QFrame[frameShape="0"]
 {
     border-radius: 2px;
     border: 1px transparent #76797C;
@@ -1026,13 +1010,13 @@ QToolButton {
     padding: 5px;
 }
 
-QToolButton[popupMode=&quot;1&quot;] { /* only for MenuButtonPopup */
+QToolButton[popupMode="1"] { /* only for MenuButtonPopup */
  padding-right: 20px; /* make way for the popup button */
  border: 1px #76797C;
  border-radius: 5px;
 }
 
-QToolButton[popupMode=&quot;2&quot;] { /* only for InstantPopup */
+QToolButton[popupMode="2"] { /* only for InstantPopup */
  padding-right: 10px; /* make way for the popup button */
  border: 1px #76797C;
 }
@@ -1192,7 +1176,7 @@ QStatusBar::item {
  }
 
 
-QFrame[height=&quot;3&quot;], QFrame[width=&quot;3&quot;] {
+QFrame[height="3"], QFrame[width="3"] {
     background-color: #76797C;
 }
 
@@ -1222,89 +1206,4 @@ QProgressBar {
 
 QProgressBar::chunk {
     background-color: #05B8CC;
-}</string>
-  </property>
-  <widget class="QWidget" name="gridLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>431</width>
-     <height>131</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0" alignment="Qt::AlignRight">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>For new project:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1" alignment="Qt::AlignHCenter">
-     <widget class="QPushButton" name="SelectFileButton">
-      <property name="text">
-       <string>Select File</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0" alignment="Qt::AlignRight">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Open existing project:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1" alignment="Qt::AlignHCenter">
-     <widget class="QComboBox" name="SizeDrop">
-      <item>
-       <property name="text">
-        <string>16x16</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>32x32</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>64x64</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>128x128</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>256x256</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-    <item row="0" column="2">
-     <widget class="QPushButton" name="NewFileButton">
-      <property name="text">
-       <string>New</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="2">
-     <widget class="QPushButton" name="LoadFileButton">
-      <property name="text">
-       <string>Load</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
- </widget>
- <tabstops>
-  <tabstop>SizeDrop</tabstop>
-  <tabstop>SelectFileButton</tabstop>
- </tabstops>
- <resources/>
- <connections/>
-</ui>
+}
