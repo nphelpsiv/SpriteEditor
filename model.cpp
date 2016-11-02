@@ -514,8 +514,6 @@ void Model::changeFrame(int i)
 {
     currentFrame = i + 1;
 
-    cout << "current: " << currentFrame << " size: " << frames.size() << endl;
-
     //Draw frames.
     QPainter newPaint(&frames[currentFrame]);
     newPaint.drawImage(QPoint(0, 0), frames[currentFrame]);
