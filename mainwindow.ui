@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>671</width>
-    <height>748</height>
+    <height>707</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1229,7 +1229,7 @@ QProgressBar::chunk {
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>90</y>
+      <y>80</y>
       <width>101</width>
       <height>341</height>
      </rect>
@@ -1573,7 +1573,7 @@ QProgressBar::chunk {
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>10</y>
+      <y>0</y>
       <width>101</width>
       <height>71</height>
      </rect>
@@ -1590,7 +1590,7 @@ QProgressBar::chunk {
     <widget class="QWidget" name="horizontalLayoutWidget">
      <property name="geometry">
       <rect>
-       <x>4</x>
+       <x>5</x>
        <y>23</y>
        <width>91</width>
        <height>45</height>
@@ -1647,7 +1647,7 @@ QProgressBar::chunk {
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>40</y>
+      <y>20</y>
       <width>512</width>
       <height>512</height>
      </rect>
@@ -1666,7 +1666,7 @@ QProgressBar::chunk {
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>580</y>
+      <y>540</y>
       <width>381</width>
       <height>100</height>
      </rect>
@@ -1689,7 +1689,7 @@ QProgressBar::chunk {
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>580</y>
+      <y>540</y>
       <width>238</width>
       <height>102</height>
      </rect>
@@ -1763,9 +1763,9 @@ QProgressBar::chunk {
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>437</y>
+      <y>430</y>
       <width>101</width>
-      <height>121</height>
+      <height>101</height>
      </rect>
     </property>
     <property name="layoutDirection">
@@ -1783,7 +1783,7 @@ QProgressBar::chunk {
        <x>10</x>
        <y>30</y>
        <width>20</width>
-       <height>81</height>
+       <height>61</height>
       </rect>
      </property>
      <property name="toolTip">
@@ -1800,7 +1800,7 @@ QProgressBar::chunk {
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>50</y>
+       <y>40</y>
        <width>41</width>
        <height>41</height>
       </rect>
