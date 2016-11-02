@@ -1246,7 +1246,7 @@ QProgressBar::chunk {
        <x>5</x>
        <y>24</y>
        <width>91</width>
-       <height>310</height>
+       <height>311</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
@@ -1592,7 +1592,7 @@ QProgressBar::chunk {
       <rect>
        <x>5</x>
        <y>23</y>
-       <width>91</width>
+       <width>94</width>
        <height>45</height>
       </rect>
      </property>
