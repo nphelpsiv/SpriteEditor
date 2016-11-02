@@ -327,12 +327,8 @@ void Model::openButtonClicked(string fileName)
            // if first line setup size
            if (countLine == 1 && i == 0)
            {
-               for (int j = 0; j < frames.size(); j++)
-               {
-                   removeFrameButtonClicked(j);
-               }
-
                size = tokens.at(0).toInt();
+               frames.clear();
                setUp(size);
 
                cout << size << endl;
@@ -345,7 +341,10 @@ void Model::openButtonClicked(string fileName)
            // if line = "Frame =" then we're on a new frame
            else if (tokens.count() == 1 && countLine != 2)
            {
-               addFrame();
+               if(frameCount != 0)
+               {
+                    addFrame();
+               }
                frameCount++;
                currentFrameRow = 0;
            }
@@ -377,7 +376,7 @@ void Model::openButtonClicked(string fileName)
        currentFrameRow++;
    }
    //Draw frames.
-   for (int i = 0; i < frames.size()-1; i++)
+   for (int i = 0; i < frames.size() - 1; i++)
    {
       changeFrame(i);
    }
