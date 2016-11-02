@@ -1241,17 +1241,17 @@ QProgressBar::chunk {
       </property>
      </widget>
     </item>
-    <item row="1" column="1" alignment="Qt::AlignHCenter">
-     <widget class="QPushButton" name="SelectFileButton">
-      <property name="text">
-       <string>Select File</string>
-      </property>
-     </widget>
-    </item>
     <item row="1" column="0" alignment="Qt::AlignRight">
      <widget class="QLabel" name="label_2">
       <property name="text">
        <string>Open existing project:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QPushButton" name="NewFileButton">
+      <property name="text">
+       <string>New</string>
       </property>
      </widget>
     </item>
@@ -1284,17 +1284,10 @@ QProgressBar::chunk {
       </item>
      </widget>
     </item>
-    <item row="0" column="2">
-     <widget class="QPushButton" name="NewFileButton">
-      <property name="text">
-       <string>New</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="2">
+    <item row="1" column="1">
      <widget class="QPushButton" name="LoadFileButton">
       <property name="text">
-       <string>Load</string>
+       <string>Load Project</string>
       </property>
      </widget>
     </item>
@@ -1303,7 +1296,6 @@ QProgressBar::chunk {
  </widget>
  <tabstops>
   <tabstop>SizeDrop</tabstop>
-  <tabstop>SelectFileButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

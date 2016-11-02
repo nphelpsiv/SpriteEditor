@@ -22,8 +22,6 @@ private slots:
 
     void on_LoadFileButton_clicked();
 
-    void on_SelectFileButton_clicked();
-
 private:
     Ui::Startup *ui;
     MainWindow main;
