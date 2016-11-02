@@ -343,11 +343,16 @@ void Model::openButtonClicked(string fileName)
            // if first line setup size
            if (countLine == 1 && i == 0)
            {
-               size = tokens.at(0).toInt();
-               frames.clear();
-               setUp(size);
+               int startingSize = frames.size();
+               for (int j = 0; j < startingSize - 1; j++)
+               {
+                   removeFrameButtonClicked(frames.size() - 1);
+               }
 
-               cout << size << endl;
+               frames.clear();
+
+               size = tokens.at(0).toInt();
+               setUp(size);
            }
            // if second line make that number of frames
            else if (countLine == 2)
@@ -359,9 +364,11 @@ void Model::openButtonClicked(string fileName)
            {
                if(frameCount != 0)
                {
-                    addFrame();
+                   addFrame();
                }
+
                frameCount++;
+               currentFrame = frameCount;
                currentFrameRow = 0;
            }
            // Now we're on the info for each pixel, start manipulating that frame
@@ -373,7 +380,7 @@ void Model::openButtonClicked(string fileName)
                }
 
                // Print out what the pixel values are to see if we are getting correct values
-               cout << "Current Frame = " << frameCount << ". Pixel at " << "(" << i/4 << ", " << currentFrameRow - 1 << "): " << tokens.at(i).toStdString() << "," << tokens.at(i + 1).toStdString() << "," << tokens.at(i + 2).toStdString() << "," << tokens.at(i + 3).toStdString() << endl;
+               //cout << "Current Frame = " << frameCount << ". Pixel at " << "(" << i/4 << ", " << currentFrameRow - 1 << "): " << tokens.at(i).toStdString() << "," << tokens.at(i + 1).toStdString() << "," << tokens.at(i + 2).toStdString() << "," << tokens.at(i + 3).toStdString() << endl;
 
                QColor c(tokens.at(i).toInt(), tokens.at(i + 1).toInt(), tokens.at(i + 2).toInt(), tokens.at(i + 3).toInt());
 
@@ -391,6 +398,8 @@ void Model::openButtonClicked(string fileName)
        }
        currentFrameRow++;
    }
+
+   //frames.erase(frames.begin() + frameCount + 1, frames.end());
    //Draw frames.
    for (int i = 0; i < frames.size() - 1; i++)
    {
