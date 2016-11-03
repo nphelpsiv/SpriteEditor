@@ -46,6 +46,8 @@ public slots:
     void colorChanged(QColor color);
 
     void loadButtonClicked();
+
+    void moveScrollBarToSelected(int, int);
 private slots:
     void on_PenButton_clicked();
     void on_EraserButton_clicked();

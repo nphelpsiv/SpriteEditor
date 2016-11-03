@@ -3,6 +3,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <algorithm>
+#include <QScrollBar>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -209,10 +210,16 @@ void MainWindow::previewUpdate()
 
 void MainWindow::on_AddFrameButton_clicked()
 {
+    //QPushButton button = frameButtons[frameButtons.size() -1];
+    //button.
+    if(frameButtons[frameButtons.size() -1 ]->isVisible())
+    {
+        return;
+    }
     /*
      * Create a command object that contains saved information about the current frame.
      * Also a pointer to the model is passed in as well so it's delete frame
-    */
+    */    
     QUndoCommand *addFrameCommand = new AddFrameCommand(currentFrame, &model);
     //Note* pushing onto the QUndoStack will automatically send a call to the redo function of the QUndoCommand.
     undoStack->push(addFrameCommand);
@@ -389,9 +396,18 @@ void MainWindow::frameAdded(vector<QImage> frames)
 
     currentFrame++;
 
+    //This is used to send a signal when the geometry of the scroll area has changed.
+    //This way the scroll bar can correctly move to that position.
+    QScrollBar *bar = ui->FramesViewArea->horizontalScrollBar();
+    QObject::connect(bar, SIGNAL(rangeChanged(int,int)), this, SLOT(moveScrollBarToSelected(int,int)));
+
     emit model.changeFrame(currentFrame);
 }
 
+void MainWindow::moveScrollBarToSelected(int min, int max)
+{
+    ui->FramesViewArea->ensureWidgetVisible(frameButtons[currentFrame], 200);
+}
 
 /*
  * Slot for when frame is updated.
