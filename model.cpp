@@ -128,7 +128,8 @@ void Model::mouseMoveEvent(QMouseEvent *event)
 
 void Model::mouseReleaseEvent(QMouseEvent *event)
 {
-    emit framesSaved(oldFrame, newFrame);
+    if(oldFrame != frames[currentFrame])
+        emit framesSaved(oldFrame, frames[currentFrame]);
 }
 
 void Model::colorPicked(QColor c)
@@ -191,7 +192,8 @@ void Model::flipHorizontalButtonClicked()
     oldFrame = frames[currentFrame];
     frames[currentFrame] = ((QImage)frames[currentFrame]).mirrored(true, false);
     update();
-    emit framesSaved(oldFrame, frames[currentFrame]);
+    if(oldFrame != frames[currentFrame])
+        emit framesSaved(oldFrame, frames[currentFrame]);
 }
 
 void Model::flipVerticalButtonClicked()
@@ -199,7 +201,8 @@ void Model::flipVerticalButtonClicked()
     oldFrame = frames[currentFrame];
     frames[currentFrame] = ((QImage)frames[currentFrame]).mirrored(false, true);
     update();
-    emit framesSaved(oldFrame, frames[currentFrame]);
+    if(oldFrame != frames[currentFrame])
+        emit framesSaved(oldFrame, frames[currentFrame]);
 }
 
 void Model::rotateClockwiseButtonClicked()
@@ -210,7 +213,8 @@ void Model::rotateClockwiseButtonClicked()
 
     frames[currentFrame] = ((QImage)frames[currentFrame]).transformed(transform);
     update();
-    emit framesSaved(oldFrame, frames[currentFrame]);
+    if(oldFrame != frames[currentFrame])
+        emit framesSaved(oldFrame, frames[currentFrame]);
 }
 
 void Model::rotateCounterClockwiseButtonClicked()
@@ -221,7 +225,8 @@ void Model::rotateCounterClockwiseButtonClicked()
 
     frames[currentFrame] = ((QImage)frames[currentFrame]).transformed(transform);
     update();
-    emit framesSaved(oldFrame, frames[currentFrame]);
+    if(oldFrame != frames[currentFrame])
+        emit framesSaved(oldFrame, frames[currentFrame]);
 }
 
 void Model::previewButtonClicked()

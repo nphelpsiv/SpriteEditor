@@ -16,13 +16,6 @@ MainWindow::MainWindow(QWidget *parent) :
     //Create undo and redo actions.
     createActions();
 
-    // Should we delete this???
-    /*
-    QRect rect;
-    rect.setX(170);
-    rect.setY(20);
-    rect.setSize(QSize(512,512));*/ // Should we delete this???
-
     canvasLayout = new QGridLayout(ui->Canvas);
     canvasLayout->setMargin(0);
     canvasLayout->addWidget(&model, 0, 0);
@@ -53,10 +46,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&model, SIGNAL(framesSaved(QImage, QImage)),
             this, SLOT(framesSaved(QImage, QImage)));
 
-
-
-    //ui->Canvas = &model;
-    //ui->Canvas->setGeometry(190, 20, 512, 512);
 
     //Set the background color on startup to black
     QColor originalColor(0,0,0,255);
@@ -171,139 +160,6 @@ void MainWindow::on_ColorPickerButton_clicked()
     emit model.colorPickerButtonClicked();
     uncheckAllToolButtons();
     ui->ColorPickerButton->setChecked(true);
-}
-
-void MainWindow::uncheckAllToolButtons()
-{
-    ui->PenButton->setChecked(false);
-    ui->EraserButton->setChecked(false);
-    ui->RectButton->setChecked(false);
-    ui->LineButton->setChecked(false);
-    ui->EllipseButton->setChecked(false);
-    ui->BucketButton->setChecked(false);
-    ui->ColorCasterButton->setChecked(false);
-    ui->ColorPickerButton->setChecked(false);
-    ui->MirrorHorizontalButton->setChecked(false);
-    ui->MirrorVerticalButton->setChecked(false);
-}
-
-void MainWindow::on_PreviewButton_clicked()
-{
-    timerFrame = 0;
-    previewUpdate();
-    preview.show();
-    ui->PreviewButton->setEnabled(false);
-    int eq = 1000/FPS;
-    timer.start(eq);
-
-}
-
-void MainWindow::previewUpdate()
-{
-    timerFrame++;
-    timerFrame = timerFrame % (model.getFrames().size());
-    if(timerFrame == 0){
-        timerFrame = 1;
-    }
-    emit preview.displayImage(model.getFrame(timerFrame));
-}
-
-void MainWindow::on_AddFrameButton_clicked()
-{
-    //QPushButton button = frameButtons[frameButtons.size() -1];
-    //button.
-    if(frameButtons[frameButtons.size() -1 ]->isVisible())
-    {
-        return;
-    }
-    /*
-     * Create a command object that contains saved information about the current frame.
-     * Also a pointer to the model is passed in as well so it's delete frame
-    */    
-    QUndoCommand *addFrameCommand = new AddFrameCommand(currentFrame, &model);
-    //Note* pushing onto the QUndoStack will automatically send a call to the redo function of the QUndoCommand.
-    undoStack->push(addFrameCommand);
-}
-
-void MainWindow::on_DuplicateFrameButton_clicked()
-{
-    QUndoCommand *duplicateFrameCommand = new DuplicateFrameCommand(currentFrame, &model);
-    undoStack->push(duplicateFrameCommand);
-}
-
-void MainWindow::on_RemoveFrameButton_clicked()
-{
-    //Don't delete if there is only one frame.
-    if(model.frames.size() == 2)
-        return;
-
-    QUndoCommand *removeFrameCommand = new RemoveFrameCommand(currentFrame, &model);
-    undoStack->push(removeFrameCommand);
-}
-
-void MainWindow::getDrawingSize(int size)
-{
-    exportWindow.setActualSize(size);
-    emit model.setUp(size);
-}
-
-void MainWindow::on_actionSave_triggered()
-{
-    QFileDialog save;
-       QString fileName = save.getSaveFileName(this,
-           tr("Save Sprite"), "~/", tr("Sprite Files (*.ssp)"));
-       if (save.AcceptSave == 1)
-       {
-           emit model.saveButtonClicked(fileName.toStdString());
-       }
-       else
-       {
-           QMessageBox msgBox;
-           msgBox.setText("The document needs a name.");
-           msgBox.exec();
-       }
-
-}
-
-void MainWindow::on_actionOpen_triggered()
-{
-    QFileDialog open;
-       QString fileName = open.getOpenFileName(this,
-           tr("Open Sprite"), "~/", tr("Sprite Files (*.ssp)"));
-
-       if (open.AcceptOpen == 0)
-       {
-           emit model.openButtonClicked(fileName.toStdString());
-           undoStack->clear();
-       }
-       else
-       {
-           QMessageBox msgBox;
-           msgBox.setText("The document needs a name.");
-           msgBox.exec();
-       }
-}
-
-void MainWindow::loadButtonClicked()
-{
-    QFileDialog open;
-       QString fileName = open.getOpenFileName(this,
-           tr("Open Sprite"), "~/", tr("Sprite Files (*.ssp)"));
-
-       if (open.AcceptOpen == 0)
-       {
-           emit model.openButtonClicked(fileName.toStdString());
-           undoStack->clear();
-           this->showNormal();
-           this->activateWindow();
-           this->raise();
-       }
-       else
-       {
-           QMessageBox msgBox;
-           msgBox.setText("The document needs a name.");
-           msgBox.exec();
-       }
 }
 
 void MainWindow::on_actionExport_triggered()
@@ -503,5 +359,138 @@ void MainWindow::createActions()
     redoAction->setIcon(QIcon(":redo.png"));
 
     ui->RedoButton->setDefaultAction(redoAction);
+}
+
+void MainWindow::uncheckAllToolButtons()
+{
+    ui->PenButton->setChecked(false);
+    ui->EraserButton->setChecked(false);
+    ui->RectButton->setChecked(false);
+    ui->LineButton->setChecked(false);
+    ui->EllipseButton->setChecked(false);
+    ui->BucketButton->setChecked(false);
+    ui->ColorCasterButton->setChecked(false);
+    ui->ColorPickerButton->setChecked(false);
+    ui->MirrorHorizontalButton->setChecked(false);
+    ui->MirrorVerticalButton->setChecked(false);
+}
+
+void MainWindow::on_PreviewButton_clicked()
+{
+    timerFrame = 0;
+    previewUpdate();
+    preview.show();
+    ui->PreviewButton->setEnabled(false);
+    int eq = 1000/FPS;
+    timer.start(eq);
+
+}
+
+void MainWindow::previewUpdate()
+{
+    timerFrame++;
+    timerFrame = timerFrame % (model.getFrames().size());
+    if(timerFrame == 0){
+        timerFrame = 1;
+    }
+    emit preview.displayImage(model.getFrame(timerFrame));
+}
+
+void MainWindow::on_AddFrameButton_clicked()
+{
+    //QPushButton button = frameButtons[frameButtons.size() -1];
+    //button.
+    if(frameButtons[frameButtons.size() -1 ]->isVisible())
+    {
+        return;
+    }
+    /*
+     * Create a command object that contains saved information about the current frame.
+     * Also a pointer to the model is passed in as well so it's delete frame
+    */
+    QUndoCommand *addFrameCommand = new AddFrameCommand(currentFrame, &model);
+    //Note* pushing onto the QUndoStack will automatically send a call to the redo function of the QUndoCommand.
+    undoStack->push(addFrameCommand);
+}
+
+void MainWindow::on_DuplicateFrameButton_clicked()
+{
+    QUndoCommand *duplicateFrameCommand = new DuplicateFrameCommand(currentFrame, &model);
+    undoStack->push(duplicateFrameCommand);
+}
+
+void MainWindow::on_RemoveFrameButton_clicked()
+{
+    //Don't delete if there is only one frame.
+    if(model.frames.size() == 2)
+        return;
+
+    QUndoCommand *removeFrameCommand = new RemoveFrameCommand(currentFrame, &model);
+    undoStack->push(removeFrameCommand);
+}
+
+void MainWindow::getDrawingSize(int size)
+{
+    exportWindow.setActualSize(size);
+    emit model.setUp(size);
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    QFileDialog save;
+       QString fileName = save.getSaveFileName(this,
+           tr("Save Sprite"), "~/", tr("Sprite Files (*.ssp)"));
+       if (save.AcceptSave == 1)
+       {
+           emit model.saveButtonClicked(fileName.toStdString());
+       }
+       else
+       {
+           QMessageBox msgBox;
+           msgBox.setText("The document needs a name.");
+           msgBox.exec();
+       }
+
+}
+
+void MainWindow::on_actionOpen_triggered()
+{
+    QFileDialog open;
+       QString fileName = open.getOpenFileName(this,
+           tr("Open Sprite"), "~/", tr("Sprite Files (*.ssp)"));
+
+       if (open.AcceptOpen == 0)
+       {
+           emit model.openButtonClicked(fileName.toStdString());
+           undoStack->clear();
+       }
+       else
+       {
+           QMessageBox msgBox;
+           msgBox.setText("The document needs a name.");
+           msgBox.exec();
+       }
+}
+
+void MainWindow::loadButtonClicked()
+{
+    QFileDialog open;
+       QString fileName = open.getOpenFileName(this,
+           tr("Open Sprite"), "~/", tr("Sprite Files (*.ssp)"));
+
+       if (open.AcceptOpen == 0)
+       {
+           emit model.openButtonClicked(fileName.toStdString());
+           undoStack->clear();
+           this->showNormal();
+           this->activateWindow();
+           this->raise();
+       }
+       else
+       {
+           QMessageBox msgBox;
+           msgBox.setText("The document needs a name.");
+           msgBox.exec();
+       }
 }
 
