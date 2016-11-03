@@ -250,6 +250,8 @@ void Model::duplicateFrameButtonClicked(int i)
  */
 void Model::removeFrameButtonClicked(int i)
 {
+    cout << "frame removed: " << i <<  " current frame: " << currentFrame << " size: " << frames.size() << endl;
+
     frames.erase(frames.begin() + i + 1);
 
     //If the current frame was the last frame, decrement current frame.
@@ -346,7 +348,7 @@ void Model::openButtonClicked(string fileName)
                int startingSize = frames.size();
                for (int j = 0; j < startingSize - 1; j++)
                {
-                   removeFrameButtonClicked(frames.size() - 1);
+                   removeFrameButtonClicked(frames.size() - 2);
                }
 
                frames.clear();
