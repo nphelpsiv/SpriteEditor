@@ -79,6 +79,9 @@ private slots:
 
     void on_EllipseButton_clicked();
 
+    void uncheckAllToolButtons();
+
+
 private:
     void createActions();
 

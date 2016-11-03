@@ -101,6 +101,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     FPS = ui->FPSSpinBox->value();
 
+    on_PenButton_clicked();
 }
 
 MainWindow::~MainWindow()
@@ -111,36 +112,70 @@ MainWindow::~MainWindow()
 void MainWindow::on_PenButton_clicked()
 {
     emit model.penButtonClicked();
+    uncheckAllToolButtons();
+    ui->PenButton->setChecked(true);
 }
 
 void MainWindow::on_EraserButton_clicked()
 {
     emit model.eraserButtonClicked();
+    uncheckAllToolButtons();
+    ui->EraserButton->setChecked(true);
+
 }
 
 void MainWindow::on_RectButton_clicked()
 {
     emit model.rectButtonClicked();
+    uncheckAllToolButtons();
+    ui->RectButton->setChecked(true);
 }
 
 void MainWindow::on_LineButton_clicked()
 {
     emit model.lineButtonClicked();
+    uncheckAllToolButtons();
+    ui->LineButton->setChecked(true);
 }
 
 void MainWindow::on_EllipseButton_clicked()
 {
     emit model.ellipseButtonClicked();
-}
-
-void MainWindow::on_ColorPickerButton_clicked()
-{
-    emit model.colorPickerButtonClicked();
+    uncheckAllToolButtons();
+    ui->EllipseButton->setChecked(true);
 }
 
 void MainWindow::on_BucketButton_clicked()
 {
     emit model.bucketButtonClicked();
+    uncheckAllToolButtons();
+    ui->BucketButton->setChecked(true);
+}
+
+void MainWindow::on_ColorCasterButton_clicked()
+{
+    emit model.colorCasterButtonClicked();
+    uncheckAllToolButtons();
+    ui->ColorCasterButton->setChecked(true);
+}
+
+void MainWindow::on_ColorPickerButton_clicked()
+{
+    emit model.colorPickerButtonClicked();
+    uncheckAllToolButtons();
+    ui->ColorPickerButton->setChecked(true);
+}
+
+void MainWindow::uncheckAllToolButtons()
+{
+    ui->PenButton->setChecked(false);
+    ui->EraserButton->setChecked(false);
+    ui->RectButton->setChecked(false);
+    ui->LineButton->setChecked(false);
+    ui->EllipseButton->setChecked(false);
+    ui->BucketButton->setChecked(false);
+    ui->ColorCasterButton->setChecked(false);
+    ui->ColorPickerButton->setChecked(false);
 }
 
 void MainWindow::on_PreviewButton_clicked()
@@ -285,11 +320,6 @@ void MainWindow::on_MirrorHorizontalButton_toggled(bool checked)
 void MainWindow::on_MirrorVerticalButton_toggled(bool checked)
 {
     emit model.mirrorVerticalButtonToggled(checked);
-}
-
-void MainWindow::on_ColorCasterButton_clicked()
-{
-    emit model.colorCasterButtonClicked();
 }
 
 void MainWindow::on_FlipHorizontalButton_clicked()

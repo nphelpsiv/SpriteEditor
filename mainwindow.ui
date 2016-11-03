@@ -1244,7 +1244,7 @@ QProgressBar::chunk {
      <property name="geometry">
       <rect>
        <x>5</x>
-       <y>24</y>
+       <y>26</y>
        <width>91</width>
        <height>311</height>
       </rect>
@@ -1304,6 +1304,9 @@ QProgressBar::chunk {
           <height>24</height>
          </size>
         </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item row="4" column="1">
@@ -1347,6 +1350,9 @@ QProgressBar::chunk {
           <height>24</height>
          </size>
         </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item row="0" column="0" alignment="Qt::AlignHCenter">
@@ -1366,6 +1372,9 @@ QProgressBar::chunk {
           <width>24</width>
           <height>24</height>
          </size>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -1390,7 +1399,7 @@ QProgressBar::chunk {
            </size>
           </property>
           <property name="checkable">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -1414,6 +1423,9 @@ QProgressBar::chunk {
           <height>24</height>
          </size>
         </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item row="1" column="0" alignment="Qt::AlignHCenter">
@@ -1433,6 +1445,9 @@ QProgressBar::chunk {
           <width>24</width>
           <height>24</height>
          </size>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -1501,6 +1516,9 @@ QProgressBar::chunk {
           <height>24</height>
          </size>
         </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item row="8" column="0">
@@ -1563,6 +1581,9 @@ QProgressBar::chunk {
           <width>24</width>
           <height>24</height>
          </size>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
