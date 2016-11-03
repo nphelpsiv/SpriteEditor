@@ -101,6 +101,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     FPS = ui->FPSSpinBox->value();
 
+    on_PenButton_clicked();
 }
 
 MainWindow::~MainWindow()
