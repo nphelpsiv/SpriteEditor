@@ -149,31 +149,26 @@ void Model::eraserButtonClicked()
 void Model::rectButtonClicked()
 {
     currentTool = Tool::Rect;
-    cout << "rect (model)" << endl;
 }
 
 void Model::lineButtonClicked()
 {
     currentTool = Tool::Line;
-    cout << "line (model)" << endl;
 }
 
 void Model::ellipseButtonClicked()
 {
     currentTool = Tool::Ellipse;
-    cout << "ellipse (model)" << endl;
 }
 
 void Model::colorPickerButtonClicked()
 {
     currentTool = Tool::Picker;
-    cout << "colorP (model)" << endl;
 }
 
 void Model::colorCasterButtonClicked()
 {
     currentTool = Tool::Caster;
-    cout << "Tool is Caster"  << endl;
 }
 
 void Model::bucketButtonClicked()
@@ -665,79 +660,90 @@ void Model::draw(QPoint point)
 
     switch (currentTool)
     {
-    painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-    case Tool::Pen:
-        if(mirrorHorizontalActive)
+        painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        case Tool::Pen:
+        {
+            if(mirrorHorizontalActive)
+            {
+                painter.setPen(QPen(currentColor, toolSize));
+                painter.drawLine(mirrorLastPointX, mirrorPointX);
+                mirrorLastPointX = mirrorPointX;
+            }
+            if(mirrorVerticalActive)
+            {
+                painter.setPen(QPen(currentColor, toolSize));
+                painter.drawLine(mirrorLastPointY, mirrorPointY);
+                mirrorLastPointY = mirrorPointY;
+            }
+            if(mirrorHorizontalActive && mirrorVerticalActive)
+            {
+                painter.setPen(QPen(currentColor, toolSize));
+                painter.drawLine(mirrorLastPointXY, mirrorPointXY);
+                mirrorLastPointXY = mirrorPointXY;
+            }
+            painter.setPen(QPen(currentColor, toolSize));
+            painter.drawLine(lastPoint, point);
+            lastPoint = point;
+            break;
+        }
+        case Tool::Eraser:
+        {
+            painter.setCompositionMode(QPainter::CompositionMode_Clear);
+            painter.setPen(QPen(Qt::transparent, toolSize));
+            painter.drawLine(lastPoint, point);
+            lastPoint = point;
+            break;
+        }
+        case Tool::Rect:
         {
             painter.setPen(QPen(currentColor, toolSize));
-            painter.drawLine(mirrorLastPointX, mirrorPointX);
-            mirrorLastPointX = mirrorPointX;
+            painter.drawPoint(lastPoint);
+            painter.drawRect(lastPoint.x(),lastPoint.y(), point.x()-lastPoint.x(), point.y() - lastPoint.y());
+            break;
         }
-        if(mirrorVerticalActive)
+        case Tool::Line:
         {
             painter.setPen(QPen(currentColor, toolSize));
-            painter.drawLine(mirrorLastPointY, mirrorPointY);
-            mirrorLastPointY = mirrorPointY;
+            painter.drawLine(lastPoint, point);
+            break;
         }
-        if(mirrorHorizontalActive && mirrorVerticalActive)
+        case Tool::Ellipse:
         {
             painter.setPen(QPen(currentColor, toolSize));
-            painter.drawLine(mirrorLastPointXY, mirrorPointXY);
-            mirrorLastPointXY = mirrorPointXY;
+            painter.drawEllipse(lastPoint.x(),lastPoint.y(), point.x()-lastPoint.x(), point.y() - lastPoint.y());
+            break;
         }
-        painter.setPen(QPen(currentColor, toolSize));
-        painter.drawLine(lastPoint, point);
-        lastPoint = point;
-        break;
-    case Tool::Eraser:
-        painter.setCompositionMode(QPainter::CompositionMode_Clear);
-        painter.setPen(QPen(Qt::transparent, toolSize));
-        painter.drawLine(lastPoint, point);
-        lastPoint = point;
-        break;
-    case Tool::Rect:
-        painter.setPen(QPen(currentColor, toolSize));
-        painter.drawPoint(lastPoint);
-        painter.drawRect(lastPoint.x(),lastPoint.y(), point.x()-lastPoint.x(), point.y() - lastPoint.y());
-        break;
-    case Tool::Line:
-        painter.setPen(QPen(currentColor, toolSize));
-        painter.drawLine(lastPoint, point);
-        break;
-    case Tool::Ellipse:
-        painter.setPen(QPen(currentColor, toolSize));
-        painter.drawEllipse(lastPoint.x(),lastPoint.y(), point.x()-lastPoint.x(), point.y() - lastPoint.y());
-        break;
-    case Tool::Caster:
-    {
-        painter.setPen(QPen(currentColor, 1));
-        QColor colorToCast(((QImage)frames[currentFrame]).pixelColor(point));
-
-        int count = 0;
-        for(int y = 0; y < ((QImage)frames[currentFrame]).height(); y++)
+        case Tool::Caster:
         {
-          for(int x = 0; x < ((QImage)frames[currentFrame]).width(); x++)
-          {
-              if( ((QImage)frames[currentFrame]).pixelColor(x,y) == colorToCast)
+            painter.setPen(QPen(currentColor, 1));
+            QColor colorToCast(((QImage)frames[currentFrame]).pixelColor(point));
+            int count = 0;
+            for(int y = 0; y < ((QImage)frames[currentFrame]).height(); y++)
+            {
+              for(int x = 0; x < ((QImage)frames[currentFrame]).width(); x++)
               {
-                  count++;
-                  //((QImage)frames[currentFrame]).setPixelColor(x, y , currentColor);
-                  painter.drawPoint(x, y);
+                  if( ((QImage)frames[currentFrame]).pixelColor(x,y) == colorToCast)
+                  {
+                      count++;
+                      painter.drawPoint(x, y);
+                  }
               }
-          }
+            }
+            break;
         }
-        cout << count << endl;
-        break;
-    }
-    case Tool::Picker:
-        currentColor = ((QImage)frames[currentFrame]).pixelColor(point);
-        emit colorChanged(currentColor);
-        break;
-    case Tool::Bucket:
-        FloodFill(point);
-        break;
-    default:
-        break;
+        case Tool::Picker:
+        {
+            currentColor = ((QImage)frames[currentFrame]).pixelColor(point);
+            emit colorChanged(currentColor);
+            break;
+        }
+        case Tool::Bucket:
+        {
+            FloodFill(point);
+            break;
+        }
+        default:
+            break;
     }
 
     update();

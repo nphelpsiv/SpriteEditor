@@ -1899,6 +1899,7 @@ QProgressBar::chunk {
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
+  <tabstop>FramesViewArea</tabstop>
   <tabstop>UndoButton</tabstop>
   <tabstop>RedoButton</tabstop>
   <tabstop>PenButton</tabstop>
@@ -1923,7 +1924,6 @@ QProgressBar::chunk {
   <tabstop>AddFrameButton</tabstop>
   <tabstop>DuplicateFrameButton</tabstop>
   <tabstop>RemoveFrameButton</tabstop>
-  <tabstop>FramesViewArea</tabstop>
  </tabstops>
  <resources>
   <include location="icons/icons.qrc"/>
