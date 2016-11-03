@@ -538,6 +538,106 @@ void Model::changeFrame(int i)
     update();
 }
 
+// This method is called when the bucket tool is selected and a pixel is clicked.
+void Model::FloodFill(QPoint point)
+{
+    // Retrieves the color of the clicked pixel.
+    QColor replacingColor = frames[currentFrame].pixelColor(point.x(), point.y());
+
+    // If the clicked pixel has a different color than the selected one...
+    if (currentColor != replacingColor)
+    {
+        // A queue takes track of the pixels that are checked, starting with the clicked one.
+        queue<QPoint> q;
+        QPoint clickedPoint(point.x(), point.y());
+
+        // This stores the coordinates of the pixels that have already been checked, to avoid processing each pixel more than once.
+        unordered_set <string> checked;
+
+        // Pushes the coordinates of the clicked pixel into the "checked" unordered set.
+        string clickedPointString = to_string(clickedPoint.x()) + "; " + to_string(clickedPoint.y());
+        checked.insert(clickedPointString);
+        q.push(clickedPoint);
+
+        // While the queue is not empty, the algorithm does not stop.
+        while (q.empty()!=true)
+        {
+            QPoint currentFlood = q.front();
+            //Changes the color of the dequeued pixel.
+            frames[currentFrame].setPixelColor(currentFlood.x(), currentFlood.y(), currentColor);
+
+            //If there is a pixel on the currently processed pixel's right...
+            if (currentFlood.x() != (size.width()-1))
+            {
+                string rightString = to_string(currentFlood.x()+1) + "; " + to_string(currentFlood.y());
+                // If the pixel on the right of the currently processed pixel has not been checked yet.
+                if ((checked.count(rightString))<1)
+                {
+                    //Enqueue the pixel.
+                    if (frames[currentFrame].pixelColor(currentFlood.x()+1, currentFlood.y()) == replacingColor)
+                    {
+                        QPoint rightPoint(currentFlood.x()+1, currentFlood.y());
+                        q.push(rightPoint);
+                        checked.insert(rightString);
+                    }
+                }
+            }
+
+            //If there is a pixel on the currently processed pixel's left...
+            if (currentFlood.x() != 0)
+            {
+                string leftString = to_string(currentFlood.x()-1) + "; " + to_string(currentFlood.y());
+                // If the pixel on the left of the currently processed pixel has not been checked yet.
+                if ((checked.count(leftString))<1)
+                {
+                    //Enqueue the pixel.
+                    if (frames[currentFrame].pixelColor(currentFlood.x()-1, currentFlood.y()) == replacingColor)
+                    {
+                        QPoint leftPoint(currentFlood.x()-1, currentFlood.y());
+                        q.push(leftPoint);
+                        checked.insert(leftString);
+                    }
+                }
+            }
+
+            //If there is a pixel above the currently processed pixel...
+            if (currentFlood.y() != 0)
+            {
+                string upString = to_string(currentFlood.x()) + "; " + to_string(currentFlood.y()-1);
+                // If the pixel above the currently processed pixel has not been checked yet.
+                if ((checked.count(upString))<1)
+                {
+                    //Enqueue the pixel.
+                    if (frames[currentFrame].pixelColor(currentFlood.x(), currentFlood.y()-1) == replacingColor)
+                    {
+                        QPoint upPoint(currentFlood.x(), currentFlood.y()-1);
+                        q.push(upPoint);
+                        checked.insert(upString);
+                    }
+                }
+            }
+
+            //If there is a pixel below the currently processed pixel...
+            if (currentFlood.y() != (size.width()-1))
+            {
+                string downString = to_string(currentFlood.x()) + "; " + to_string(currentFlood.y()+1);
+                // If the pixel below the currently processed pixel has not been checked yet.
+                if ((checked.count(downString))<1)
+                {
+                    //Enqueue the pixel.
+                    if (frames[currentFrame].pixelColor(currentFlood.x(), currentFlood.y()+1) == replacingColor)
+                    {
+                        QPoint downPoint(currentFlood.x(), currentFlood.y()+1);
+                        q.push(downPoint);
+                        checked.insert(downString);
+                    }
+                }
+            }
+            q.pop();
+        }
+    }
+}
+
 void Model::draw(QPoint point)
 {
     QPoint mirrorPointX;
@@ -634,77 +734,10 @@ void Model::draw(QPoint point)
         emit colorChanged(currentColor);
         break;
     case Tool::Bucket:
-        QColor replacingColor = frames[currentFrame].pixelColor(point.x(), point.y());
-        queue<QPoint> q;
-        QPoint clickedPoint(point.x(), point.y());
-        unordered_set <string> checked;
-        string clickedPointString = to_string(clickedPoint.x()) + "; " + to_string(clickedPoint.y());
-        cout<< clickedPointString <<endl;
-        checked.insert(clickedPointString);
-        q.push(clickedPoint);
-        while (q.empty()!=true)
-        {
-            QPoint currentFlood = q.front();
-            frames[currentFrame].setPixelColor(currentFlood.x(), currentFlood.y(), currentColor);
-            if (currentFlood.x() != (size.width()-1))
-            {
-                string rightString = to_string(currentFlood.x()+1) + "; " + to_string(currentFlood.y());
-                cout<<(rightString)<<endl;
-                cout<<(checked.count(rightString))<<endl;
-                if ((checked.count(rightString))<1)
-                {
-                    if (frames[currentFrame].pixelColor(currentFlood.x()+1, currentFlood.y()) == replacingColor)
-                    {
-                        QPoint rightPoint(currentFlood.x()+1, currentFlood.y());
-                        q.push(rightPoint);
-                        checked.insert(rightString);
-                    }
-                }
-            }
-            if (currentFlood.x() != 0)
-            {
-                string leftString = to_string(currentFlood.x()-1) + "; " + to_string(currentFlood.y());
-                if ((checked.count(leftString))<1)
-                {
-                    if (frames[currentFrame].pixelColor(currentFlood.x()-1, currentFlood.y()) == replacingColor)
-                    {
-                        QPoint leftPoint(currentFlood.x()-1, currentFlood.y());
-                        q.push(leftPoint);
-                        checked.insert(leftString);
-                    }
-                }
-            }
-            if (currentFlood.y() != 0)
-            {
-                string upString = to_string(currentFlood.x()) + "; " + to_string(currentFlood.y()-1);
-                if ((checked.count(upString))<1)
-                {
-                    if (frames[currentFrame].pixelColor(currentFlood.x(), currentFlood.y()-1) == replacingColor)
-                    {
-                        QPoint upPoint(currentFlood.x(), currentFlood.y()-1);
-                        q.push(upPoint);
-                        checked.insert(upString);
-                    }
-                }
-            }
-            if (currentFlood.y() != (size.width()-1))
-            {
-                string downString = to_string(currentFlood.x()) + "; " + to_string(currentFlood.y()+1);
-                if ((checked.count(downString))<1)
-                {
-                    if (frames[currentFrame].pixelColor(currentFlood.x(), currentFlood.y()+1) == replacingColor)
-                    {
-                        QPoint downPoint(currentFlood.x(), currentFlood.y()+1);
-                        q.push(downPoint);
-                        checked.insert(downString);
-                    }
-                }
-            }
-            q.pop();
-        }
+        FloodFill(point);
         break;
-    //default:
-    //    break;
+    default:
+        break;
     }
 
     update();
