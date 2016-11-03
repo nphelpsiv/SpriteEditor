@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>458</width>
-    <height>152</height>
+    <width>400</width>
+    <height>100</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>400</width>
+    <height>100</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Sprite Editor</string>
@@ -1227,24 +1233,17 @@ QProgressBar::chunk {
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>431</width>
-     <height>131</height>
+     <x>22</x>
+     <y>20</y>
+     <width>351</width>
+     <height>66</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0" alignment="Qt::AlignRight">
-     <widget class="QLabel" name="label">
+    <item row="1" column="1">
+     <widget class="QPushButton" name="LoadFileButton">
       <property name="text">
-       <string>For new project:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0" alignment="Qt::AlignRight">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Open existing project:</string>
+       <string>Load Project</string>
       </property>
      </widget>
     </item>
@@ -1252,6 +1251,13 @@ QProgressBar::chunk {
      <widget class="QPushButton" name="NewFileButton">
       <property name="text">
        <string>New</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" alignment="Qt::AlignRight">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>For new project:</string>
       </property>
      </widget>
     </item>
@@ -1284,10 +1290,10 @@ QProgressBar::chunk {
       </item>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QPushButton" name="LoadFileButton">
+    <item row="1" column="0" alignment="Qt::AlignRight">
+     <widget class="QLabel" name="label_2">
       <property name="text">
-       <string>Load Project</string>
+       <string>Open existing project:</string>
       </property>
      </widget>
     </item>

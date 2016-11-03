@@ -16,5 +16,7 @@
         <file>undo.png</file>
         <file>rectangle.png</file>
         <file>Circle.png</file>
+        <file>redo-black.png</file>
+        <file>undo-black.png</file>
     </qresource>
 </RCC>

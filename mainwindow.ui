@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>671</width>
-    <height>707</height>
+    <width>660</width>
+    <height>705</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>660</width>
+    <height>705</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Sprite Editor</string>
@@ -1628,7 +1634,8 @@ QProgressBar::chunk {
         </property>
         <property name="icon">
          <iconset resource="icons/icons.qrc">
-          <normaloff>:/undo.png</normaloff>:/undo.png</iconset>
+          <normaloff>:/undo.png</normaloff>
+          <selectedoff>:/undo-black.png</selectedoff>:/undo.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -1648,7 +1655,8 @@ QProgressBar::chunk {
         </property>
         <property name="icon">
          <iconset resource="icons/icons.qrc">
-          <normaloff>:/redo.png</normaloff>:/redo.png</iconset>
+          <normaloff>:/redo.png</normaloff>
+          <selectedoff>:/redo-black.png</selectedoff>:/redo.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -1691,6 +1699,9 @@ QProgressBar::chunk {
       <width>381</width>
       <height>100</height>
      </rect>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustIgnored</enum>
     </property>
     <property name="widgetResizable">
      <bool>true</bool>
@@ -1846,7 +1857,7 @@ QProgressBar::chunk {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>671</width>
+     <width>660</width>
      <height>22</height>
     </rect>
    </property>

@@ -582,7 +582,6 @@ void Model::FloodFill(QPoint point)
                     }
                 }
             }
-
             //If there is a pixel on the currently processed pixel's left...
             if (currentFlood.x() != 0)
             {
@@ -599,7 +598,6 @@ void Model::FloodFill(QPoint point)
                     }
                 }
             }
-
             //If there is a pixel above the currently processed pixel...
             if (currentFlood.y() != 0)
             {
@@ -616,7 +614,6 @@ void Model::FloodFill(QPoint point)
                     }
                 }
             }
-
             //If there is a pixel below the currently processed pixel...
             if (currentFlood.y() != (size.width()-1))
             {
