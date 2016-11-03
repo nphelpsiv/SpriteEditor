@@ -609,29 +609,29 @@ void Model::draw(QPoint point)
         painter.drawEllipse(lastPoint.x(),lastPoint.y(), point.x()-lastPoint.x(), point.y() - lastPoint.y());
         break;
     case Tool::Caster:
-        {
-          QColor colorToCast(((QImage)frames[currentFrame]).pixelColor(point));
+    {
+        painter.setPen(QPen(currentColor, 1));
+        QColor colorToCast(((QImage)frames[currentFrame]).pixelColor(point));
 
-          int count = 0;
-          for(int y = 0; y < ((QImage)frames[currentFrame]).height(); y++)
+        int count = 0;
+        for(int y = 0; y < ((QImage)frames[currentFrame]).height(); y++)
+        {
+          for(int x = 0; x < ((QImage)frames[currentFrame]).width(); x++)
           {
-              for(int x = 0; x < ((QImage)frames[currentFrame]).width(); x++)
+              if( ((QImage)frames[currentFrame]).pixelColor(x,y) == colorToCast)
               {
-                  if( ((QImage)frames[currentFrame]).pixelColor(x,y) == colorToCast)
-                  {
-                      count++;
-                      //((QImage)frames[currentFrame]).setPixelColor(x, y , currentColor);
-                      painter.drawPoint(x, y);
-                  }
+                  count++;
+                  //((QImage)frames[currentFrame]).setPixelColor(x, y , currentColor);
+                  painter.drawPoint(x, y);
               }
           }
-          cout << count << endl;
         }
+        cout << count << endl;
         break;
+    }
     case Tool::Picker:
         currentColor = ((QImage)frames[currentFrame]).pixelColor(point);
         emit colorChanged(currentColor);
-        currentTool = Tool::Pen;
         break;
     case Tool::Bucket:
         QColor replacingColor = frames[currentFrame].pixelColor(point.x(), point.y());

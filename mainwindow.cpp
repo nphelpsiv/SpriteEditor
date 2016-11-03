@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     rect.setSize(QSize(512,512));*/ // Should we delete this???
 
     canvasLayout = new QGridLayout(ui->Canvas);
-
+    canvasLayout->setMargin(0);
     canvasLayout->addWidget(&model, 0, 0);
 
 
@@ -112,8 +112,14 @@ MainWindow::~MainWindow()
 void MainWindow::on_PenButton_clicked()
 {
     emit model.penButtonClicked();
-    uncheckAllToolButtons();
     ui->PenButton->setChecked(true);
+    ui->EraserButton->setChecked(false);
+    ui->RectButton->setChecked(false);
+    ui->LineButton->setChecked(false);
+    ui->EllipseButton->setChecked(false);
+    ui->BucketButton->setChecked(false);
+    ui->ColorCasterButton->setChecked(false);
+    ui->ColorPickerButton->setChecked(false);
 }
 
 void MainWindow::on_EraserButton_clicked()
@@ -176,6 +182,8 @@ void MainWindow::uncheckAllToolButtons()
     ui->BucketButton->setChecked(false);
     ui->ColorCasterButton->setChecked(false);
     ui->ColorPickerButton->setChecked(false);
+    ui->MirrorHorizontalButton->setChecked(false);
+    ui->MirrorVerticalButton->setChecked(false);
 }
 
 void MainWindow::on_PreviewButton_clicked()
@@ -315,11 +323,15 @@ void MainWindow::on_SizeSlider_valueChanged(int value)
 void MainWindow::on_MirrorHorizontalButton_toggled(bool checked)
 {
     emit model.mirrorHorizontalButtonToggled(checked);
+    if(checked)
+        on_PenButton_clicked();
 }
 
 void MainWindow::on_MirrorVerticalButton_toggled(bool checked)
 {
     emit model.mirrorVerticalButtonToggled(checked);
+    if(checked)
+        on_PenButton_clicked();
 }
 
 void MainWindow::on_FlipHorizontalButton_clicked()
@@ -476,3 +488,4 @@ void MainWindow::createActions()
 
     ui->RedoButton->setDefaultAction(redoAction);
 }
+
