@@ -82,6 +82,7 @@ private:
     QColor currentColor;
 
     void draw(QPoint);
+    void FloodFill(QPoint point);
     QPoint lastPoint;
     QPoint mirrorLastPointX;
     QPoint mirrorLastPointY;
