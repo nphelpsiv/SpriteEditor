@@ -462,14 +462,21 @@ void Model::exportSelected(int fps, string filename, int gifSize)
 void Model::convertFrameToArray(uint8_t *arr, int frameIndex, int gifSize)
 {
     //We first need to scale the frame to the selected value given by user.
+
+    QImage firstFrame(QSize(gifSize, gifSize), QImage::Format_ARGB32);
+    firstFrame.fill(qRgba(255, 255, 255, 255));
+
     QImage newImage = frames[frameIndex].scaled(gifSize, gifSize);
+    QPainter newPaint(&firstFrame);
+    newPaint.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    newPaint.drawImage(QPoint(0, 0), newImage);
 
     for(int i = 0; i < gifSize; i++)
     {
         for(int j = 0; j < gifSize; j++)
         {
             //Grab pixel colors with .pixelColor method.
-            QColor pixColor = newImage.pixelColor(j, i);
+            QColor pixColor = firstFrame.pixelColor(j, i);
             uint8_t red = pixColor.red();
             uint8_t green = pixColor.green();
             uint8_t blue = pixColor.blue();
