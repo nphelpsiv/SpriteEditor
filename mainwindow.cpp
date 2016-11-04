@@ -95,6 +95,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->AlphaLabelValue->setText(QString("255"));
     ui->AlphaSlider->setValue(255);
 
+
     on_PenButton_clicked();
 }
 

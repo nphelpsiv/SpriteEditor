@@ -1862,11 +1862,17 @@ QProgressBar::chunk {
      <property name="toolTip">
       <string>Alpha Value</string>
      </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
      <property name="maximum">
       <number>255</number>
      </property>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
+     </property>
+     <property name="invertedAppearance">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QLabel" name="AlphaLabelValue">
