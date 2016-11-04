@@ -500,7 +500,6 @@ void MainWindow::loadButtonClicked()
 
 void MainWindow::on_AlphaSlider_valueChanged(int value)
 {
-    cout << "Alpha value: " << value << endl;
     ui->AlphaLabelValue->setText(QString::number(value));
     emit model.alphaValueChanged(value);
 }
