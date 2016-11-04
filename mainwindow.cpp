@@ -65,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent) :
     layout = new QHBoxLayout(view);
 
     //Fill vector with 30 blank frame buttons.
-    for(int i = 0; i < 30; i++)
+    for(int i = 0; i < 60; i++)
     {
         QPushButton *frame = new QPushButton("");
         QPalette pal = frame->palette();
@@ -419,6 +419,13 @@ void MainWindow::on_AddFrameButton_clicked()
 
 void MainWindow::on_DuplicateFrameButton_clicked()
 {
+    //User should not be able to add more the defined size (May change that so it is infite later)
+    //Should consider creating a dialog box to let user know they have reached their limit.
+    if(frameButtons[frameButtons.size() -1 ]->isVisible())
+    {
+        return;
+    }
+
     QUndoCommand *duplicateFrameCommand = new DuplicateFrameCommand(currentFrame, &model);
     undoStack->push(duplicateFrameCommand);
 }
