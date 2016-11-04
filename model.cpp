@@ -65,13 +65,15 @@ void Model::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.scale(scale, scale);
 
+    QImage drawImage = frames[currentFrame].copy();
     QRect rect = event->rect();
     painter.drawImage(rect, frames[0], rect);
-    painter.drawImage(rect, frames[currentFrame], rect);
+    painter.drawImage(rect, drawImage, rect);
+
 
     emit updated(frames[currentFrame], currentFrame);
     //Save frame for Undo stack.
-    newFrame = frames[currentFrame];
+    newFrame = frames[currentFrame].copy();
 }
 
 void Model::mousePressEvent(QMouseEvent *event)
@@ -539,8 +541,9 @@ void Model::changeFrame(int i)
     currentFrame = i + 1;
 
     //Draw frames.
-    QPainter newPaint(&frames[currentFrame]);
-    newPaint.drawImage(QPoint(0, 0), frames[currentFrame]);
+    QImage drawImage = frames[currentFrame].copy();
+    QPainter newPaint(&drawImage);
+    newPaint.drawImage(QPoint(0, 0), drawImage);
     update();
 }
 
