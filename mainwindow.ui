@@ -1234,9 +1234,9 @@ QProgressBar::chunk {
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>80</y>
-      <width>101</width>
+      <width>121</width>
       <height>341</height>
      </rect>
     </property>
@@ -1251,7 +1251,7 @@ QProgressBar::chunk {
       <rect>
        <x>5</x>
        <y>26</y>
-       <width>91</width>
+       <width>111</width>
        <height>311</height>
       </rect>
      </property>
@@ -1599,9 +1599,9 @@ QProgressBar::chunk {
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>0</y>
-      <width>101</width>
+      <width>121</width>
       <height>71</height>
      </rect>
     </property>
@@ -1619,7 +1619,7 @@ QProgressBar::chunk {
       <rect>
        <x>5</x>
        <y>23</y>
-       <width>94</width>
+       <width>111</width>
        <height>45</height>
       </rect>
      </property>
@@ -1720,9 +1720,9 @@ QProgressBar::chunk {
    <widget class="QWidget" name="gridLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>7</x>
       <y>540</y>
-      <width>238</width>
+      <width>251</width>
       <height>102</height>
      </rect>
     </property>
@@ -1794,9 +1794,9 @@ QProgressBar::chunk {
    <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>430</y>
-      <width>101</width>
+      <width>121</width>
       <height>101</height>
      </rect>
     </property>
@@ -1804,7 +1804,7 @@ QProgressBar::chunk {
      <enum>Qt::LeftToRight</enum>
     </property>
     <property name="title">
-     <string>Size / Color</string>
+     <string>Size / Color / Alpha</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -1831,7 +1831,7 @@ QProgressBar::chunk {
     <widget class="QToolButton" name="ColorButton">
      <property name="geometry">
       <rect>
-       <x>50</x>
+       <x>30</x>
        <y>40</y>
        <width>41</width>
        <height>41</height>
@@ -1850,6 +1850,38 @@ QProgressBar::chunk {
       </size>
      </property>
     </widget>
+    <widget class="QSlider" name="AlphaSlider">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>30</y>
+       <width>22</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>Alpha Value</string>
+     </property>
+     <property name="maximum">
+      <number>255</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="AlphaLabelValue">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>50</y>
+       <width>21</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>255</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -1858,7 +1890,7 @@ QProgressBar::chunk {
      <x>0</x>
      <y>0</y>
      <width>660</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

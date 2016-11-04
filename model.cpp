@@ -137,6 +137,12 @@ void Model::colorPicked(QColor c)
     currentColor = c;
 }
 
+void Model::alphaValueChanged(int alpha)
+{
+    QColor newColor(currentColor.red(), currentColor.green(), currentColor.blue(), alpha);
+    currentColor = newColor;
+}
+
 void Model::penButtonClicked()
 {
     currentTool = Tool::Pen;

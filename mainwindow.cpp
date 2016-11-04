@@ -91,6 +91,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     FPS = ui->FPSSpinBox->value();
 
+    // Set the intial alpha value to 255
+    ui->AlphaLabelValue->setText(QString("255"));
+    ui->AlphaSlider->setValue(255);
+
     on_PenButton_clicked();
 }
 
@@ -494,3 +498,9 @@ void MainWindow::loadButtonClicked()
        }
 }
 
+void MainWindow::on_AlphaSlider_valueChanged(int value)
+{
+    cout << "Alpha value: " << value << endl;
+    ui->AlphaLabelValue->setText(QString::number(value));
+    emit model.alphaValueChanged(value);
+}

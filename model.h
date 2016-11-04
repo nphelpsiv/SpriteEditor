@@ -58,6 +58,7 @@ public slots:
     void rotateCounterClockwiseButtonClicked();
 
     void sliderValueChanged(int change);
+    void alphaValueChanged(int a);
     void colorPicked(QColor c);
 
     void previewButtonClicked();

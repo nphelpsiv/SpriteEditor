@@ -84,6 +84,10 @@ private slots:
     void uncheckAllToolButtons();
 
 
+    void on_AlphaSlider_actionTriggered(int action);
+
+    void on_AlphaSlider_valueChanged(int value);
+
 private:
     void createActions();
 
