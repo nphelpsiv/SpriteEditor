@@ -10,6 +10,8 @@ Startup::Startup(QWidget *parent) :
     ui(new Ui::Startup)
 {
     ui->setupUi(this);
+
+    connect(&main, SIGNAL(canceld()), this, SLOT(cancel()));
 }
 
 Startup::~Startup()
@@ -37,3 +39,7 @@ void Startup::on_LoadFileButton_clicked()
     emit main.loadButtonClicked();
 }
 
+void Startup::cancel()
+{
+    this->show();
+}

@@ -56,6 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(changeAlphaSlider(int)));
 
 
+
     //Set the background color on startup to black
     QColor originalColor(0,0,0,255);
     QPixmap px(500, 500);
@@ -542,16 +543,18 @@ void MainWindow::loadButtonClicked()
            this->showNormal();
            this->activateWindow();
            this->raise();
+           this->show();
        }
        //means user hit cancel
        else
        {
-           QProcess process;
+           /*QProcess process;
            process.startDetached("SpriteEditor" ,QStringList());
-           qApp->quit();
+           qApp->quit();*/
+           emit canceld();
 
        }
-       this->show();
+
 }
 
 void MainWindow::on_AlphaSlider_valueChanged(int value)

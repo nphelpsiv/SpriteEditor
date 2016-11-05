@@ -37,6 +37,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+signals:
+    void canceld();
+
 public slots:
     void getDrawingSize(int s); //Should this really be a slot?
     void previewUpdate();

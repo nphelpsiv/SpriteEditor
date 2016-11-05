@@ -22,6 +22,9 @@ private slots:
 
     void on_LoadFileButton_clicked();
 
+public slots:
+    void cancel();
+
 private:
     Ui::Startup *ui;
     MainWindow main;
