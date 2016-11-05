@@ -10,6 +10,7 @@ MoveFrameCommand::MoveFrameCommand(Model *mod, int moveTo, bool moveRight, QUndo
 
 void MoveFrameCommand::undo()
 {
+    model->changeFrame(moveToPosition);
     if(moveFrameRight)
         model->moveFrameButtonClicked(moveToPosition-1);
     else
