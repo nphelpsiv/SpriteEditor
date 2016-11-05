@@ -46,12 +46,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&newProject, SIGNAL(newSelected(int)),
             this, SLOT(newProjectSelected(int)));
 
-
     connect(&model, SIGNAL(framesSaved(QImage, QImage)),
             this, SLOT(framesSaved(QImage, QImage)));
 
     connect(&model, SIGNAL(framesMoved(std::vector<QImage>,int)),
             this, SLOT(frameMoved(std::vector<QImage>,int)));
+
+    connect(&model, SIGNAL(changeAlphaSlider(int)),
+            this, SLOT(changeAlphaSlider(int)));
 
 
     //Set the background color on startup to black
@@ -245,6 +247,11 @@ void MainWindow::on_ColorButton_clicked()
 
     // Now tell the model what color is picked.
     emit model.colorPicked(color);
+}
+
+void MainWindow::changeAlphaSlider(int sliderValue)
+{
+  ui->AlphaSlider->setValue(sliderValue);
 }
 
 /*

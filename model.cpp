@@ -142,7 +142,8 @@ void Model::mouseReleaseEvent(QMouseEvent *event)
 
 void Model::colorPicked(QColor c)
 {
-    currentColor = QColor(c.red(), c.green(), c.blue(), currentColor.alpha());
+    currentColor = QColor(c.red(), c.green(), c.blue());
+    emit(changeAlphaSlider(currentColor.alpha()));
     emit colorChanged(currentColor);
 }
 

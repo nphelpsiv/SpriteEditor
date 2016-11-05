@@ -33,6 +33,7 @@ signals:
     void updated(QImage, int);
     void framesSaved(QImage, QImage);
     void framesMoved(std::vector<QImage>, int);
+    void changeAlphaSlider(int);
 
 protected:
     void paintEvent(QPaintEvent *event);

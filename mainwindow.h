@@ -47,6 +47,7 @@ public slots:
     void frameRemoved(std::vector<QImage>);
     void frameMoved(std::vector<QImage>, int);
     void colorChanged(QColor color);
+    void changeAlphaSlider(int);
 
     void loadButtonClicked();
 
