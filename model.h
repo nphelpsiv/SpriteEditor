@@ -33,6 +33,8 @@ signals:
     void updated(QImage, int);
     void framesSaved(QImage, QImage);
     void framesMoved(std::vector<QImage>, int);
+    void closeMainSprite();
+    void startNewSprite();
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -70,8 +72,11 @@ public slots:
     void FPSSpinBoxChanged(int change);
 
 
+    // Connections with the model for opening, saving, new actions
     void newButtonClicked(int size);
     void saveButtonClicked(string s);
+    void saveAndCloseButtonClicked(string s);
+    void saveThenNewButtonClicked(string s);
     void openButtonClicked(string s);
 
     std::vector<QImage> getFrames();

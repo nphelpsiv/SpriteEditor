@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     removeframecommand.cpp \
     duplicateframecommand.cpp \
     drawcommand.cpp \
-    newproject.cpp
+    newproject.cpp \
+    saveonclose.cpp
 
 HEADERS  += mainwindow.h \
     model.h \
@@ -33,13 +34,15 @@ HEADERS  += mainwindow.h \
     removeframecommand.h \
     duplicateframecommand.h \
     drawcommand.h \
-    newproject.h
+    newproject.h \
+    saveonclose.h
 
 FORMS    += mainwindow.ui \
     startup.ui \
     preview.ui \
     export.ui \
-    newproject.ui
+    newproject.ui \
+    saveonclose.ui
 
 RESOURCES += \
     icons/icons.qrc \
