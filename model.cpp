@@ -29,23 +29,25 @@ void Model::setUp(int imageSize = 32)
     //Create new QImage (Background image) of size and fill in.
     size.setHeight(imageSize);
     size.setWidth(imageSize);
-    QImage newImage(size, QImage::Format_ARGB32);
+    QImage newImage(QSize(32, 32), QImage::Format_ARGB32);
     newImage.fill(qRgba(120, 120, 120, 255));
 
     //Fill background with checkerboard pattern
-    for(int i = 0; i < imageSize; i++)
+    for(int i = 0; i < 32; i++)
     {
-        for(int j = 0; j < imageSize; j+=2)
+        for(int j = 0; j < 32; j+=2)
         {
             if(i % 2 == 0)
-                newImage.setPixelColor(i, j, qRgba(190, 190, 190, 255));
+                newImage.setPixelColor(i, j, qRgba(160, 160, 160, 255));
             else
-                newImage.setPixelColor(i, j + 1, qRgba(190, 190, 190, 255));
+                newImage.setPixelColor(i, j + 1, qRgba(160, 160, 160, 255));
         }
     }
 
     //add background frame to the vector. Position 0.
-    frames.push_back(newImage);
+    //Background image is always a 32x32 grid no matter the size of the sprite.
+    QImage scaledImage = newImage.scaled(QSize(512, 512));
+    frames.push_back(scaledImage);
     currentFrame = 0;
 
     //create Frame 1 which is filled transparent. Add Frame 1 to vector.
@@ -64,13 +66,16 @@ void Model::paintEvent(QPaintEvent *event)
     //Whenever any QPainter draw (or paint) methods are called, this paintEvent is notified.
     //So we paint to the QImage in other methods and then this method paints the QImage to the screen with scale.
     QPainter painter(this);
+    QRect rect = event->rect();
+    //Background image has already been scaled.
+    painter.drawImage(rect, frames[0], rect);
+
+    //Need to scale the currentframe image.
     painter.scale(scale, scale);
 
+    //Copy the frame before drawing so the painter doesn't continuously draw to the image. Important with alpha values.
     QImage drawImage = frames[currentFrame].copy();
-    QRect rect = event->rect();
-    painter.drawImage(rect, frames[0], rect);
     painter.drawImage(rect, drawImage, rect);
-
 
     emit updated(frames[currentFrame], currentFrame);
     //Save frame for Undo stack.
