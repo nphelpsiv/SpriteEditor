@@ -4,6 +4,7 @@
 #include <queue>
 #include <unordered_set>
 #include <string>
+#include <algorithm>
 #include "gif.h"
 
 using namespace std;
@@ -269,6 +270,22 @@ void Model::removeFrameButtonClicked(int i)
         currentFrame = frames.size() - 1;
 
     emit frameRemoved(frames);
+}
+
+void Model::moveFrameButtonClicked(int i)
+{
+    iter_swap(frames.begin() + currentFrame, frames.begin() + i + 1);
+    currentFrame = i + 1;
+    emit framesMoved(frames, currentFrame);
+}
+
+void Model::clearFrameButtonClicked(int i)
+{
+    QImage newImage(size, QImage::Format_ARGB32);
+    newImage.fill(qRgba(0, 0, 0, 0));
+    frames[i + 1] = newImage;
+
+    changeFrame(i);
 }
 
 void Model::saveButtonClicked(string fileName)

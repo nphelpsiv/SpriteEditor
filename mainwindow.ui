@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>660</width>
+    <width>761</width>
     <height>705</height>
    </rect>
   </property>
@@ -1252,7 +1252,7 @@ QProgressBar::chunk {
        <x>10</x>
        <y>30</y>
        <width>101</width>
-       <height>301</height>
+       <height>345</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
@@ -1694,7 +1694,7 @@ QProgressBar::chunk {
    <widget class="QScrollArea" name="FramesViewArea">
     <property name="geometry">
      <rect>
-      <x>270</x>
+      <x>370</x>
       <y>540</y>
       <width>381</width>
       <height>100</height>
@@ -1722,11 +1722,14 @@ QProgressBar::chunk {
      <rect>
       <x>7</x>
       <y>540</y>
-      <width>251</width>
+      <width>351</width>
       <height>102</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_3">
+     <property name="horizontalSpacing">
+      <number>6</number>
+     </property>
      <item row="0" column="1">
       <widget class="QPushButton" name="AddFrameButton">
        <property name="text">
@@ -1788,6 +1791,27 @@ QProgressBar::chunk {
         </widget>
        </item>
       </layout>
+     </item>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="moveFrameLeftButton">
+       <property name="text">
+        <string>Move Left</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QPushButton" name="moveFrameRightButton">
+       <property name="text">
+        <string>Move Right</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QPushButton" name="clearFrameButton">
+       <property name="text">
+        <string>Clear Frame</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -1910,8 +1934,8 @@ QProgressBar::chunk {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>660</width>
-     <height>21</height>
+     <width>761</width>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
