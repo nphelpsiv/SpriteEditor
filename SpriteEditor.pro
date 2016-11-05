@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     removeframecommand.cpp \
     duplicateframecommand.cpp \
     drawcommand.cpp \
-    newproject.cpp
+    newproject.cpp \
+    moveframecommand.cpp
 
 HEADERS  += mainwindow.h \
     model.h \
@@ -33,7 +34,8 @@ HEADERS  += mainwindow.h \
     removeframecommand.h \
     duplicateframecommand.h \
     drawcommand.h \
-    newproject.h
+    newproject.h \
+    moveframecommand.h
 
 FORMS    += mainwindow.ui \
     startup.ui \

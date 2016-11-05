@@ -1256,12 +1256,15 @@ QProgressBar::chunk {
      <property name="geometry">
       <rect>
        <x>7</x>
-       <y>24</y>
+       <y>26</y>
        <width>91</width>
        <height>311</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
+      </property>
       <property name="leftMargin">
        <number>0</number>
       </property>
@@ -1630,6 +1633,9 @@ QProgressBar::chunk {
       </rect>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
+      </property>
       <item>
        <widget class="QToolButton" name="UndoButton">
         <property name="toolTip">
@@ -1696,7 +1702,6 @@ QProgressBar::chunk {
     <property name="autoFillBackground">
      <bool>false</bool>
     </property>
-    <zorder>clearFrameButton</zorder>
    </widget>
    <widget class="QScrollArea" name="FramesViewArea">
     <property name="geometry">
@@ -1882,12 +1887,6 @@ QProgressBar::chunk {
      </item>
      <item row="0" column="0">
       <widget class="QPushButton" name="PreviewButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -1956,12 +1955,6 @@ QProgressBar::chunk {
        </item>
        <item alignment="Qt::AlignLeft">
         <widget class="QSpinBox" name="FPSSpinBox">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
          <property name="maximumSize">
           <size>
            <width>65</width>

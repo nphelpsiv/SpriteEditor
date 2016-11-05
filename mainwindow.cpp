@@ -552,7 +552,8 @@ void MainWindow::on_moveFrameLeftButton_clicked()
     if(currentFrame == 0)
         return;
 
-    emit model.moveFrameButtonClicked(currentFrame - 1);
+    QUndoCommand *moveFrameCommand = new MoveFrameCommand(&model, currentFrame - 1, false);
+    undoStack->push(moveFrameCommand);
 }
 
 void MainWindow::on_moveFrameRightButton_clicked()
@@ -560,7 +561,8 @@ void MainWindow::on_moveFrameRightButton_clicked()
     if(!frameButtons[currentFrame + 1]->isVisible())
         return;
 
-    emit model.moveFrameButtonClicked(currentFrame + 1);
+    QUndoCommand *moveFrameCommand = new MoveFrameCommand(&model, currentFrame + 1, true);
+    undoStack->push(moveFrameCommand);
 }
 
 void MainWindow::on_clearFrameButton_clicked()

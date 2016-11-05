@@ -8,6 +8,7 @@
 #include "addframecommand.h"
 #include "removeframecommand.h"
 #include "duplicateframecommand.h"
+#include "moveframecommand.h"
 #include "drawcommand.h"
 #include <QMainWindow>
 #include <QFileDialog>

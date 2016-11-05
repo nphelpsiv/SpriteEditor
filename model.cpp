@@ -99,7 +99,7 @@ void Model::mousePressEvent(QMouseEvent *event)
        mirrorLastPointXY.setY(mirrorLastPointY.y());
        //newPoint = loc;
 
-       oldFrame = frames[currentFrame];
+       oldFrame = frames[currentFrame].copy();
        draw(loc);
     }
 
@@ -198,7 +198,7 @@ void Model::mirrorVerticalButtonToggled(bool checked)
 
 void Model::flipHorizontalButtonClicked()
 {
-    oldFrame = frames[currentFrame];
+    oldFrame = frames[currentFrame].copy();
     frames[currentFrame] = ((QImage)frames[currentFrame]).mirrored(true, false);
     update();
     if(oldFrame != frames[currentFrame])
@@ -207,7 +207,7 @@ void Model::flipHorizontalButtonClicked()
 
 void Model::flipVerticalButtonClicked()
 {
-    oldFrame = frames[currentFrame];
+    oldFrame = frames[currentFrame].copy();
     frames[currentFrame] = ((QImage)frames[currentFrame]).mirrored(false, true);
     update();
     if(oldFrame != frames[currentFrame])
@@ -216,7 +216,7 @@ void Model::flipVerticalButtonClicked()
 
 void Model::rotateClockwiseButtonClicked()
 {
-    oldFrame = frames[currentFrame];
+    oldFrame = frames[currentFrame].copy();
     QTransform transform;
     transform.rotate(90);
 
@@ -228,7 +228,7 @@ void Model::rotateClockwiseButtonClicked()
 
 void Model::rotateCounterClockwiseButtonClicked()
 {
-    oldFrame = frames[currentFrame];
+    oldFrame = frames[currentFrame].copy();
     QTransform transform;
     transform.rotate(-90);
 
@@ -296,11 +296,14 @@ void Model::moveFrameButtonClicked(int i)
 
 void Model::clearFrameButtonClicked(int i)
 {
+    oldFrame = frames[currentFrame].copy();
     QImage newImage(size, QImage::Format_ARGB32);
     newImage.fill(qRgba(0, 0, 0, 0));
     frames[i + 1] = newImage;
 
     changeFrame(i);
+    if(oldFrame != frames[currentFrame])
+        emit framesSaved(oldFrame, frames[currentFrame]);
 }
 
 void Model::saveButtonClicked(string fileName)
