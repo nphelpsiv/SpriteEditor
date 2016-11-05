@@ -363,6 +363,31 @@ void Model::saveButtonClicked(string fileName)
            }
        }
    }
+   file.close();
+}
+
+/**
+ * Use the normal saving function
+ * Then tell the model to close the application
+ * @brief Model::saveAndCloseButtonClicked
+ * @param s
+ */
+void Model::saveAndCloseButtonClicked(string s)
+{
+    saveButtonClicked(s);
+    emit closeMainSprite();
+}
+
+/**
+ * Use the normal saving function
+ * Then tell the model to start a new sprite
+ * @brief Model::saveThenNewButtonClicked
+ * @param s
+ */
+void Model::saveThenNewButtonClicked(string s)
+{
+    saveButtonClicked(s);
+    emit startNewSprite();
 }
 
 void Model::openButtonClicked(string fileName)

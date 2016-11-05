@@ -5,6 +5,7 @@
 #include "preview.h"
 #include "export.h"
 #include "newproject.h"
+#include "saveonclose.h"
 #include "addframecommand.h"
 #include "removeframecommand.h"
 #include "duplicateframecommand.h"
@@ -22,6 +23,7 @@
 #include <QUndoStack>
 #include <QProcess>
 #include <QMessageBox>
+
 
 using namespace std;
 
@@ -58,6 +60,15 @@ public slots:
     void moveScrollBarToSelected(int, int);
 
     void newProjectSelected(int);
+
+    // For dealing with opening, saving, and new actions
+    void closeMainSpriteSelected();
+    void saveAndClose();
+    void openFileSelected();
+    void saveThenOpenSpriteSelected();
+    void newWithSave();
+    void newNoSave();
+
 private slots:
     void on_PenButton_clicked();
     void on_EraserButton_clicked();
@@ -102,6 +113,8 @@ private slots:
 
     void on_clearFrameButton_clicked();
 
+    void on_actionClose_triggered();
+
 private:
     void createActions();
 
@@ -116,6 +129,8 @@ private:
     Export exportWindow;
 
     NewProject newProject;
+
+    SaveOnClose saveCloseDialog;
 
     QColorDialog colorDialog;
 
@@ -134,6 +149,10 @@ private:
     QAction *redoAction;
 
     QUndoStack *undoStack;
+
+    bool changedSinceLastSave;
+
+    void closeEvent(QCloseEvent *event);
 
 };
 

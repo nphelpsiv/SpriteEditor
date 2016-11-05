@@ -54,7 +54,23 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(&model, SIGNAL(changeAlphaSlider(int)),
             this, SLOT(changeAlphaSlider(int)));
-
+    //Connection from saveonclose to close or save the Main Sprite
+    connect(&saveCloseDialog, SIGNAL(closeMainSprite()),
+            this, SLOT(closeMainSpriteSelected()));
+    connect(&saveCloseDialog, SIGNAL(saveMainSprite()),
+            this, SLOT(saveAndClose()));
+    connect(&model, SIGNAL(closeMainSprite()),
+            this, SLOT(closeMainSpriteSelected()));
+    connect(&saveCloseDialog, SIGNAL(openNewSprite()),
+            this, SLOT(openFileSelected()));
+    connect(&saveCloseDialog, SIGNAL(saveThenOpenSprite()),
+            this, SLOT(saveThenOpenSpriteSelected()));
+    connect(&saveCloseDialog, SIGNAL(startNewNoSave()),
+            this, SLOT(newNoSave()));
+    connect(&saveCloseDialog, SIGNAL(startNewWithSave()),
+            this, SLOT(newWithSave()));
+    connect(&model, SIGNAL(startNewSprite()),
+            this, SLOT(newNoSave()));
 
 
     //Set the background color on startup to black
@@ -107,6 +123,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     on_PenButton_clicked();
+
+    changedSinceLastSave = false;
 }
 
 MainWindow::~MainWindow()
@@ -452,6 +470,7 @@ void MainWindow::on_AddFrameButton_clicked()
     QUndoCommand *addFrameCommand = new AddFrameCommand(currentFrame, &model);
     //Note* pushing onto the QUndoStack will automatically send a call to the redo function of the QUndoCommand.
     undoStack->push(addFrameCommand);
+    changedSinceLastSave = true;
 }
 
 void MainWindow::on_DuplicateFrameButton_clicked()
@@ -468,6 +487,7 @@ void MainWindow::on_DuplicateFrameButton_clicked()
     }
     QUndoCommand *duplicateFrameCommand = new DuplicateFrameCommand(currentFrame, &model);
     undoStack->push(duplicateFrameCommand);
+    changedSinceLastSave = true;
 }
 
 void MainWindow::on_RemoveFrameButton_clicked()
@@ -478,6 +498,7 @@ void MainWindow::on_RemoveFrameButton_clicked()
 
     QUndoCommand *removeFrameCommand = new RemoveFrameCommand(currentFrame, &model);
     undoStack->push(removeFrameCommand);
+    changedSinceLastSave = true;
 }
 
 void MainWindow::getDrawingSize(int size)
@@ -491,11 +512,49 @@ void MainWindow::newProjectSelected(int size)
     std::cout << "size: " << size << std::endl;
     emit model.newButtonClicked(size);
     undoStack->clear();
+    changedSinceLastSave = false;
 }
 
+/**
+ * Have the saveCloseDialog choose what to do when trying to open a new Sprite
+ * @brief MainWindow::on_actionNew_triggered
+ */
 void MainWindow::on_actionNew_triggered()
 {
+    // first check to see if the sprite has been modified since the last save
+    saveCloseDialog.showFromNew();
+}
+
+/**
+ * Start a New Sprite
+ * @brief MainWindow::newNoSave
+ */
+void MainWindow::newNoSave()
+{
     newProject.show();
+}
+
+/**
+ * Send to the model that it needs saved.
+ * This model method is slighlty different in that it will call back
+ * to the mainwindow to show the newProjcect window after it has been saved.
+ * @brief MainWindow::newWithSave
+ */
+void MainWindow::newWithSave()
+{
+    QFileDialog save;
+    QString fileName = save.getSaveFileName(this,
+       tr("Save Sprite"), "~/", tr("Sprite Files (*.ssp)"));
+    if (save.AcceptSave == 1)
+    {
+       emit model.saveThenNewButtonClicked(fileName.toStdString());
+    }
+    else
+    {
+       QMessageBox msgBox;
+       msgBox.setText("The document needs a name.");
+       msgBox.exec();
+    }
 }
 
 void MainWindow::on_actionSave_triggered()
@@ -518,13 +577,22 @@ void MainWindow::on_actionSave_triggered()
            msgBox.exec();
        }
 
+
+void MainWindow::saveThenOpenSpriteSelected()
+{
+    on_actionSave_triggered();
 }
 
 void MainWindow::on_actionOpen_triggered()
 {
+    saveCloseDialog.showFromOpen();
+}
+
+void MainWindow::openFileSelected()
+{
     QFileDialog open;
-       QString fileName = open.getOpenFileName(this,
-           tr("Open Sprite"), "~/", tr("Sprite Files (*.ssp)"));
+    QString fileName = open.getOpenFileName(this,
+       tr("Open Sprite"), "~/", tr("Sprite Files (*.ssp)"));
 
        if (!fileName.isNull())
        {
@@ -536,8 +604,8 @@ void MainWindow::on_actionOpen_triggered()
 void MainWindow::loadButtonClicked()
 {
     QFileDialog open;
-       QString fileName = open.getOpenFileName(this,
-           tr("Open Sprite"), "~/", tr("Sprite Files (*.ssp)"));
+    QString fileName = open.getOpenFileName(this,
+       tr("Open Sprite"), "~/", tr("Sprite Files (*.ssp)"));
 
        if (!fileName.isNull())
        {
@@ -588,4 +656,63 @@ void MainWindow::on_moveFrameRightButton_clicked()
 void MainWindow::on_clearFrameButton_clicked()
 {
     emit model.clearFrameButtonClicked(currentFrame);
+}
+
+/**
+ * When trying to close let the SaveCloseDialog determince which actions need to happen.
+ * @brief MainWindow::on_actionClose_triggered
+ */
+void MainWindow::on_actionClose_triggered()
+{
+    // If the sprite has been changed since the last save, ask if they want to save before closing.
+    if(changedSinceLastSave)
+    {
+
+    }
+
+    saveCloseDialog.showFromClose();
+}
+
+
+/**
+ * Close this application
+ * @brief MainWindow::closeMainSpriteSelected
+ */
+void MainWindow::closeMainSpriteSelected()
+{
+    this->close();
+}
+
+
+/**
+ * Send to the model that it needs saved.
+ * This model method is slighlty different in that it will
+ * close the application after it's saved.
+ * @brief MainWindow::newWithSave
+ */
+void MainWindow::saveAndClose()
+{
+    QFileDialog save;
+    QString fileName = save.getSaveFileName(this,
+       tr("Save Sprite"), "~/", tr("Sprite Files (*.ssp)"));
+    if (save.AcceptSave == 1)
+    {
+       emit model.saveAndCloseButtonClicked(fileName.toStdString());
+    }
+    else
+    {
+       QMessageBox msgBox;
+       msgBox.setText("The document needs a name.");
+       msgBox.exec();
+    }
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    // for some reason this is closing very first, it's not acting like it's just a boolean
+    if(event->isAccepted())
+    {
+        on_actionClose_triggered();
+    }
+
 }
