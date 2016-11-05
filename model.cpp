@@ -137,13 +137,17 @@ void Model::mouseReleaseEvent(QMouseEvent *event)
 
 void Model::colorPicked(QColor c)
 {
-    currentColor = c;
+    currentColor = QColor(c.red(), c.green(), c.blue(), currentColor.alpha());
+    emit colorChanged(currentColor);
 }
 
 void Model::alphaValueChanged(int alpha)
 {
     QColor newColor(currentColor.red(), currentColor.green(), currentColor.blue(), alpha);
     currentColor = newColor;
+
+    //Tell mainwindow to update currentColorButton's color.
+    emit colorChanged(currentColor);
 }
 
 void Model::penButtonClicked()
@@ -708,9 +712,16 @@ void Model::draw(QPoint point)
     QPainter painter(&frames[currentFrame]);
     painter.setPen(QPen(currentColor, toolSize));
 
+
+    //"Referesh" the composition mode in case it was changed.
+    painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+    //If alpha is set to zero, the pen should behave like the eraser.
+    if(currentColor.alpha() == 0)
+      painter.setCompositionMode(QPainter::CompositionMode_Clear);
+
     switch (currentTool)
     {
-        painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
         case Tool::Pen:
         {
             if(mirrorHorizontalActive)
