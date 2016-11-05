@@ -150,7 +150,6 @@ void MainWindow::on_EraserButton_clicked()
     emit model.eraserButtonClicked();
     uncheckAllToolButtons();
     ui->EraserButton->setChecked(true);
-
 }
 
 void MainWindow::on_RectButton_clicked()
@@ -580,7 +579,7 @@ void MainWindow::on_actionSave_triggered()
            msgBox.setText("The document needs a name.");
            msgBox.exec();
        }
-
+}
 
 void MainWindow::saveThenOpenSpriteSelected()
 {

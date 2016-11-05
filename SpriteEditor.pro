@@ -22,7 +22,7 @@ SOURCES += main.cpp\
     removeframecommand.cpp \
     duplicateframecommand.cpp \
     drawcommand.cpp \
-    saveonclose.cpp
+    saveonclose.cpp \
     newproject.cpp \
     moveframecommand.cpp
 
@@ -35,7 +35,7 @@ HEADERS  += mainwindow.h \
     removeframecommand.h \
     duplicateframecommand.h \
     drawcommand.h \
-    saveonclose.h
+    saveonclose.h \
     newproject.h \
     moveframecommand.h
 
