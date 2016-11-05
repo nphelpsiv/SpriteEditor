@@ -430,8 +430,13 @@ void MainWindow::on_AddFrameButton_clicked()
     //button.
     if(frameButtons[frameButtons.size() -1 ]->isVisible())
     {
+        QMessageBox msgBox;
+        msgBox.setText("You have reached the maximum amount of frames allowed.");
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.exec();
         return;
     }
+
     /*
      * Create a command object that contains saved information about the current frame.
      * Also a pointer to the model is passed in as well so it's delete frame
@@ -447,9 +452,12 @@ void MainWindow::on_DuplicateFrameButton_clicked()
     //Should consider creating a dialog box to let user know they have reached their limit.
     if(frameButtons[frameButtons.size() -1 ]->isVisible())
     {
+        QMessageBox msgBox;
+        msgBox.setText("You have reached the maximum amount of frames allowed.");
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.exec();
         return;
     }
-
     QUndoCommand *duplicateFrameCommand = new DuplicateFrameCommand(currentFrame, &model);
     undoStack->push(duplicateFrameCommand);
 }
