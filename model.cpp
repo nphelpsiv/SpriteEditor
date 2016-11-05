@@ -271,6 +271,21 @@ void Model::removeFrameButtonClicked(int i)
 
     emit frameRemoved(frames);
 }
+void Model::newButtonClicked(int size)
+{
+   int startingSize = frames.size();
+   for (int j = 0; j < startingSize - 1; j++)
+   {
+       removeFrameButtonClicked(frames.size() - 2);
+   }
+
+   frames.clear();
+   setUp(size);
+
+   addFrame();
+   removeFrameButtonClicked(0);
+   update();
+}
 
 void Model::moveFrameButtonClicked(int i)
 {

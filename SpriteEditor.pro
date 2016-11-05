@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     addframecommand.cpp \
     removeframecommand.cpp \
     duplicateframecommand.cpp \
-    drawcommand.cpp
+    drawcommand.cpp \
+    newproject.cpp
 
 HEADERS  += mainwindow.h \
     model.h \
@@ -31,12 +32,14 @@ HEADERS  += mainwindow.h \
     addframecommand.h \
     removeframecommand.h \
     duplicateframecommand.h \
-    drawcommand.h
+    drawcommand.h \
+    newproject.h
 
 FORMS    += mainwindow.ui \
     startup.ui \
     preview.ui \
-    export.ui
+    export.ui \
+    newproject.ui
 
 RESOURCES += \
     icons/icons.qrc \

@@ -2064,6 +2064,7 @@ QProgressBar::chunk {
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionNew"/>
     <addaction name="actionSave"/>
     <addaction name="actionOpen"/>
     <addaction name="actionExport"/>
@@ -2104,6 +2105,11 @@ QProgressBar::chunk {
   <action name="actionClose">
    <property name="text">
     <string>Close</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="text">
+    <string>New</string>
    </property>
   </action>
  </widget>
