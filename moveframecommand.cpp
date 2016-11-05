@@ -18,5 +18,6 @@ void MoveFrameCommand::undo()
 
 void MoveFrameCommand::redo()
 {
+    model->changeFrame(frameNumber - 1);
     model->moveFrameButtonClicked(moveToPosition);
 }
