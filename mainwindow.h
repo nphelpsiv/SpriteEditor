@@ -4,6 +4,7 @@
 #include "model.h"
 #include "preview.h"
 #include "export.h"
+#include "newproject.h"
 #include "addframecommand.h"
 #include "removeframecommand.h"
 #include "duplicateframecommand.h"
@@ -48,6 +49,8 @@ public slots:
     void loadButtonClicked();
 
     void moveScrollBarToSelected(int, int);
+
+    void newProjectSelected(int);
 private slots:
     void on_PenButton_clicked();
     void on_EraserButton_clicked();
@@ -69,6 +72,7 @@ private slots:
     void on_PreviewButton_clicked();
     void on_DuplicateFrameButton_clicked();
     void on_RemoveFrameButton_clicked();
+    void on_actionNew_triggered();
     void on_actionSave_triggered();
     void on_actionOpen_triggered();
     void on_actionExport_triggered();
@@ -97,6 +101,8 @@ private:
     Preview preview;
 
     Export exportWindow;
+
+    NewProject newProject;
 
     QColorDialog colorDialog;
 

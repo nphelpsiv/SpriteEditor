@@ -43,6 +43,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&exportWindow, SIGNAL(exportSelected(int, std::string, int)),
             &model, SLOT(exportSelected(int, std::string, int)));
 
+    connect(&newProject, SIGNAL(newSelected(int)),
+            this, SLOT(newProjectSelected(int)));
+
+
     connect(&model, SIGNAL(framesSaved(QImage, QImage)),
             this, SLOT(framesSaved(QImage, QImage)));
 
@@ -445,6 +449,18 @@ void MainWindow::getDrawingSize(int size)
 {
     exportWindow.setActualSize(size);
     emit model.setUp(size);
+}
+
+void MainWindow::newProjectSelected(int size)
+{
+    std::cout << "size: " << size << std::endl;
+    emit model.newButtonClicked(size);
+    undoStack->clear();
+}
+
+void MainWindow::on_actionNew_triggered()
+{
+    newProject.show();
 }
 
 void MainWindow::on_actionSave_triggered()

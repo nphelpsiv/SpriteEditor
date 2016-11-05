@@ -66,6 +66,8 @@ public slots:
     void removeFrameButtonClicked(int i);
     void FPSSpinBoxChanged(int change);
 
+
+    void newButtonClicked(int size);
     void saveButtonClicked(string s);
     void openButtonClicked(string s);
 
