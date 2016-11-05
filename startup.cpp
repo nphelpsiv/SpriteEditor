@@ -35,6 +35,5 @@ void Startup::on_LoadFileButton_clicked()
 {
     this->hide();
     emit main.loadButtonClicked();
-    main.show();
 }
 

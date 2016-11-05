@@ -514,16 +514,10 @@ void MainWindow::on_actionOpen_triggered()
        QString fileName = open.getOpenFileName(this,
            tr("Open Sprite"), "~/", tr("Sprite Files (*.ssp)"));
 
-       if (open.AcceptOpen == 0)
+       if (!fileName.isNull())
        {
            emit model.openButtonClicked(fileName.toStdString());
            undoStack->clear();
-       }
-       else
-       {
-           QMessageBox msgBox;
-           msgBox.setText("The document needs a name.");
-           msgBox.exec();
        }
 }
 
@@ -533,20 +527,24 @@ void MainWindow::loadButtonClicked()
        QString fileName = open.getOpenFileName(this,
            tr("Open Sprite"), "~/", tr("Sprite Files (*.ssp)"));
 
-       if (open.AcceptOpen == 0)
+       if (!fileName.isNull())
        {
+
            emit model.openButtonClicked(fileName.toStdString());
            undoStack->clear();
            this->showNormal();
            this->activateWindow();
            this->raise();
        }
+       //means user hit cancel
        else
        {
-           QMessageBox msgBox;
-           msgBox.setText("The document needs a name.");
-           msgBox.exec();
+           QProcess process;
+           process.startDetached("SpriteEditor" ,QStringList());
+           qApp->quit();
+
        }
+       this->show();
 }
 
 void MainWindow::on_AlphaSlider_valueChanged(int value)
