@@ -32,6 +32,7 @@ signals:
     void frameRemoved(std::vector<QImage>);
     void updated(QImage, int);
     void framesSaved(QImage, QImage);
+    void framesMoved(std::vector<QImage>, int);
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -64,6 +65,8 @@ public slots:
     void previewButtonClicked();
     void duplicateFrameButtonClicked(int i);
     void removeFrameButtonClicked(int i);
+    void moveFrameButtonClicked(int i);
+    void clearFrameButtonClicked(int i);
     void FPSSpinBoxChanged(int change);
 
 

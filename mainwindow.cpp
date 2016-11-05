@@ -50,6 +50,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&model, SIGNAL(framesSaved(QImage, QImage)),
             this, SLOT(framesSaved(QImage, QImage)));
 
+    connect(&model, SIGNAL(framesMoved(std::vector<QImage>,int)),
+            this, SLOT(frameMoved(std::vector<QImage>,int)));
+
 
     //Set the background color on startup to black
     QColor originalColor(0,0,0,255);
@@ -271,7 +274,7 @@ void MainWindow::frameAdded(vector<QImage> frames)
 
 void MainWindow::moveScrollBarToSelected(int min, int max)
 {
-    ui->FramesViewArea->ensureWidgetVisible(frameButtons[currentFrame], 200);
+    ui->FramesViewArea->ensureWidgetVisible(frameButtons[currentFrame], 300);
 }
 
 /*
@@ -335,6 +338,22 @@ void MainWindow::frameRemoved(std::vector<QImage> frames)
     }
 
     emit model.changeFrame(currentFrame);
+}
+
+void MainWindow::frameMoved(std::vector<QImage> frames, int index)
+{
+   for(unsigned int i = 1; i < frames.size(); i++)
+   {
+       QIcon icon;
+       icon.addPixmap(QPixmap::fromImage(frames[i]).scaled(64,64), QIcon::Normal);
+       frameButtons[i-1]->setIcon(icon);
+       frameButtons[i-1]->setIconSize(QSize(64, 64));
+   }
+
+   currentFrame = index - 1;
+
+   ui->FramesViewArea->ensureWidgetVisible(frameButtons[currentFrame], 300);
+   emit model.changeFrame(currentFrame);
 }
 
 void MainWindow::colorChanged(QColor color)
@@ -526,4 +545,25 @@ void MainWindow::on_AlphaSlider_valueChanged(int value)
 {
     ui->AlphaLabelValue->setText(QString::number(value));
     emit model.alphaValueChanged(value);
+}
+
+void MainWindow::on_moveFrameLeftButton_clicked()
+{
+    if(currentFrame == 0)
+        return;
+
+    emit model.moveFrameButtonClicked(currentFrame - 1);
+}
+
+void MainWindow::on_moveFrameRightButton_clicked()
+{
+    if(!frameButtons[currentFrame + 1]->isVisible())
+        return;
+
+    emit model.moveFrameButtonClicked(currentFrame + 1);
+}
+
+void MainWindow::on_clearFrameButton_clicked()
+{
+    emit model.clearFrameButtonClicked(currentFrame);
 }

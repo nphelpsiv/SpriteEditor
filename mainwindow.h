@@ -44,6 +44,7 @@ public slots:
     void frameUpdated(QImage, int);
     void frameButtonPressed();
     void frameRemoved(std::vector<QImage>);
+    void frameMoved(std::vector<QImage>, int);
     void colorChanged(QColor color);
 
     void loadButtonClicked();
@@ -88,6 +89,12 @@ private slots:
     void uncheckAllToolButtons();
 
     void on_AlphaSlider_valueChanged(int value);
+
+    void on_moveFrameLeftButton_clicked();
+
+    void on_moveFrameRightButton_clicked();
+
+    void on_clearFrameButton_clicked();
 
 private:
     void createActions();
