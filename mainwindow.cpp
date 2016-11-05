@@ -505,6 +505,10 @@ void MainWindow::on_actionSave_triggered()
            tr("Save Sprite"), "~/", tr("Sprite Files (*.ssp)"));
        if (save.AcceptSave == 1)
        {
+           if(!fileName.endsWith(".ssp"))
+           {
+               fileName += ".ssp";
+           }
            emit model.saveButtonClicked(fileName.toStdString());
        }
        else
