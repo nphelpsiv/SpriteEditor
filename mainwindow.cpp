@@ -270,7 +270,7 @@ void MainWindow::frameAdded(vector<QImage> frames)
 
 void MainWindow::moveScrollBarToSelected(int min, int max)
 {
-    ui->FramesViewArea->ensureWidgetVisible(frameButtons[currentFrame], 200);
+    ui->FramesViewArea->ensureWidgetVisible(frameButtons[currentFrame], 300);
 }
 
 /*
@@ -347,6 +347,8 @@ void MainWindow::frameMoved(std::vector<QImage> frames, int index)
    }
 
    currentFrame = index - 1;
+
+   ui->FramesViewArea->ensureWidgetVisible(frameButtons[currentFrame], 300);
    emit model.changeFrame(currentFrame);
 }
 
