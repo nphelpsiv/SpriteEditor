@@ -395,6 +395,10 @@ void MainWindow::createActions()
     redoAction->setIcon(QIcon(":redo.png"));
 
     ui->RedoButton->setDefaultAction(redoAction);
+    ui->actionOpen->setShortcut(QKeySequence::Open);
+    ui->actionSave->setShortcut(QKeySequence::Save);
+    ui->actionClose->setShortcut(QKeySequence::Close);
+    connect(ui->actionClose, SIGNAL(triggered(bool)), this, SLOT(close()));
 }
 
 void MainWindow::uncheckAllToolButtons()

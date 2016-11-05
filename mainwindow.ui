@@ -16,12 +16,6 @@
     <height>705</height>
    </size>
   </property>
-  <property name="maximumSize">
-   <size>
-    <width>16777215</width>
-    <height>713</height>
-   </size>
-  </property>
   <property name="windowTitle">
    <string>Sprite Editor</string>
   </property>
@@ -1626,10 +1620,10 @@ QProgressBar::chunk {
     <widget class="QWidget" name="horizontalLayoutWidget">
      <property name="geometry">
       <rect>
-       <x>8</x>
-       <y>26</y>
+       <x>6</x>
+       <y>25</y>
        <width>91</width>
-       <height>41</height>
+       <height>45</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">

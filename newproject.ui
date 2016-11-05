@@ -1227,9 +1227,9 @@ QProgressBar::chunk {
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>90</y>
-     <width>341</width>
+     <x>160</x>
+     <y>80</y>
+     <width>101</width>
      <height>32</height>
     </rect>
    </property>
@@ -1278,15 +1278,15 @@ QProgressBar::chunk {
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>40</x>
      <y>40</y>
-     <width>271</width>
+     <width>241</width>
      <height>21</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <pointsize>13</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
