@@ -23,6 +23,7 @@
 #include <QUndoStack>
 #include <QProcess>
 #include <QMessageBox>
+#include <QDesktopServices>
 
 
 using namespace std;

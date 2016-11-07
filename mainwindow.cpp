@@ -769,8 +769,17 @@ void MainWindow::changesMade()
 
 void MainWindow::on_actionHelp_triggered()
 {
-    QMessageBox help;
-    help.setWindowTitle("Help Menu Dialog");
-    help.setText("Add help text here.");
-    help.exec();
+    //QFile HelpFile("qrc:SpriteEditorDocumentation.pdf");
+    //HelpFile.copy(qApp->applicationDirPath().append(":SpriteEditorDocumentation.pdf"));
+
+    // This is only going to a specific url
+    // I think I got the actual pdf into the resources folder
+    // But I can't quite get it to open a relative path
+    QDesktopServices::openUrl(QUrl("https://docs.google.com/document/d/1W037-r2LDfaEfAxG1syYZ-I2qRfPx6KfBfls0xHNe5c/edit", QUrl::TolerantMode));
+
+    // How it should be with a relative path
+        // QDesktopServices::openUrl(QUrl::fromLocalFile(QDir::currentPath().append("/myFile.pdf")));
+    // But QDir::currentPath() is the build/debug folder.
+    // It's easy to go up a folder with QDir::cdUp()
+    // but then I don't know how to go into the next one if it'll always be a different name
 }
