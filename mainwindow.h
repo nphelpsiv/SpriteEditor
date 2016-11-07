@@ -115,6 +115,8 @@ private slots:
 
     void on_actionClose_triggered();
 
+    void changesMade();
+
 private:
     void createActions();
 
@@ -150,7 +152,7 @@ private:
 
     QUndoStack *undoStack;
 
-    int undoStackSizeOnSave;
+    bool unsavedChanges;
 
     void closeEvent(QCloseEvent *event);
 

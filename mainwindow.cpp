@@ -125,7 +125,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     on_PenButton_clicked();
 
-    undoStackSizeOnSave = 0;
+    unsavedChanges = false;
 }
 
 MainWindow::~MainWindow()
@@ -413,6 +413,12 @@ void MainWindow::createActions()
     redoAction->setIcon(QIcon(":redo.png"));
 
     ui->RedoButton->setDefaultAction(redoAction);
+
+    connect(undoStack, SIGNAL(indexChanged(int)),
+            this, SLOT(changesMade()));
+    connect(redoAction, SIGNAL(indexChanged(int)),
+            this, SLOT(changesMade()));
+
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionSave->setShortcut(QKeySequence::Save);
     ui->actionClose->setShortcut(QKeySequence::Close);
@@ -522,7 +528,7 @@ void MainWindow::newProjectSelected(int size)
 void MainWindow::on_actionNew_triggered()
 {
     // first check to see if the sprite has been modified since the last save
-    if(undoStackSizeOnSave != undoStack->count())
+    if(unsavedChanges)
         saveCloseDialog.showFromNew();
     else
         newNoSave();
@@ -572,7 +578,7 @@ void MainWindow::on_actionSave_triggered()
                fileName += ".ssp";
            }
            emit model.saveButtonClicked(fileName.toStdString());
-           undoStackSizeOnSave = undoStack->count();
+           unsavedChanges = false;
        }
        else
        {
@@ -589,7 +595,7 @@ void MainWindow::saveThenOpenSpriteSelected()
 
 void MainWindow::on_actionOpen_triggered()
 {
-    if(undoStackSizeOnSave != undoStack->count())
+    if(unsavedChanges)
         saveCloseDialog.showFromOpen();
     else
         openFileSelected();
@@ -672,7 +678,7 @@ void MainWindow::on_clearFrameButton_clicked()
 void MainWindow::on_actionClose_triggered()
 {
     // If the sprite has been changed since the last save, ask if they want to save before closing.
-    if(undoStackSizeOnSave != undoStack->count())
+    if(unsavedChanges)
     {
         saveCloseDialog.showFromClose();
     }
@@ -719,5 +725,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
     {
         on_actionClose_triggered();
     }
+}
 
+void MainWindow::changesMade()
+{
+    unsavedChanges = true;
 }
