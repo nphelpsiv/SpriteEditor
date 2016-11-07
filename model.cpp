@@ -830,6 +830,7 @@ void Model::draw(QPoint point)
         {
             currentColor = ((QImage)frames[currentFrame]).pixelColor(point);
             emit colorChanged(currentColor);
+            emit(changeAlphaSlider(currentColor.alpha()));
             break;
         }
         case Tool::Bucket:

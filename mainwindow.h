@@ -150,7 +150,7 @@ private:
 
     QUndoStack *undoStack;
 
-    bool changedSinceLastSave;
+    int undoStackSizeOnSave;
 
     void closeEvent(QCloseEvent *event);
 

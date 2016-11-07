@@ -54,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(&model, SIGNAL(changeAlphaSlider(int)),
             this, SLOT(changeAlphaSlider(int)));
+
     //Connection from saveonclose to close or save the Main Sprite
     connect(&saveCloseDialog, SIGNAL(closeMainSprite()),
             this, SLOT(closeMainSpriteSelected()));
@@ -124,7 +125,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     on_PenButton_clicked();
 
-    changedSinceLastSave = false;
+    undoStackSizeOnSave = 0;
 }
 
 MainWindow::~MainWindow()
@@ -473,7 +474,6 @@ void MainWindow::on_AddFrameButton_clicked()
     QUndoCommand *addFrameCommand = new AddFrameCommand(currentFrame, &model);
     //Note* pushing onto the QUndoStack will automatically send a call to the redo function of the QUndoCommand.
     undoStack->push(addFrameCommand);
-    changedSinceLastSave = true;
 }
 
 void MainWindow::on_DuplicateFrameButton_clicked()
@@ -490,7 +490,6 @@ void MainWindow::on_DuplicateFrameButton_clicked()
     }
     QUndoCommand *duplicateFrameCommand = new DuplicateFrameCommand(currentFrame, &model);
     undoStack->push(duplicateFrameCommand);
-    changedSinceLastSave = true;
 }
 
 void MainWindow::on_RemoveFrameButton_clicked()
@@ -501,7 +500,6 @@ void MainWindow::on_RemoveFrameButton_clicked()
 
     QUndoCommand *removeFrameCommand = new RemoveFrameCommand(currentFrame, &model);
     undoStack->push(removeFrameCommand);
-    changedSinceLastSave = true;
 }
 
 void MainWindow::getDrawingSize(int size)
@@ -515,7 +513,6 @@ void MainWindow::newProjectSelected(int size)
     std::cout << "size: " << size << std::endl;
     emit model.newButtonClicked(size);
     undoStack->clear();
-    changedSinceLastSave = false;
 }
 
 /**
@@ -572,6 +569,7 @@ void MainWindow::on_actionSave_triggered()
                fileName += ".ssp";
            }
            emit model.saveButtonClicked(fileName.toStdString());
+           undoStackSizeOnSave = undoStack->count();
        }
        else
        {
@@ -668,12 +666,10 @@ void MainWindow::on_clearFrameButton_clicked()
 void MainWindow::on_actionClose_triggered()
 {
     // If the sprite has been changed since the last save, ask if they want to save before closing.
-    if(changedSinceLastSave)
+    if(undoStackSizeOnSave != undoStack->count())
     {
-
+        saveCloseDialog.showFromClose();
     }
-
-    saveCloseDialog.showFromClose();
 }
 
 
