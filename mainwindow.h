@@ -68,6 +68,7 @@ public slots:
     void saveThenOpenSpriteSelected();
     void newWithSave();
     void newNoSave();
+    void successfullySaved();
 
 private slots:
     void on_PenButton_clicked();

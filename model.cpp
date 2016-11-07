@@ -364,6 +364,9 @@ void Model::saveButtonClicked(string fileName)
        }
    }
    file.close();
+
+
+   emit successfulSave();
 }
 
 /**

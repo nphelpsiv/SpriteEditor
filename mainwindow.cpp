@@ -72,6 +72,8 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(newWithSave()));
     connect(&model, SIGNAL(startNewSprite()),
             this, SLOT(newNoSave()));
+    connect(&model, SIGNAL(successfulSave()),
+            this, SLOT(successfullySaved()));
 
 
     //Set the background color on startup to black
@@ -422,7 +424,7 @@ void MainWindow::createActions()
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionSave->setShortcut(QKeySequence::Save);
     ui->actionClose->setShortcut(QKeySequence::Close);
-    connect(ui->actionClose, SIGNAL(triggered(bool)), this, SLOT(close()));
+    //connect(ui->actionClose, SIGNAL(triggered(bool)), this, SLOT(close()));
 }
 
 void MainWindow::uncheckAllToolButtons()
@@ -554,16 +556,21 @@ void MainWindow::newWithSave()
     QFileDialog save;
     QString fileName = save.getSaveFileName(this,
        tr("Save Sprite"), "~/", tr("Sprite Files (*.ssp)"));
-    if (save.AcceptSave == 1)
+    if (save.AcceptSave == 1 && !fileName.isNull())
     {
        emit model.saveThenNewButtonClicked(fileName.toStdString());
     }
     else
     {
        QMessageBox msgBox;
-       msgBox.setText("The document needs a name.");
+       msgBox.setText("Couldn't save. The document needs a name.");
        msgBox.exec();
     }
+}
+
+void MainWindow::successfullySaved()
+{
+    unsavedChanges = false;
 }
 
 void MainWindow::on_actionSave_triggered()
@@ -571,19 +578,18 @@ void MainWindow::on_actionSave_triggered()
     QFileDialog save;
        QString fileName = save.getSaveFileName(this,
            tr("Save Sprite"), "~/", tr("Sprite Files (*.ssp)"));
-       if (save.AcceptSave == 1)
+       if (save.AcceptSave == 1 && !fileName.isNull())
        {
            if(!fileName.endsWith(".ssp"))
            {
                fileName += ".ssp";
            }
            emit model.saveButtonClicked(fileName.toStdString());
-           unsavedChanges = false;
        }
        else
        {
            QMessageBox msgBox;
-           msgBox.setText("The document needs a name.");
+           msgBox.setText("Couldn't save. The document needs a name.");
            msgBox.exec();
        }
 }
@@ -682,6 +688,28 @@ void MainWindow::on_actionClose_triggered()
     {
         saveCloseDialog.showFromClose();
     }
+    else
+    {
+        // If it hasn't been saved, at least ask if they're sure they want to close
+        QMessageBox msgBox;
+        msgBox.setText("Are you sure you want to close?");
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        //msgBox.setDefaultButton(QMessageBox::Yes);
+        int ret = msgBox.exec();
+
+        switch (ret) {
+            case QMessageBox::Yes:
+                //msgBox.close();
+                this->close();
+                break;
+            case QMessageBox::No:
+                msgBox.close();
+                break;
+            default:
+                // should never be reached
+                break;
+        }
+    }
 }
 
 
@@ -725,6 +753,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     {
         on_actionClose_triggered();
     }
+    //on_actionClose_triggered();
 }
 
 void MainWindow::changesMade()

@@ -36,6 +36,7 @@ signals:
     void closeMainSprite();
     void startNewSprite();
     void changeAlphaSlider(int);
+    void successfulSave();
 
 protected:
     void paintEvent(QPaintEvent *event);
