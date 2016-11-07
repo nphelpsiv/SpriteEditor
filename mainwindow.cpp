@@ -128,6 +128,9 @@ MainWindow::MainWindow(QWidget *parent) :
     on_PenButton_clicked();
 
     unsavedChanges = false;
+
+    // set up help menu
+    //ui->menuHelp->addAction("Help");
 }
 
 MainWindow::~MainWindow()
@@ -425,6 +428,9 @@ void MainWindow::createActions()
     ui->actionSave->setShortcut(QKeySequence::Save);
     ui->actionClose->setShortcut(QKeySequence::Close);
     //connect(ui->actionClose, SIGNAL(triggered(bool)), this, SLOT(close()));
+    // I have it closing a different way
+
+
 }
 
 void MainWindow::uncheckAllToolButtons()
@@ -694,12 +700,12 @@ void MainWindow::on_actionClose_triggered()
         QMessageBox msgBox;
         msgBox.setText("Are you sure you want to close?");
         msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        //msgBox.setDefaultButton(QMessageBox::Yes);
         int ret = msgBox.exec();
+
 
         switch (ret) {
             case QMessageBox::Yes:
-                //msgBox.close();
+                msgBox.close();
                 this->close();
                 break;
             case QMessageBox::No:
@@ -741,7 +747,7 @@ void MainWindow::saveAndClose()
     else
     {
        QMessageBox msgBox;
-       msgBox.setText("The document needs a name.");
+       msgBox.setText("Couldn't Save. The document needs a name.");
        msgBox.exec();
     }
 }
@@ -759,4 +765,12 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::changesMade()
 {
     unsavedChanges = true;
+}
+
+void MainWindow::on_actionHelp_triggered()
+{
+    QMessageBox help;
+    help.setWindowTitle("Help Menu Dialog");
+    help.setText("Add help text here.");
+    help.exec();
 }

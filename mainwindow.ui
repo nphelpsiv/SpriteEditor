@@ -1273,7 +1273,7 @@ QProgressBar::chunk {
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="icons/icons.qrc">
             <normaloff>:/mirror-horizontal.png</normaloff>:/mirror-horizontal.png</iconset>
           </property>
           <property name="iconSize">
@@ -1304,7 +1304,7 @@ QProgressBar::chunk {
          <string>Eraser</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="icons/icons.qrc">
           <normaloff>:/eraser.png</normaloff>:/eraser.png</iconset>
         </property>
         <property name="iconSize">
@@ -1327,7 +1327,7 @@ QProgressBar::chunk {
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="icons/icons.qrc">
           <normaloff>:/mirror-vertical.png</normaloff>:/mirror-vertical.png</iconset>
         </property>
         <property name="iconSize">
@@ -1350,7 +1350,7 @@ QProgressBar::chunk {
          <string>Color Picker</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="icons/icons.qrc">
           <normaloff>:/color-picker.png</normaloff>:/color-picker.png</iconset>
         </property>
         <property name="iconSize">
@@ -1373,7 +1373,7 @@ QProgressBar::chunk {
          <string>Pen</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="icons/icons.qrc">
           <normaloff>:/pen.png</normaloff>:/pen.png</iconset>
         </property>
         <property name="iconSize">
@@ -1398,7 +1398,7 @@ QProgressBar::chunk {
            <string>Color Caster</string>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="icons/icons.qrc">
             <normaloff>:/color-caster.png</normaloff>:/color-caster.png</iconset>
           </property>
           <property name="iconSize">
@@ -1423,7 +1423,7 @@ QProgressBar::chunk {
          <string>Line</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="icons/icons.qrc">
           <normaloff>:/line.png</normaloff>:/line.png</iconset>
         </property>
         <property name="iconSize">
@@ -1446,7 +1446,7 @@ QProgressBar::chunk {
          <string>Rect</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="icons/icons.qrc">
           <normaloff>:/rectangle.png</normaloff>:/rectangle.png</iconset>
         </property>
         <property name="iconSize">
@@ -1471,7 +1471,7 @@ QProgressBar::chunk {
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="icons/icons.qrc">
             <normaloff>:/flip-vertical.png</normaloff>:/flip-vertical.png</iconset>
           </property>
           <property name="iconSize">
@@ -1493,7 +1493,7 @@ QProgressBar::chunk {
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="icons/icons.qrc">
           <normaloff>:/counterclockwise-rotate.png</normaloff>:/counterclockwise-rotate.png</iconset>
         </property>
         <property name="iconSize">
@@ -1516,7 +1516,7 @@ QProgressBar::chunk {
          <string>Rect</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="icons/icons.qrc">
           <normaloff>:/Circle.png</normaloff>:/Circle.png</iconset>
         </property>
         <property name="iconSize">
@@ -1539,7 +1539,7 @@ QProgressBar::chunk {
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="icons/icons.qrc">
           <normaloff>:/clockwise-rotate.png</normaloff>:/clockwise-rotate.png</iconset>
         </property>
         <property name="iconSize">
@@ -1562,7 +1562,7 @@ QProgressBar::chunk {
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="icons/icons.qrc">
           <normaloff>:/flip-horizontal.png</normaloff>:/flip-horizontal.png</iconset>
         </property>
         <property name="iconSize">
@@ -1582,7 +1582,7 @@ QProgressBar::chunk {
          <string>Bucket</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="icons/icons.qrc">
           <normaloff>:/bucket.png</normaloff>:/bucket.png</iconset>
         </property>
         <property name="iconSize">
@@ -1622,7 +1622,7 @@ QProgressBar::chunk {
       <rect>
        <x>6</x>
        <y>25</y>
-       <width>91</width>
+       <width>94</width>
        <height>45</height>
       </rect>
      </property>
@@ -1639,7 +1639,7 @@ QProgressBar::chunk {
          <string>Undo</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="icons/icons.qrc">
           <normaloff>:/undo.png</normaloff>
           <selectedoff>:/undo-black.png</selectedoff>:/undo.png</iconset>
         </property>
@@ -1660,7 +1660,7 @@ QProgressBar::chunk {
          <string>Redo</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="icons/icons.qrc">
           <normaloff>:/redo.png</normaloff>
           <selectedoff>:/redo-black.png</selectedoff>:/redo.png</iconset>
         </property>
@@ -1734,7 +1734,7 @@ QProgressBar::chunk {
     </property>
     <property name="font">
      <font>
-      <pointsize>11</pointsize>
+      <pointsize>9</pointsize>
      </font>
     </property>
     <property name="layoutDirection">
@@ -2044,7 +2044,7 @@ QProgressBar::chunk {
      <x>0</x>
      <y>0</y>
      <width>705</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -2056,14 +2056,9 @@ QProgressBar::chunk {
     <addaction name="actionOpen"/>
     <addaction name="actionExport"/>
     <addaction name="actionClose"/>
-   </widget>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>Help</string>
-    </property>
+    <addaction name="actionHelp"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -2099,6 +2094,11 @@ QProgressBar::chunk {
     <string>New</string>
    </property>
   </action>
+  <action name="actionHelp">
+   <property name="text">
+    <string>Help</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
@@ -2128,6 +2128,8 @@ QProgressBar::chunk {
   <tabstop>DuplicateFrameButton</tabstop>
   <tabstop>RemoveFrameButton</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="icons/icons.qrc"/>
+ </resources>
  <connections/>
 </ui>
