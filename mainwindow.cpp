@@ -522,7 +522,10 @@ void MainWindow::newProjectSelected(int size)
 void MainWindow::on_actionNew_triggered()
 {
     // first check to see if the sprite has been modified since the last save
-    saveCloseDialog.showFromNew();
+    if(undoStackSizeOnSave != undoStack->count())
+        saveCloseDialog.showFromNew();
+    else
+        newNoSave();
 }
 
 /**
@@ -586,7 +589,10 @@ void MainWindow::saveThenOpenSpriteSelected()
 
 void MainWindow::on_actionOpen_triggered()
 {
-    saveCloseDialog.showFromOpen();
+    if(undoStackSizeOnSave != undoStack->count())
+        saveCloseDialog.showFromOpen();
+    else
+        openFileSelected();
 }
 
 void MainWindow::openFileSelected()
