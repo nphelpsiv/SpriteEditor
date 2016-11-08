@@ -140,6 +140,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_PenButton_clicked()
 {
+    //When the pen is clicked, all non-pen tools should be deactivated.
     emit model.penButtonClicked();
     ui->PenButton->setChecked(true);
     ui->EraserButton->setChecked(false);
@@ -151,6 +152,9 @@ void MainWindow::on_PenButton_clicked()
     ui->ColorPickerButton->setChecked(false);
 }
 
+/*
+ * For the following we let the model know a button has been clicked, and "check" the corresponding button clicked.
+ */
 void MainWindow::on_EraserButton_clicked()
 {
     emit model.eraserButtonClicked();
@@ -200,6 +204,7 @@ void MainWindow::on_ColorPickerButton_clicked()
     ui->ColorPickerButton->setChecked(true);
 }
 
+//Show the export window, this window handles further actions.
 void MainWindow::on_actionExport_triggered()
 {
     exportWindow.show();
@@ -221,6 +226,9 @@ void MainWindow::on_SizeSlider_valueChanged(int value)
     emit model.sliderValueChanged(value);
 }
 
+/*
+ * If a mirror button is toggled on, make sure that the pen is selected.
+ */
 void MainWindow::on_MirrorHorizontalButton_toggled(bool checked)
 {
     emit model.mirrorHorizontalButtonToggled(checked);
@@ -235,6 +243,9 @@ void MainWindow::on_MirrorVerticalButton_toggled(bool checked)
         on_PenButton_clicked();
 }
 
+/*
+ * For the following we let the model know a button has been clicked, take appropriate action.
+ */
 void MainWindow::on_FlipHorizontalButton_clicked()
 {
     emit model.flipHorizontalButtonClicked();
@@ -258,6 +269,8 @@ void MainWindow::on_RotateCounterClockwiseButton_clicked()
 void MainWindow::renablePreview()
 {
     ui->PreviewButton->setEnabled(true);
+
+    //Stop FPS timer beacuse we just exited the preview window.
     timer.stop();
 }
 
@@ -275,6 +288,7 @@ void MainWindow::on_ColorButton_clicked()
 
 void MainWindow::changeAlphaSlider(int sliderValue)
 {
+  //message from model allowing model to change a slider value.
   ui->AlphaSlider->setValue(sliderValue);
 }
 
@@ -284,6 +298,7 @@ void MainWindow::changeAlphaSlider(int sliderValue)
  */
 void MainWindow::frameAdded(vector<QImage> frames)
 {
+    //update all previous frames before selecting the new one.
     for(unsigned int i = 1; i < frames.size(); i++)
     {
         QIcon icon;
@@ -387,6 +402,7 @@ void MainWindow::frameMoved(std::vector<QImage> frames, int index)
    emit model.changeFrame(currentFrame);
 }
 
+//Allows the model to change the color of the colorSelectedButton.
 void MainWindow::colorChanged(QColor color)
 {
   QPixmap px(100, 100);
@@ -447,6 +463,7 @@ void MainWindow::uncheckAllToolButtons()
     ui->MirrorVerticalButton->setChecked(false);
 }
 
+//Sets up and instantiates a prefrabricated preview window.
 void MainWindow::on_PreviewButton_clicked()
 {
     timerFrame = 0;
@@ -455,9 +472,9 @@ void MainWindow::on_PreviewButton_clicked()
     ui->PreviewButton->setEnabled(false);
     int eq = 1000/FPS;
     timer.start(eq);
-
 }
 
+//Called when switching frames in the preview window.
 void MainWindow::previewUpdate()
 {
     timerFrame++;
@@ -515,6 +532,7 @@ void MainWindow::on_RemoveFrameButton_clicked()
     QUndoCommand *removeFrameCommand = new RemoveFrameCommand(currentFrame, &model);
     undoStack->push(removeFrameCommand);
 }
+
 
 void MainWindow::getDrawingSize(int size)
 {
