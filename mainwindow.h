@@ -117,7 +117,7 @@ private slots:
 
     void on_actionClose_triggered();
 
-    void changesMade();
+    void changesMade(int);
 
     void on_actionHelp_triggered();
 

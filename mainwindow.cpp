@@ -436,9 +436,7 @@ void MainWindow::createActions()
     ui->RedoButton->setDefaultAction(redoAction);
 
     connect(undoStack, SIGNAL(indexChanged(int)),
-            this, SLOT(changesMade()));
-    connect(redoAction, SIGNAL(indexChanged(int)),
-            this, SLOT(changesMade()));
+            this, SLOT(changesMade(int)));
 
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionSave->setShortcut(QKeySequence::Save);
@@ -780,7 +778,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     //on_actionClose_triggered();
 }
 
-void MainWindow::changesMade()
+void MainWindow::changesMade(int i)
 {
     unsavedChanges = true;
 }
