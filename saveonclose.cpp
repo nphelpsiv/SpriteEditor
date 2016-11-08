@@ -1,3 +1,8 @@
+/**
+  * This is Dialog is used for asking the user if they want to save the file before they Close, Open, or Start a new one.
+  * Made by the QT-Pies.
+  **/
+
 #include "saveonclose.h"
 #include "ui_saveonclose.h"
 
@@ -17,20 +22,21 @@ SaveOnClose::~SaveOnClose()
 }
 
 /**
+ * Actions to do if the user selects YES
  * Determine what action to do depending on what caused this dialog to open
  * @brief SaveOnClose::on_SaveCloseNO_clicked
  */
 void SaveOnClose::on_SaveCloseYES_clicked()
 {
-    if(showOnOpenClicked)
+    if(showOnOpenClicked) // If User clicked Open from the MainWindow then emit the main window to Open a File Dialog
     {
         emit openNewSprite();
     }
-    else if(showOnCloseClicked)
+    else if(showOnCloseClicked) // If User clicked Close from MainWindow then emit to close the window
     {
         emit closeMainSprite();
     }
-    else if(showOnNewClicked)
+    else if(showOnNewClicked) // If User clicked New from MainWindow then emit to open a new sprite application.
     {
         emit startNewNoSave(); // it seems backwards but it's right
     }
@@ -38,20 +44,21 @@ void SaveOnClose::on_SaveCloseYES_clicked()
 }
 
 /**
+ * Actions to do if the user selects NO
  * Determine what action to do depending on what caused this dialog to open
  * @brief SaveOnClose::on_SaveCloseNO_clicked
  */
 void SaveOnClose::on_SaveCloseNO_clicked()
 {
-    if(showOnOpenClicked)
+    if(showOnOpenClicked) // If User clicked Open from the MainWindow and then emit to Save the current sprite and then open a new one.
     {
         emit saveThenOpenSprite();
     }
-    else if(showOnCloseClicked)
+    else if(showOnCloseClicked) // If User clicked Close from the MainWindow then emit to Save the current one first.
     {
         emit saveMainSprite();
     }
-    else if(showOnNewClicked)
+    else if(showOnNewClicked) // If User clicked New from the MainWindow then emit to Save the current one and then start a new one.
     {
         emit startNewWithSave(); // it seems backwards but it's right
     }
