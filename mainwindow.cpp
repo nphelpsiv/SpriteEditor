@@ -473,7 +473,6 @@ void MainWindow::on_ActualSizeCheck_stateChanged(int arg1)
 void MainWindow::on_FPSSpinBox_valueChanged(int arg1)
 {
     FPS = arg1;
-    emit model.FPSSpinBoxChanged(arg1);
 }
 
 void MainWindow::on_AddFrameButton_clicked()
@@ -515,7 +514,7 @@ void MainWindow::on_DuplicateFrameButton_clicked()
 void MainWindow::on_RemoveFrameButton_clicked()
 {
     //Don't delete if there is only one frame.
-    if(model.frames.size() == 2)
+    if(frameButtons[1]->isVisible())
         return;
 
     QUndoCommand *removeFrameCommand = new RemoveFrameCommand(currentFrame, &model);

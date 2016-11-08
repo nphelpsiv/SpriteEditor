@@ -22,6 +22,82 @@ Model::Model(QWidget *parent) : QWidget(parent)
     mirrorVerticalActive = false;
 }
 
+void Model::paintEvent(QPaintEvent *event)
+{
+    //Whenever any QPainter draw (or paint) methods are called, this paintEvent is notified.
+    //So we paint to the QImage in other methods and then this method paints the QImage to the screen with scale.
+    QPainter painter(this);
+    QRect rect = event->rect();
+    //Background image has already been scaled.
+    painter.drawImage(rect, frames[0], rect);
+
+    //Need to scale the currentframe image.
+    painter.scale(scale, scale);
+
+    //Copy the frame before drawing so the painter doesn't continuously draw to the image. Important with alpha values.
+    QImage drawImage = frames[currentFrame].copy();
+    painter.drawImage(rect, drawImage, rect);
+
+    emit updated(frames[currentFrame], currentFrame);
+    //Save frame for Undo stack.
+    newFrame = frames[currentFrame].copy();
+}
+
+void Model::mousePressEvent(QMouseEvent *event)
+{
+    //Get mouse location
+    QPoint loc;
+    if(event->button() == Qt::LeftButton)
+    {
+        //First grab the mouse location and the set as lastpoint to be used later.
+        loc = event->pos();
+        lastPoint = loc;
+        lastPoint.setX(lastPoint.x()/scale);
+        lastPoint.setY(lastPoint.y()/scale);
+
+        mirrorLastPointX = lastPoint;
+        mirrorLastPointY = lastPoint;
+
+        mirrorLastPointX.setX(size.width()-lastPoint.x()-1);
+        mirrorLastPointY.setY(size.height()-lastPoint.y()-1);
+
+        mirrorLastPointXY.setX(mirrorLastPointX.x());
+        mirrorLastPointXY.setY(mirrorLastPointY.y());
+
+        //sets old frame to be used in undo/redo.
+        oldFrame = frames[currentFrame].copy();
+        draw(loc);
+    }
+}
+
+void Model::mouseMoveEvent(QMouseEvent *event)
+{
+    QPoint loc;
+    if(event->buttons() & Qt::LeftButton)
+    {
+        //Get mouse location
+        loc = event->pos();
+
+        //If bucket or color caster tool is selected, do nothing if mouse is moved while still clicked.
+        if(currentTool!=Tool::Bucket && currentTool!=Tool::Caster)
+        {
+            //Rect, Line, and Ellipse tools set old frame to save for when the mouse is released.
+            if(currentTool == Tool::Rect || currentTool == Tool::Line || currentTool == Tool::Ellipse)
+            {
+                frames[currentFrame] = oldFrame;
+                update();
+            }
+            draw(loc);
+        }
+    }
+}
+
+void Model::mouseReleaseEvent(QMouseEvent *event)
+{
+    if(oldFrame != frames[currentFrame])
+        emit framesSaved(oldFrame, frames[currentFrame]);
+}
+
 void Model::setUp(int imageSize = 32)
 {
     //scale factor will be the size of the drawing pane in GUI (512) divided by size of actual image.
@@ -60,101 +136,6 @@ void Model::setUp(int imageSize = 32)
     //Draw frames.
     QPainter newPaint(&frames[currentFrame]);
     newPaint.drawImage(QPoint(0, 0), frames[currentFrame]);
-}
-
-void Model::paintEvent(QPaintEvent *event)
-{
-    //Whenever any QPainter draw (or paint) methods are called, this paintEvent is notified.
-    //So we paint to the QImage in other methods and then this method paints the QImage to the screen with scale.
-    QPainter painter(this);
-    QRect rect = event->rect();
-    //Background image has already been scaled.
-    painter.drawImage(rect, frames[0], rect);
-
-    //Need to scale the currentframe image.
-    painter.scale(scale, scale);
-
-    //Copy the frame before drawing so the painter doesn't continuously draw to the image. Important with alpha values.
-    QImage drawImage = frames[currentFrame].copy();
-    painter.drawImage(rect, drawImage, rect);
-
-    emit updated(frames[currentFrame], currentFrame);
-    //Save frame for Undo stack.
-    newFrame = frames[currentFrame].copy();
-}
-
-void Model::mousePressEvent(QMouseEvent *event)
-{
-    //Get mouse location
-    QPoint loc;
-    if(event->button() == Qt::LeftButton)
-    {
-
-       loc = event->pos();
-       lastPoint = loc;
-       lastPoint.setX(lastPoint.x()/scale);
-       lastPoint.setY(lastPoint.y()/scale);
-
-       mirrorLastPointX = lastPoint;
-       mirrorLastPointY = lastPoint;
-
-       mirrorLastPointX.setX(size.width()-lastPoint.x()-1);
-       mirrorLastPointY.setY(size.height()-lastPoint.y()-1);
-
-       mirrorLastPointXY.setX(mirrorLastPointX.x());
-       mirrorLastPointXY.setY(mirrorLastPointY.y());
-       //newPoint = loc;
-
-       oldFrame = frames[currentFrame].copy();
-       draw(loc);
-    }
-
-    //send location to draw to be drawn to screen.
-
-}
-
-void Model::mouseMoveEvent(QMouseEvent *event)
-{
-    //Get mouse location
-    QPoint loc;
-    if(event->buttons() & Qt::LeftButton)
-    {
-        loc = event->pos();
-        //newPoint = loc;
-        if(currentTool!=Tool::Bucket && currentTool!=Tool::Caster)
-        {
-            if(currentTool == Tool::Rect || currentTool == Tool::Line || currentTool == Tool::Ellipse)
-            {
-                frames[currentFrame] = oldFrame;
-                update();
-            }
-            draw(loc);
-        }
-    }
-
-    //send location to draw to be drawn to screen.
-}
-
-void Model::mouseReleaseEvent(QMouseEvent *event)
-{
-    if(oldFrame != frames[currentFrame])
-        emit framesSaved(oldFrame, frames[currentFrame]);
-}
-
-void Model::colorPicked(QColor c)
-{
-    currentColor = QColor(c.red(), c.green(), c.blue());
-    emit(changeAlphaSlider(currentColor.alpha()));
-    emit colorChanged(currentColor);
-}
-
-void Model::alphaValueChanged(int alpha)
-{
-    QColor newColor(currentColor.red(), currentColor.green(), currentColor.blue(), alpha);
-    currentColor = newColor;
-
-    //Tell mainwindow to update currentColorButton's color.
-    emit colorChanged(currentColor);
 }
 
 void Model::penButtonClicked()
@@ -228,6 +209,7 @@ void Model::flipVerticalButtonClicked()
 void Model::rotateClockwiseButtonClicked()
 {
     oldFrame = frames[currentFrame].copy();
+
     QTransform transform;
     transform.rotate(90);
 
@@ -240,6 +222,7 @@ void Model::rotateClockwiseButtonClicked()
 void Model::rotateCounterClockwiseButtonClicked()
 {
     oldFrame = frames[currentFrame].copy();
+
     QTransform transform;
     transform.rotate(-90);
 
@@ -249,9 +232,31 @@ void Model::rotateCounterClockwiseButtonClicked()
         emit framesSaved(oldFrame, frames[currentFrame]);
 }
 
-void Model::previewButtonClicked()
+void Model::sliderValueChanged(int change)
 {
-    cout << "preview (model)" << endl;
+    if(change  > 0){
+        toolSize = change;
+    }
+    else{
+        toolSize = 1;
+    }
+}
+
+void Model::alphaValueChanged(int alpha)
+{
+    QColor newColor(currentColor.red(), currentColor.green(), currentColor.blue(), alpha);
+    currentColor = newColor;
+
+    //Tell mainwindow to update currentColorButton's color.
+    emit colorChanged(currentColor);
+}
+
+void Model::colorPicked(QColor c)
+{
+    currentColor = QColor(c.red(), c.green(), c.blue());
+    //make sure to move alpha slide when changed.
+    emit(changeAlphaSlider(currentColor.alpha()));
+    emit colorChanged(currentColor);
 }
 
 void Model::duplicateFrameButtonClicked(int i)
@@ -270,8 +275,6 @@ void Model::duplicateFrameButtonClicked(int i)
  */
 void Model::removeFrameButtonClicked(int i)
 {
-    cout << "frame removed: " << i <<  " current frame: " << currentFrame << " size: " << frames.size() << endl;
-
     frames.erase(frames.begin() + i + 1);
 
     //If the current frame was the last frame, decrement current frame.
@@ -281,22 +284,6 @@ void Model::removeFrameButtonClicked(int i)
         currentFrame = frames.size() - 1;
 
     emit frameRemoved(frames);
-}
-
-void Model::newButtonClicked(int size)
-{
-   int startingSize = frames.size();
-   for (int j = 0; j < startingSize - 1; j++)
-   {
-       removeFrameButtonClicked(frames.size() - 2);
-   }
-
-   frames.clear();
-   setUp(size);
-
-   addFrame();
-   removeFrameButtonClicked(0);
-   update();
 }
 
 void Model::moveFrameButtonClicked(int i)
@@ -309,13 +296,56 @@ void Model::moveFrameButtonClicked(int i)
 void Model::clearFrameButtonClicked(int i)
 {
     oldFrame = frames[currentFrame].copy();
+
     QImage newImage(size, QImage::Format_ARGB32);
     newImage.fill(qRgba(0, 0, 0, 0));
     frames[i + 1] = newImage;
 
     changeFrame(i);
+
     if(oldFrame != frames[currentFrame])
         emit framesSaved(oldFrame, frames[currentFrame]);
+}
+
+void Model::addFrame()
+{
+    //create new transparent frame, add it to the vector, and increase currentFrame.
+    QImage newImage(size, QImage::Format_ARGB32);
+    newImage.fill(qRgba(0, 0, 0, 0));
+    frames.insert(frames.begin() + currentFrame + 1, newImage);
+    currentFrame++;
+
+    update();
+    emit frameAdded(frames);
+}
+
+void Model::changeFrame(int i)
+{
+    currentFrame = i + 1;
+
+    //Draw frames.
+    QImage drawImage = frames[currentFrame].copy();
+    QPainter newPaint(&drawImage);
+    newPaint.drawImage(QPoint(0, 0), drawImage);
+    update();
+}
+
+void Model::newButtonClicked(int size)
+{
+    //Set starting size because the size of frames changes when removed.
+   int startingSize = frames.size();
+   for (int j = 0; j < startingSize - 1; j++)
+   {
+       //start removing from the back.
+       removeFrameButtonClicked(frames.size() - 2);
+   }
+
+   frames.clear();
+   setUp(size);
+
+   addFrame();
+   removeFrameButtonClicked(0);
+   update();
 }
 
 void Model::saveButtonClicked(string fileName)
@@ -371,11 +401,9 @@ void Model::saveButtonClicked(string fileName)
    emit successfulSave();
 }
 
-/**
+/*
  * Use the normal saving function
  * Then tell the model to close the application
- * @brief Model::saveAndCloseButtonClicked
- * @param s
  */
 void Model::saveAndCloseButtonClicked(string s)
 {
@@ -383,11 +411,9 @@ void Model::saveAndCloseButtonClicked(string s)
     emit closeMainSprite();
 }
 
-/**
+/*
  * Use the normal saving function
  * Then tell the model to start a new sprite
- * @brief Model::saveThenNewButtonClicked
- * @param s
  */
 void Model::saveThenNewButtonClicked(string s)
 {
@@ -464,14 +490,7 @@ void Model::openButtonClicked(string fileName)
                    break;
                }
 
-               // Print out what the pixel values are to see if we are getting correct values
-               //cout << "Current Frame = " << frameCount << ". Pixel at " << "(" << i/4 << ", " << currentFrameRow - 1 << "): " << tokens.at(i).toStdString() << "," << tokens.at(i + 1).toStdString() << "," << tokens.at(i + 2).toStdString() << "," << tokens.at(i + 3).toStdString() << endl;
-
                QColor c(tokens.at(i).toInt(), tokens.at(i + 1).toInt(), tokens.at(i + 2).toInt(), tokens.at(i + 3).toInt());
-
-               // SetPixelColor was not doing anything
-               //QPoint position(i/4, currentFrameRow - 1);
-               //((QImage)frames[frameCount]).setPixelColor(position, c);
 
                // So we draw with a painter
                QPainter newPaint(&frames[frameCount]);
@@ -493,11 +512,6 @@ void Model::openButtonClicked(string fileName)
 
 
    file.close();
-}
-
-void Model::FPSSpinBoxChanged(int change)
-{
-    cout << "Desired Fps: " << change << endl;
 }
 
 /*
@@ -528,6 +542,16 @@ void Model::exportSelected(int fps, string filename, int gifSize)
     }
     //Then we end and write the gif to file system by a call to this method.
     GifEnd(&writer);
+}
+
+QImage Model::getFrame(int i)
+{
+    return frames[i];
+}
+
+std::vector<QImage> Model::getFrames()
+{
+    return frames;
 }
 
 /*
@@ -571,157 +595,6 @@ void Model::convertFrameToArray(uint8_t *arr, int frameIndex, int gifSize)
             arr[2] = blue;
             arr[3] = alpha;
             arr += 4;
-        }
-    }
-}
-
-void Model::sliderValueChanged(int change)
-{
-    cout << "Slider Value: " << change << endl;
-    if(change  > 0){
-        toolSize = change;
-    }
-    else{
-        toolSize = 1;
-    }
-
-}
-
-/*
- * Adds new frame one location greater than the current frame.
- */
-void Model::addFrame()
-{
-    //create new transparent frame, add it to the vector, and increase currentFrame.
-    QImage newImage(size, QImage::Format_ARGB32);
-    newImage.fill(qRgba(0, 0, 0, 0));
-    frames.insert(frames.begin() + currentFrame + 1, newImage);
-    currentFrame++;
-
-    update();
-    emit frameAdded(frames);
-}
-
-/*
- * Returns current frame index.
- */
-QImage Model::getFrame(int i)
-{
-    return frames[i];
-}
-
-std::vector<QImage> Model::getFrames()
-{
-    return frames;
-}
-
-/*
- * This method changes the current frame and draws the chosen frame.
- */
-void Model::changeFrame(int i)
-{
-    currentFrame = i + 1;
-
-    //Draw frames.
-    QImage drawImage = frames[currentFrame].copy();
-    QPainter newPaint(&drawImage);
-    newPaint.drawImage(QPoint(0, 0), drawImage);
-    update();
-}
-
-// This method is called when the bucket tool is selected and a pixel is clicked.
-void Model::FloodFill(QPoint point)
-{
-    // Retrieves the color of the clicked pixel.
-    QColor replacingColor = frames[currentFrame].pixelColor(point.x(), point.y());
-
-    // If the clicked pixel has a different color than the selected one...
-    if (currentColor != replacingColor)
-    {
-        // A queue takes track of the pixels that are checked, starting with the clicked one.
-        queue<QPoint> q;
-        QPoint clickedPoint(point.x(), point.y());
-
-        // This stores the coordinates of the pixels that have already been checked, to avoid processing each pixel more than once.
-        unordered_set <string> checked;
-
-        // Pushes the coordinates of the clicked pixel into the "checked" unordered set.
-        string clickedPointString = to_string(clickedPoint.x()) + "; " + to_string(clickedPoint.y());
-        checked.insert(clickedPointString);
-        q.push(clickedPoint);
-
-        // While the queue is not empty, the algorithm does not stop.
-        while (q.empty()!=true)
-        {
-            QPoint currentFlood = q.front();
-            //Changes the color of the dequeued pixel.
-            frames[currentFrame].setPixelColor(currentFlood.x(), currentFlood.y(), currentColor);
-
-            //If there is a pixel on the currently processed pixel's right...
-            if (currentFlood.x() != (size.width()-1))
-            {
-                string rightString = to_string(currentFlood.x()+1) + "; " + to_string(currentFlood.y());
-                // If the pixel on the right of the currently processed pixel has not been checked yet.
-                if ((checked.count(rightString))<1)
-                {
-                    //Enqueue the pixel.
-                    if (frames[currentFrame].pixelColor(currentFlood.x()+1, currentFlood.y()) == replacingColor)
-                    {
-                        QPoint rightPoint(currentFlood.x()+1, currentFlood.y());
-                        q.push(rightPoint);
-                        checked.insert(rightString);
-                    }
-                }
-            }
-            //If there is a pixel on the currently processed pixel's left...
-            if (currentFlood.x() != 0)
-            {
-                string leftString = to_string(currentFlood.x()-1) + "; " + to_string(currentFlood.y());
-                // If the pixel on the left of the currently processed pixel has not been checked yet.
-                if ((checked.count(leftString))<1)
-                {
-                    //Enqueue the pixel.
-                    if (frames[currentFrame].pixelColor(currentFlood.x()-1, currentFlood.y()) == replacingColor)
-                    {
-                        QPoint leftPoint(currentFlood.x()-1, currentFlood.y());
-                        q.push(leftPoint);
-                        checked.insert(leftString);
-                    }
-                }
-            }
-            //If there is a pixel above the currently processed pixel...
-            if (currentFlood.y() != 0)
-            {
-                string upString = to_string(currentFlood.x()) + "; " + to_string(currentFlood.y()-1);
-                // If the pixel above the currently processed pixel has not been checked yet.
-                if ((checked.count(upString))<1)
-                {
-                    //Enqueue the pixel.
-                    if (frames[currentFrame].pixelColor(currentFlood.x(), currentFlood.y()-1) == replacingColor)
-                    {
-                        QPoint upPoint(currentFlood.x(), currentFlood.y()-1);
-                        q.push(upPoint);
-                        checked.insert(upString);
-                    }
-                }
-            }
-            //If there is a pixel below the currently processed pixel...
-            if (currentFlood.y() != (size.width()-1))
-            {
-                string downString = to_string(currentFlood.x()) + "; " + to_string(currentFlood.y()+1);
-                // If the pixel below the currently processed pixel has not been checked yet.
-                if ((checked.count(downString))<1)
-                {
-                    //Enqueue the pixel.
-                    if (frames[currentFrame].pixelColor(currentFlood.x(), currentFlood.y()+1) == replacingColor)
-                    {
-                        QPoint downPoint(currentFlood.x(), currentFlood.y()+1);
-                        q.push(downPoint);
-                        checked.insert(downString);
-                    }
-                }
-            }
-            q.pop();
         }
     }
 }
@@ -848,4 +721,101 @@ void Model::draw(QPoint point)
     }
 
     update();
+}
+
+// This method is called when the bucket tool is selected and a pixel is clicked.
+void Model::FloodFill(QPoint point)
+{
+    // Retrieves the color of the clicked pixel.
+    QColor replacingColor = frames[currentFrame].pixelColor(point.x(), point.y());
+
+    // If the clicked pixel has a different color than the selected one...
+    if (currentColor != replacingColor)
+    {
+        // A queue takes track of the pixels that are checked, starting with the clicked one.
+        queue<QPoint> q;
+        QPoint clickedPoint(point.x(), point.y());
+
+        // This stores the coordinates of the pixels that have already been checked, to avoid processing each pixel more than once.
+        unordered_set <string> checked;
+
+        // Pushes the coordinates of the clicked pixel into the "checked" unordered set.
+        string clickedPointString = to_string(clickedPoint.x()) + "; " + to_string(clickedPoint.y());
+        checked.insert(clickedPointString);
+        q.push(clickedPoint);
+
+        // While the queue is not empty, the algorithm does not stop.
+        while (q.empty()!=true)
+        {
+            QPoint currentFlood = q.front();
+            //Changes the color of the dequeued pixel.
+            frames[currentFrame].setPixelColor(currentFlood.x(), currentFlood.y(), currentColor);
+
+            //If there is a pixel on the currently processed pixel's right...
+            if (currentFlood.x() != (size.width()-1))
+            {
+                string rightString = to_string(currentFlood.x()+1) + "; " + to_string(currentFlood.y());
+                // If the pixel on the right of the currently processed pixel has not been checked yet.
+                if ((checked.count(rightString))<1)
+                {
+                    //Enqueue the pixel.
+                    if (frames[currentFrame].pixelColor(currentFlood.x()+1, currentFlood.y()) == replacingColor)
+                    {
+                        QPoint rightPoint(currentFlood.x()+1, currentFlood.y());
+                        q.push(rightPoint);
+                        checked.insert(rightString);
+                    }
+                }
+            }
+            //If there is a pixel on the currently processed pixel's left...
+            if (currentFlood.x() != 0)
+            {
+                string leftString = to_string(currentFlood.x()-1) + "; " + to_string(currentFlood.y());
+                // If the pixel on the left of the currently processed pixel has not been checked yet.
+                if ((checked.count(leftString))<1)
+                {
+                    //Enqueue the pixel.
+                    if (frames[currentFrame].pixelColor(currentFlood.x()-1, currentFlood.y()) == replacingColor)
+                    {
+                        QPoint leftPoint(currentFlood.x()-1, currentFlood.y());
+                        q.push(leftPoint);
+                        checked.insert(leftString);
+                    }
+                }
+            }
+            //If there is a pixel above the currently processed pixel...
+            if (currentFlood.y() != 0)
+            {
+                string upString = to_string(currentFlood.x()) + "; " + to_string(currentFlood.y()-1);
+                // If the pixel above the currently processed pixel has not been checked yet.
+                if ((checked.count(upString))<1)
+                {
+                    //Enqueue the pixel.
+                    if (frames[currentFrame].pixelColor(currentFlood.x(), currentFlood.y()-1) == replacingColor)
+                    {
+                        QPoint upPoint(currentFlood.x(), currentFlood.y()-1);
+                        q.push(upPoint);
+                        checked.insert(upString);
+                    }
+                }
+            }
+            //If there is a pixel below the currently processed pixel...
+            if (currentFlood.y() != (size.width()-1))
+            {
+                string downString = to_string(currentFlood.x()) + "; " + to_string(currentFlood.y()+1);
+                // If the pixel below the currently processed pixel has not been checked yet.
+                if ((checked.count(downString))<1)
+                {
+                    //Enqueue the pixel.
+                    if (frames[currentFrame].pixelColor(currentFlood.x(), currentFlood.y()+1) == replacingColor)
+                    {
+                        QPoint downPoint(currentFlood.x(), currentFlood.y()+1);
+                        q.push(downPoint);
+                        checked.insert(downString);
+                    }
+                }
+            }
+            q.pop();
+        }
+    }
 }
