@@ -1,7 +1,7 @@
-/**
+/*
   * This is the dialog that first shows on Startup. It will ask for a size or ask to load a previous sprite.
   * Made by the QT-Pies
-  **/
+  */
 
 #ifndef STARTUP_H
 #define STARTUP_H
