@@ -8,6 +8,7 @@ Preview::Preview(QWidget *parent) :
     ui->setupUi(this);
     QGridLayout *layout = new QGridLayout(ui->widget);
     label = new QLabel(ui->widget);
+    label->setMargin(0);
     label->setFixedSize(512, 512);
     label->setAlignment(Qt::AlignCenter);
     layout->addWidget(label);
