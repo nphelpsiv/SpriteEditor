@@ -28,17 +28,17 @@ SaveOnClose::~SaveOnClose()
  */
 void SaveOnClose::on_SaveCloseYES_clicked()
 {
-    if(showOnOpenClicked) // If User clicked Open from the MainWindow then emit the main window to Open a File Dialog
+    if(showOnOpenClicked) //If User clicked Open from the MainWindow then emit the main window to Open a File Dialog
     {
         emit openNewSprite();
     }
-    else if(showOnCloseClicked) // If User clicked Close from MainWindow then emit to close the window
+    else if(showOnCloseClicked) //If User clicked Close from MainWindow then emit to close the window
     {
         emit closeMainSprite();
     }
-    else if(showOnNewClicked) // If User clicked New from MainWindow then emit to open a new sprite application.
+    else if(showOnNewClicked) //If User clicked New from MainWindow then emit to open a new sprite application.
     {
-        emit startNewNoSave(); // it seems backwards but it's right
+        emit startNewNoSave(); //it seems backwards but it's right
     }
     this->close();
 }
@@ -50,17 +50,17 @@ void SaveOnClose::on_SaveCloseYES_clicked()
  */
 void SaveOnClose::on_SaveCloseNO_clicked()
 {
-    if(showOnOpenClicked) // If User clicked Open from the MainWindow and then emit to Save the current sprite and then open a new one.
+    if(showOnOpenClicked) //If User clicked Open from the MainWindow and then emit to Save the current sprite and then open a new one.
     {
         emit saveThenOpenSprite();
     }
-    else if(showOnCloseClicked) // If User clicked Close from the MainWindow then emit to Save the current one first.
+    else if(showOnCloseClicked) //If User clicked Close from the MainWindow then emit to Save the current one first.
     {
         emit saveMainSprite();
     }
-    else if(showOnNewClicked) // If User clicked New from the MainWindow then emit to Save the current one and then start a new one.
+    else if(showOnNewClicked) //If User clicked New from the MainWindow then emit to Save the current one and then start a new one.
     {
-        emit startNewWithSave(); // it seems backwards but it's right
+        emit startNewWithSave(); //it seems backwards but it's right
     }
     this->close();
 }

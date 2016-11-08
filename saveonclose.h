@@ -29,7 +29,7 @@ public:
     explicit SaveOnClose(QWidget *parent = 0);
     ~SaveOnClose();
 
-    // The MainWindow will call one of these methods
+    //The MainWindow will call one of these methods
     void showFromOpen();
     void showFromClose();
     void showFromNew();
@@ -42,10 +42,10 @@ private slots:
 private:
     Ui::SaveOnClose *ui;
 
-    // Used for determining which actions to take
+    //Used for determining which actions to take
     bool showOnOpenClicked;
     bool showOnCloseClicked;
     bool showOnNewClicked;
 };
 
-#endif // SAVEONCLOSE_H
+#endif //SAVEONCLOSE_H

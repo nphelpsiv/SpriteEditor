@@ -320,17 +320,17 @@ void Model::clearFrameButtonClicked(int i)
 
 void Model::saveButtonClicked(string fileName)
 {
-   // Set up saving
-   // Convert to QString for easy opening of file
+   //Set up saving
+   //Convert to QString for easy opening of file
    QString qFileName = QString::fromStdString(fileName);
    QFile file(qFileName);
 
 
-   // Resize the file to clear everything that was in it.
+   //Resize the file to clear everything that was in it.
    file.resize(0);
 
 
-   // Open file to start saving
+   //Open file to start saving
    if (file.open(QIODevice::ReadWrite))
    {
        QTextStream stream( &file );
@@ -338,7 +338,7 @@ void Model::saveButtonClicked(string fileName)
        stream << frames.size() - 1 << endl;
 
 
-       // Go through the vector to get each frame
+       //Go through the vector to get each frame
        QImage curFrame;
        for (int z = 1; z < frames.size(); z++)
        {
@@ -346,7 +346,7 @@ void Model::saveButtonClicked(string fileName)
            stream << z << endl;
 
 
-           // Go through the pixels in rows and columns and print them.
+           //Go through the pixels in rows and columns and print them.
            for(int i = 0; i < size.height(); i++)
            {
                for(int j = 0; j < size.width(); j++)
@@ -371,7 +371,7 @@ void Model::saveButtonClicked(string fileName)
    emit successfulSave();
 }
 
-/**
+/*
  * Use the normal saving function
  * Then tell the model to close the application
  * @brief Model::saveAndCloseButtonClicked
@@ -383,7 +383,7 @@ void Model::saveAndCloseButtonClicked(string s)
     emit closeMainSprite();
 }
 
-/**
+/*
  * Use the normal saving function
  * Then tell the model to start a new sprite
  * @brief Model::saveThenNewButtonClicked
@@ -397,18 +397,18 @@ void Model::saveThenNewButtonClicked(string s)
 
 void Model::openButtonClicked(string fileName)
 {
-   // covert to QString for easy opening of file
+   //covert to QString for easy opening of file
    QString qFileName = QString::fromStdString(fileName);
    QFile file(qFileName);
 
 
-   // If there's a problem opening the file
+   //If there's a problem opening the file
    if(!file.open(QIODevice::ReadOnly)) {
        QMessageBox::information(0, "error", file.errorString());
    }
 
 
-   // Start reading in
+   //Start reading in
    QTextStream in(&file);
 
 
@@ -421,11 +421,11 @@ void Model::openButtonClicked(string fileName)
        countLine++;
        QString line = in.readLine();
 
-       // split each line by space
+       //split each line by space
        QStringList tokens = line.split(" ");
        for (int i = 0; i < tokens.count(); i+=4)
        {
-           // if first line setup size
+           //if first line setup size
            if (countLine == 1 && i == 0)
            {
                int startingSize = frames.size();
@@ -439,12 +439,12 @@ void Model::openButtonClicked(string fileName)
                size = tokens.at(0).toInt();
                setUp(size);
            }
-           // if second line make that number of frames
+           //if second line make that number of frames
            else if (countLine == 2)
            {
-              // dont need to do anything
+              //dont need to do anything
            }
-           // if line = "Frame =" then we're on a new frame
+           //if line = "Frame =" then we're on a new frame
            else if (tokens.count() == 1 && countLine != 2)
            {
                if(frameCount != 0)
@@ -456,7 +456,7 @@ void Model::openButtonClicked(string fileName)
                currentFrame = frameCount;
                currentFrameRow = 0;
            }
-           // Now we're on the info for each pixel, start manipulating that frame
+           //Now we're on the info for each pixel, start manipulating that frame
            else
            {
                if (currentFrameRow > size)
@@ -464,16 +464,16 @@ void Model::openButtonClicked(string fileName)
                    break;
                }
 
-               // Print out what the pixel values are to see if we are getting correct values
+               //Print out what the pixel values are to see if we are getting correct values
                //cout << "Current Frame = " << frameCount << ". Pixel at " << "(" << i/4 << ", " << currentFrameRow - 1 << "): " << tokens.at(i).toStdString() << "," << tokens.at(i + 1).toStdString() << "," << tokens.at(i + 2).toStdString() << "," << tokens.at(i + 3).toStdString() << endl;
 
                QColor c(tokens.at(i).toInt(), tokens.at(i + 1).toInt(), tokens.at(i + 2).toInt(), tokens.at(i + 3).toInt());
 
-               // SetPixelColor was not doing anything
+               //SetPixelColor was not doing anything
                //QPoint position(i/4, currentFrameRow - 1);
                //((QImage)frames[frameCount]).setPixelColor(position, c);
 
-               // So we draw with a painter
+               //So we draw with a painter
                QPainter newPaint(&frames[frameCount]);
                newPaint.setPen(QPen(c,1));
                newPaint.drawPoint(i/4 , currentFrameRow - 1);
@@ -629,28 +629,28 @@ void Model::changeFrame(int i)
     update();
 }
 
-// This method is called when the bucket tool is selected and a pixel is clicked.
+//This method is called when the bucket tool is selected and a pixel is clicked.
 void Model::FloodFill(QPoint point)
 {
-    // Retrieves the color of the clicked pixel.
+    //Retrieves the color of the clicked pixel.
     QColor replacingColor = frames[currentFrame].pixelColor(point.x(), point.y());
 
-    // If the clicked pixel has a different color than the selected one...
+    //If the clicked pixel has a different color than the selected one...
     if (currentColor != replacingColor)
     {
-        // A queue takes track of the pixels that are checked, starting with the clicked one.
+        //A queue takes track of the pixels that are checked, starting with the clicked one.
         queue<QPoint> q;
         QPoint clickedPoint(point.x(), point.y());
 
-        // This stores the coordinates of the pixels that have already been checked, to avoid processing each pixel more than once.
+        //This stores the coordinates of the pixels that have already been checked, to avoid processing each pixel more than once.
         unordered_set <string> checked;
 
-        // Pushes the coordinates of the clicked pixel into the "checked" unordered set.
+        //Pushes the coordinates of the clicked pixel into the "checked" unordered set.
         string clickedPointString = to_string(clickedPoint.x()) + "; " + to_string(clickedPoint.y());
         checked.insert(clickedPointString);
         q.push(clickedPoint);
 
-        // While the queue is not empty, the algorithm does not stop.
+        //While the queue is not empty, the algorithm does not stop.
         while (q.empty()!=true)
         {
             QPoint currentFlood = q.front();
@@ -661,7 +661,7 @@ void Model::FloodFill(QPoint point)
             if (currentFlood.x() != (size.width()-1))
             {
                 string rightString = to_string(currentFlood.x()+1) + "; " + to_string(currentFlood.y());
-                // If the pixel on the right of the currently processed pixel has not been checked yet.
+                //If the pixel on the right of the currently processed pixel has not been checked yet.
                 if ((checked.count(rightString))<1)
                 {
                     //Enqueue the pixel.
@@ -677,7 +677,7 @@ void Model::FloodFill(QPoint point)
             if (currentFlood.x() != 0)
             {
                 string leftString = to_string(currentFlood.x()-1) + "; " + to_string(currentFlood.y());
-                // If the pixel on the left of the currently processed pixel has not been checked yet.
+                //If the pixel on the left of the currently processed pixel has not been checked yet.
                 if ((checked.count(leftString))<1)
                 {
                     //Enqueue the pixel.
@@ -693,7 +693,7 @@ void Model::FloodFill(QPoint point)
             if (currentFlood.y() != 0)
             {
                 string upString = to_string(currentFlood.x()) + "; " + to_string(currentFlood.y()-1);
-                // If the pixel above the currently processed pixel has not been checked yet.
+                //If the pixel above the currently processed pixel has not been checked yet.
                 if ((checked.count(upString))<1)
                 {
                     //Enqueue the pixel.
@@ -709,7 +709,7 @@ void Model::FloodFill(QPoint point)
             if (currentFlood.y() != (size.width()-1))
             {
                 string downString = to_string(currentFlood.x()) + "; " + to_string(currentFlood.y()+1);
-                // If the pixel below the currently processed pixel has not been checked yet.
+                //If the pixel below the currently processed pixel has not been checked yet.
                 if ((checked.count(downString))<1)
                 {
                     //Enqueue the pixel.
@@ -732,9 +732,9 @@ void Model::draw(QPoint point)
     QPoint mirrorPointY;
     QPoint mirrorPointXY;
 
-    /*Scale the points along with the scale of the image.
-     *This is so the points of the mouse coorelate with the points of the new scaled image
-     *not the old, small image.*/
+    /* Scale the points along with the scale of the image.
+     * This is so the points of the mouse coorelate with the points of the new scaled image
+     * not the old, small image.*/
     point.setX(point.x()/scale);
     point.setY(point.y()/scale);
 
@@ -747,7 +747,7 @@ void Model::draw(QPoint point)
     mirrorPointXY.setX(mirrorPointX.x());
     mirrorPointXY.setY(mirrorPointY.y());
 
-    // Use QPainter to modify QImage to be drawn by paintEvent.
+    //Use QPainter to modify QImage to be drawn by paintEvent.
     QPainter painter(&frames[currentFrame]);
     painter.setPen(QPen(currentColor, toolSize));
 

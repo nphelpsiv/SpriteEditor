@@ -16,7 +16,7 @@ Startup::Startup(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // If there was a cancel this allows it to close smoothly
+    //If there was a cancel this allows it to close smoothly
     connect(&main, SIGNAL(canceld()), this, SLOT(cancel()));
 }
 

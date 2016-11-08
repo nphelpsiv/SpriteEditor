@@ -218,7 +218,7 @@ void MainWindow::frameRemoved(std::vector<QImage> frames)
         frameButtons[i]->setVisible(false);
     }
 
-    //decrement currentFrame if it was the last frame that was removed.
+    //Decrement currentFrame if it was the last frame that was removed.
     if(currentFrame == frames.size() - 1)
     {
         currentFrame--;
@@ -447,13 +447,13 @@ void MainWindow::on_AlphaSlider_valueChanged(int value)
 }
 void MainWindow::on_ColorButton_clicked()
 {
-    // Get the color picked and then set the background of the button to that color.
+    //Get the color picked and then set the background of the button to that color.
     QColor color = colorDialog.getColor();
     QPixmap px(100, 100);
     px.fill(color);
     ui->ColorButton->setIcon(px);
 
-    // Now tell the model what color is picked.
+    //Now tell the model what color is picked.
     emit model.colorPicked(color);
 }
 
@@ -478,8 +478,6 @@ void MainWindow::on_FPSSpinBox_valueChanged(int arg1)
 
 void MainWindow::on_AddFrameButton_clicked()
 {
-    //QPushButton button = frameButtons[frameButtons.size() -1];
-    //button.
     if(frameButtons[frameButtons.size() -1 ]->isVisible())
     {
         QMessageBox msgBox;
@@ -544,7 +542,7 @@ void MainWindow::on_clearFrameButton_clicked()
 
 void MainWindow::on_actionNew_triggered()
 {
-    // first check to see if the sprite has been modified since the last save
+    //first check to see if the sprite has been modified since the last save
     if(unsavedChanges)
         saveCloseDialog.showFromNew();
     else
@@ -584,14 +582,14 @@ void MainWindow::on_actionExport_triggered()
 
 void MainWindow::on_actionClose_triggered()
 {
-    // If the sprite has been changed since the last save, ask if they want to save before closing.
+    //If the sprite has been changed since the last save, ask if they want to save before closing.
     if(unsavedChanges)
     {
         saveCloseDialog.showFromClose();
     }
     else
     {
-        // if the sprite has been saved since the last modification then just quit.
+        //If the sprite has been saved since the last modification then just quit.
         this->close();
         QApplication::quit();
     }
@@ -649,20 +647,14 @@ void MainWindow::createActions()
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionSave->setShortcut(QKeySequence::Save);
     ui->actionClose->setShortcut(QKeySequence::Close);
-    //connect(ui->actionClose, SIGNAL(triggered(bool)), this, SLOT(close()));
-    // I have it closing a different way
-
-
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    // for some reason this is closing very first, it's not acting like it's just a boolean
     if(event->isAccepted())
     {
         event->ignore();
         on_actionClose_triggered();
     }
-    //on_actionClose_triggered();
 }
 
