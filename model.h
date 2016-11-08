@@ -73,7 +73,6 @@ public slots:
     void clearFrameButtonClicked(int i);
     void FPSSpinBoxChanged(int change);
 
-
     // Connections with the model for opening, saving, new actions
     void newButtonClicked(int size);
     void saveButtonClicked(string s);

@@ -23,9 +23,7 @@ public:
 
 private slots:
     void on_buttonBox_accepted();
-
     void on_otherSizeRadio_clicked();
-
     void on_actualSizeRadio_clicked();
 
 private:
