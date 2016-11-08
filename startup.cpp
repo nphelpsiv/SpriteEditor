@@ -1,6 +1,5 @@
 /*
   * This is the dialog that first shows on Startup. It will ask for a size or ask to load a previous sprite.
-  * Made by the QT-Pies
   */
 
 #include "startup.h"
@@ -10,6 +9,9 @@
 
 using namespace std;
 
+/*
+ * Constructor for setting up the Startup Window
+ */
 Startup::Startup(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Startup)
@@ -20,6 +22,9 @@ Startup::Startup(QWidget *parent) :
     connect(&main, SIGNAL(canceld()), this, SLOT(cancel()));
 }
 
+/*
+ * Destructor
+ */
 Startup::~Startup()
 {
     delete ui;

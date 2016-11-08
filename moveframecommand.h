@@ -1,7 +1,6 @@
-/**
+/*
  * Class designed to represent the action that a frame has been moved
- *
-*/
+ */
 #ifndef MOVEFRAMECOMMAND_H
 #define MOVEFRAMECOMMAND_H
 #include <QUndoCommand>

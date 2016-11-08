@@ -1,4 +1,4 @@
-/**
+/*
  * Class designed to represent the UI when the user first opens the program
  *
 */

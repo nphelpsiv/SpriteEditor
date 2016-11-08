@@ -1,7 +1,6 @@
-/**
+/*
  * Represent the popup window that shows the sprite animation based on desired parameters
- *
-*/
+ */
 #ifndef PREVIEW_H
 #define PREVIEW_H
 

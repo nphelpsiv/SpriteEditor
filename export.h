@@ -1,7 +1,6 @@
-/**
- * Class that represents teh UI dialog to allow the user to give specific parameters for the export to an animated gif
- *
-*/
+/*
+ * Class that represents the UI dialog to allow the user to give specific parameters for the export to an animated gif
+ */
 #ifndef EXPORT_H
 #define EXPORT_H
 

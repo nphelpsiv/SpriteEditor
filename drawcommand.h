@@ -1,7 +1,7 @@
-/**
+/*
  * Class designed to represent the action that the current frame has been drawn on
  *
-*/
+ */
 #ifndef DRAWCOMMAND_H
 #define DRAWCOMMAND_H
 #include <QUndoCommand>

@@ -1,7 +1,6 @@
-/**
+/*
  * Class designed to represent the action that a frame has been duplicated
- *
-*/
+ */
 #ifndef DUPLICATEFRAMECOMMAND_H
 #define DUPLICATEFRAMECOMMAND_H
 #include <QUndoCommand>

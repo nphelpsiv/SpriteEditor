@@ -1,7 +1,8 @@
 /*
  * Class designed to represent the action that a frame has been added
  *
-*/
+ */
+
 #ifndef ADDFRAMECOMMAND_H
 #define ADDFRAMECOMMAND_H
 #include <QUndoCommand>

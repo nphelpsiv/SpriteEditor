@@ -1,8 +1,15 @@
+/*
+ * Class that represents the UI dialog to allow the user to give specific parameters for the export to an animated gif
+ */
+
 #include "export.h"
 #include "ui_export.h"
 #include <string>
 #include <iostream>
 
+/*
+ * Set up the Export Window
+ */
 Export::Export(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Export)
@@ -14,16 +21,27 @@ Export::Export(QWidget *parent) :
     ui->sizeComboBox->setEnabled(false);
 }
 
+/*
+ * Destructor for Export
+ */
 Export::~Export()
 {
     delete ui;
 }
 
+/*
+ * Used to set the exported gif to the actual size of the sprite
+ * If this is not used then the exported gif will be a blown up size
+ */
 void Export::setActualSize(int size)
 {
     actualSize = size;
 }
 
+/*
+ * Opens a saving dialog for the save location
+ * Saves the sprite to a gif with help from the gif-h library
+ */
 void Export::on_buttonBox_accepted()
 {
     QString fileName = QFileDialog::getSaveFileName(this,
@@ -54,10 +72,18 @@ void Export::on_buttonBox_accepted()
     emit exportSelected(fps, fileName.toStdString(), gifSize);
     this->hide();
 }
+
+/*
+ * Setting UI boxes
+ */
 void Export::on_otherSizeRadio_clicked()
 {
     ui->sizeComboBox->setEnabled(true);
 }
+
+/*
+ * Setting UI boxes
+ */
 void Export::on_actualSizeRadio_clicked()
 {
     ui->sizeComboBox->setEnabled(false);

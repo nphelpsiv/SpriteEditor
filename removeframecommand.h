@@ -1,7 +1,6 @@
-/**
+/*
  * Class designed to represent the action that a frame has been removed
- *
-*/
+ */
 #ifndef REMOVEFRAMECOMMAND_H
 #define REMOVEFRAMECOMMAND_H
 #include <QUndoCommand>

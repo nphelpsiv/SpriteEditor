@@ -1,7 +1,6 @@
 /*
  * Represent the UI/Popup window that asks the user to save the game if desired
- *
-*/
+ */
 #ifndef SAVEONCLOSE_H
 #define SAVEONCLOSE_H
 

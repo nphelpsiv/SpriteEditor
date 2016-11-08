@@ -1,7 +1,6 @@
-/**
+/*
  * Represents the UI that allows the user to pick a new size for the new project
- *
-*/
+ */
 #ifndef NEWPROJECT_H
 #define NEWPROJECT_H
 
