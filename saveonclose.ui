@@ -1236,7 +1236,7 @@ QProgressBar::chunk {
    </property>
    <property name="font">
     <font>
-     <pointsize>12</pointsize>
+     <pointsize>11</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -1265,7 +1265,7 @@ QProgressBar::chunk {
    </property>
    <property name="font">
     <font>
-     <pointsize>12</pointsize>
+     <pointsize>11</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -1298,7 +1298,7 @@ QProgressBar::chunk {
     <rect>
      <x>210</x>
      <y>132</y>
-     <width>121</width>
+     <width>101</width>
      <height>31</height>
     </rect>
    </property>
