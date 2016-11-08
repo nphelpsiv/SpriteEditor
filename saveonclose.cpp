@@ -1,7 +1,7 @@
-/**
+/*
   * This is Dialog is used for asking the user if they want to save the file before they Close, Open, or Start a new one.
   * Made by the QT-Pies.
-  **/
+  */
 
 #include "saveonclose.h"
 #include "ui_saveonclose.h"
@@ -21,7 +21,7 @@ SaveOnClose::~SaveOnClose()
     delete ui;
 }
 
-/**
+/*
  * Actions to do if the user selects YES
  * Determine what action to do depending on what caused this dialog to open
  * @brief SaveOnClose::on_SaveCloseNO_clicked
@@ -43,7 +43,7 @@ void SaveOnClose::on_SaveCloseYES_clicked()
     this->close();
 }
 
-/**
+/*
  * Actions to do if the user selects NO
  * Determine what action to do depending on what caused this dialog to open
  * @brief SaveOnClose::on_SaveCloseNO_clicked
@@ -66,7 +66,7 @@ void SaveOnClose::on_SaveCloseNO_clicked()
 }
 
 
-/**
+/*
  * Called when the MainWindow tries to open a previously made sprite
  * @brief SaveOnClose::showFromOpen
  */
@@ -79,7 +79,7 @@ void SaveOnClose::showFromOpen()
     this->show();
 }
 
-/**
+/*
  * Called when the MainWindow tries to close the application
  * @brief SaveOnClose::showFromOpen
  */
@@ -92,7 +92,7 @@ void SaveOnClose::showFromClose()
     this->show();
 }
 
-/**
+/*
  * Called when the MainWindow tries to Start a new empty sprite
  * @brief SaveOnClose::showFromOpen
  */

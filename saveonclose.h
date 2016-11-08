@@ -1,7 +1,7 @@
-/**
+/*
   * This is Dialog is used for asking the user if they want to save the file before they Close, Open, or Start a new one.
   * Made by the QT-Pies.
-  **/
+  */
 
 #ifndef SAVEONCLOSE_H
 #define SAVEONCLOSE_H
