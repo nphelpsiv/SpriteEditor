@@ -1,5 +1,17 @@
 /*
+ * QT-PIES SPRITE EDITOR
+ *
+ * Model Class:
+ *
  * Represents the UI that allows the user to pick a new size for the new project
+ *
+ * QT-Pies:
+ *      Justin Bush
+ *      Mckay Fenn
+ *      Alessandro Ferrero
+ *      Monish Gupta
+ *      Neal Phelps
+ *      John Young
  */
 #ifndef NEWPROJECT_H
 #define NEWPROJECT_H

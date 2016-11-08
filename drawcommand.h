@@ -1,6 +1,17 @@
 /*
- * Class designed to represent the action that the current frame has been drawn on
+ * QT-PIES SPRITE EDITOR
  *
+ * Model Class:
+ *
+ * This class was designed to represent the action that the current frame has been drawn on
+ *
+ * QT-Pies:
+ *      Justin Bush
+ *      Mckay Fenn
+ *      Alessandro Ferrero
+ *      Monish Gupta
+ *      Neal Phelps
+ *      John Young
  */
 #ifndef DRAWCOMMAND_H
 #define DRAWCOMMAND_H

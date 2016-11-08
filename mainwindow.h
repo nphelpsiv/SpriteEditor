@@ -1,3 +1,20 @@
+/*
+ * QT-PIES SPRITE EDITOR
+ *
+ * Model Class:
+ *
+ * This class represents the Main Window of the application.
+ * This is where all the main graphical aspects will be presented to the user.
+ *
+ * QT-Pies:
+ *      Justin Bush
+ *      Mckay Fenn
+ *      Alessandro Ferrero
+ *      Monish Gupta
+ *      Neal Phelps
+ *      John Young
+ */
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 

@@ -1,5 +1,17 @@
 /*
- * Represent the popup window that shows the sprite animation based on desired parameters
+ * QT-PIES SPRITE EDITOR
+ *
+ * Model Class:
+ *
+ * Represents the popup window that shows the sprite animation based on desired parameters
+ *
+ * QT-Pies:
+ *      Justin Bush
+ *      Mckay Fenn
+ *      Alessandro Ferrero
+ *      Monish Gupta
+ *      Neal Phelps
+ *      John Young
  */
 #ifndef PREVIEW_H
 #define PREVIEW_H
