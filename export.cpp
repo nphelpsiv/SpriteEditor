@@ -38,6 +38,7 @@ void Export::on_buttonBox_accepted()
 
     int gifSize;
 
+    //Actions based on the what size the user desires
     if(ui->actualSizeRadio->isChecked())
         gifSize = actualSize;
     else

@@ -16,10 +16,6 @@ SaveOnClose::~SaveOnClose()
     delete ui;
 }
 
-/**
- * Determine what action to do depending on what caused this dialog to open
- * @brief SaveOnClose::on_SaveCloseNO_clicked
- */
 void SaveOnClose::on_SaveCloseYES_clicked()
 {
     if(showOnOpenClicked)
@@ -37,10 +33,6 @@ void SaveOnClose::on_SaveCloseYES_clicked()
     this->close();
 }
 
-/**
- * Determine what action to do depending on what caused this dialog to open
- * @brief SaveOnClose::on_SaveCloseNO_clicked
- */
 void SaveOnClose::on_SaveCloseNO_clicked()
 {
     if(showOnOpenClicked)
@@ -58,11 +50,6 @@ void SaveOnClose::on_SaveCloseNO_clicked()
     this->close();
 }
 
-
-/**
- * Called when the MainWindow tries to open a previously made sprite
- * @brief SaveOnClose::showFromOpen
- */
 void SaveOnClose::showFromOpen()
 {
     showOnOpenClicked = true;
@@ -72,10 +59,6 @@ void SaveOnClose::showFromOpen()
     this->show();
 }
 
-/**
- * Called when the MainWindow tries to close the application
- * @brief SaveOnClose::showFromOpen
- */
 void SaveOnClose::showFromClose()
 {
     showOnCloseClicked = true;
@@ -85,10 +68,6 @@ void SaveOnClose::showFromClose()
     this->show();
 }
 
-/**
- * Called when the MainWindow tries to Start a new empty sprite
- * @brief SaveOnClose::showFromOpen
- */
 void SaveOnClose::showFromNew()
 {
     showOnNewClicked = true;

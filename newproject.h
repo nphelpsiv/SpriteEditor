@@ -1,3 +1,7 @@
+/**
+ * Represents the UI that allows the user to pick a new size for the new project
+ *
+*/
 #ifndef NEWPROJECT_H
 #define NEWPROJECT_H
 
@@ -14,18 +18,18 @@ class NewProject : public QDialog
     Q_OBJECT
 
 signals:
+    //Signals the new button as been pressed in the main window
     void newSelected(int);
+private slots:
+    //Catches the signal that the user has accpeted the desired parameters within the UI
+    void on_buttonBox_accepted();
+//Member variables
 public:
     explicit NewProject(QWidget *parent = 0);
     ~NewProject();
 
-private slots:
-    void on_buttonBox_accepted();
-
 private:
     Ui::newProject *ui;
-    //MainWindow main;
-
 };
 
 #endif // NEWPROJECT_H

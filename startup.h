@@ -1,3 +1,7 @@
+/**
+ * Class designed to represent the UI when the user first opens the program
+ *
+*/
 #ifndef STARTUP_H
 #define STARTUP_H
 
@@ -18,11 +22,13 @@ public:
     ~Startup();
 
 private slots:
+    //Performs actions if the user has elected to create new project
     void on_NewFileButton_clicked();
-
+    //Performs actions if the user has elected to load an existing project
     void on_LoadFileButton_clicked();
 
 public slots:
+    //If the user elects to cancel after electing to load an existing project
     void cancel();
 
 private:

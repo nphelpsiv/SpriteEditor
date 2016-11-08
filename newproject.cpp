@@ -24,6 +24,5 @@ void NewProject::on_buttonBox_accepted()
     if (found!=std::string::npos)
             emit newSelected(stoi(value.toStdString().substr(0,found)));
 
-    std::cout << "okay clicked" << std::endl;
     this->hide();
 }

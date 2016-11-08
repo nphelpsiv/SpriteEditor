@@ -1,3 +1,7 @@
+/**
+ * Represent the popup window that shows the sprite animation based on desired parameters
+ *
+*/
 #ifndef PREVIEW_H
 #define PREVIEW_H
 
@@ -23,15 +27,18 @@ class Preview : public QDialog
 {
     Q_OBJECT
 
+public slots:
+    //Catches the signal that sends each frame as a Qimage
+    void displayImage(QImage image);
+    //Catches the signal that the user desires the preview window to display the sprite as its actual size
+    void actualSizeBoxChecked(int checked);
+signals:
+    //Button is enabled a disabled based on if the preview window is open
+    void renableButton();
+    //Member variables
 public:
     explicit Preview(QWidget *parent = 0);
     ~Preview();
-
-public slots:
-    void displayImage(QImage image);
-    void actualSizeBoxChecked(int checked);
-signals:
-    void renableButton();
 
 private:
     Ui::Preview *ui;

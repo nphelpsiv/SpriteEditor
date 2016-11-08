@@ -31,7 +31,6 @@ void Preview::displayImage(QImage image)
     if(!actualSize){
         size.setHeight(512);
         size.setWidth(512);
-        //image.scaled(QSize(512,512));
     }
     else
     {
@@ -43,7 +42,7 @@ void Preview::displayImage(QImage image)
 }
 void Preview::actualSizeBoxChecked(int checked)
 {
-    //2 is checked, o is unchecked
+    //2 is checked, 0 is unchecked
     if(checked == 2){
        actualSize = true;
     }
