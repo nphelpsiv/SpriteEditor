@@ -1240,7 +1240,7 @@ QProgressBar::chunk {
     </font>
    </property>
    <property name="text">
-    <string>The Sprite has been modified since it was last changed.</string>
+    <string>The Sprite has been modified since it was last saved.</string>
    </property>
    <property name="textFormat">
     <enum>Qt::PlainText</enum>
