@@ -707,6 +707,7 @@ void MainWindow::on_actionClose_triggered()
             case QMessageBox::Yes:
                 msgBox.close();
                 this->close();
+                QApplication::quit();
                 break;
             case QMessageBox::No:
                 msgBox.close();
@@ -726,6 +727,7 @@ void MainWindow::on_actionClose_triggered()
 void MainWindow::closeMainSpriteSelected()
 {
     this->close();
+    QApplication::quit();
 }
 
 
@@ -757,6 +759,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     // for some reason this is closing very first, it's not acting like it's just a boolean
     if(event->isAccepted())
     {
+        event->ignore();
         on_actionClose_triggered();
     }
     //on_actionClose_triggered();

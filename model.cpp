@@ -8,6 +8,7 @@
 #include "gif.h"
 
 using namespace std;
+
 Model::Model(QWidget *parent) : QWidget(parent)
 {
     //Automatically set Pen tool.
