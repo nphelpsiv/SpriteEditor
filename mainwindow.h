@@ -119,8 +119,6 @@ private slots:
 
     void changesMade();
 
-    void on_actionHelpMenu_triggered();
-
     void on_actionHelp_triggered();
 
 private:
