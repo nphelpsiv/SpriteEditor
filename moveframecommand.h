@@ -6,8 +6,12 @@
 class MoveFrameCommand : public QUndoCommand
 {
 public:
+    //Constructor with a pointer to model, the index to the frame move to and a boolean to to say if your going right or left.
     MoveFrameCommand(Model *mod, int moveTo, bool moveRight, QUndoCommand *parent = 0);
+
+    //Undo drawing by restoring the before frame.
     void undo() Q_DECL_OVERRIDE;
+    //This function is called when ever an MoveFrameCommand is pushed onto the QUndoStack.
     void redo() Q_DECL_OVERRIDE;
 
 private:
