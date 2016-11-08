@@ -25,7 +25,6 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 
-
 using namespace std;
 
 namespace Ui {
@@ -44,41 +43,75 @@ signals:
     void canceld();
 
 public slots:
-    void getDrawingSize(int s); //Should this really be a slot?
+    void getDrawingSize(int s);
     void previewUpdate();
     void renablePreview();
 
+    /*
+     * Slot for when frame is added.
+     * Recieves a vector of QImages from Model to update all the frames.
+     */
     void frameAdded(std::vector<QImage>);
+    /*
+     * Slot for when frame is updated.
+     * This will draw the frame in a mini version as an icon.
+     */
     void frameUpdated(QImage, int);
+    /*
+     * Slot for when a frame is selected.
+     * Should switch to that frame in the drawing pane.
+     */
     void frameButtonPressed();
     void frameRemoved(std::vector<QImage>);
     void frameMoved(std::vector<QImage>, int);
+    void moveScrollBarToSelected(int, int);
+
+    //Allows the model to change the color of the colorSelectedButton.
     void colorChanged(QColor color);
     void changeAlphaSlider(int);
 
-    void loadButtonClicked();
-
-    void moveScrollBarToSelected(int, int);
-
-    void newProjectSelected(int);
-
     // For dealing with opening, saving, and new actions
+    void newProjectSelected(int);
+    /*
+     * Close this application
+     * @brief MainWindow::closeMainSpriteSelected
+     */
     void closeMainSpriteSelected();
-    void saveAndClose();
+    void loadButtonClicked();
     void openFileSelected();
+    /*
+     * Send to the model that it needs saved.
+     * This model method is slighlty different in that it will
+     * close the application after it's saved.
+     * @brief MainWindow::newWithSave
+     */
+    void saveAndClose();
     void saveThenOpenSpriteSelected();
+    /*
+     * Send to the model that it needs saved.
+     * This model method is slighlty different in that it will call back
+     * to the mainwindow to show the newProjcect window after it has been saved.
+     * @brief MainWindow::newWithSave
+     */
     void newWithSave();
+    //Start a New Sprite @brief MainWindow::newNoSave
     void newNoSave();
     void successfullySaved();
 
 private slots:
+
+    /*
+     * For the following we let the model know a button has been
+     * clicked, and "check" the corresponding button clicked.
+     */
     void on_PenButton_clicked();
     void on_EraserButton_clicked();
     void on_RectButton_clicked();
     void on_LineButton_clicked();
-    void on_ColorPickerButton_clicked();
     void on_BucketButton_clicked();
+    void on_EllipseButton_clicked();
     void on_ColorCasterButton_clicked();
+    void on_ColorPickerButton_clicked();
     void on_MirrorHorizontalButton_toggled(bool checked);
     void on_MirrorVerticalButton_toggled(bool checked);
     void on_FlipHorizontalButton_clicked();
@@ -87,55 +120,57 @@ private slots:
     void on_RotateCounterClockwiseButton_clicked();
 
     void on_SizeSlider_valueChanged(int value);
+    void on_AlphaSlider_valueChanged(int value);
     void on_ColorButton_clicked();
 
+    //Sets up and instantiates a prefrabricated preview window.
     void on_PreviewButton_clicked();
-    void on_DuplicateFrameButton_clicked();
-    void on_RemoveFrameButton_clicked();
-    void on_actionNew_triggered();
-    void on_actionSave_triggered();
-    void on_actionOpen_triggered();
-    void on_actionExport_triggered();
     void on_ActualSizeCheck_stateChanged(int arg1);
     void on_FPSSpinBox_valueChanged(int arg1);
 
+    //Called when switching frames in the preview window.
     void on_AddFrameButton_clicked();
+    void on_DuplicateFrameButton_clicked();
+    void on_RemoveFrameButton_clicked();
+    void on_moveFrameLeftButton_clicked();
+    void on_moveFrameRightButton_clicked();
+    void on_clearFrameButton_clicked();
+
+    void on_actionNew_triggered();
+    /**
+     * Have the saveCloseDialog choose what to do when trying to open a new Sprite
+     * @brief MainWindow::on_actionNew_triggered
+     */
+    void on_actionSave_triggered();
+    void on_actionOpen_triggered();
+    //Show the export window, this window handles further actions.
+    void on_actionExport_triggered();
+    /*
+     * When trying to close let the SaveCloseDialog determine which actions need to happen.
+     * @brief MainWindow::on_actionClose_triggered
+     */
+    void on_actionClose_triggered();
+    void on_actionHelp_triggered();
 
     void framesSaved(QImage, QImage);
 
-    void on_EllipseButton_clicked();
-
     void uncheckAllToolButtons();
-
-    void on_AlphaSlider_valueChanged(int value);
-
-    void on_moveFrameLeftButton_clicked();
-
-    void on_moveFrameRightButton_clicked();
-
-    void on_clearFrameButton_clicked();
-
-    void on_actionClose_triggered();
 
     void changesMade(int);
 
-    void on_actionHelp_triggered();
-
 private:
+    //Setting up Actions
     void createActions();
+    void closeEvent(QCloseEvent *event);
 
     Ui::MainWindow *ui;
 
     QGridLayout* canvasLayout;
 
     Model model;
-
     Preview preview;
-
     Export exportWindow;
-
     NewProject newProject;
-
     SaveOnClose saveCloseDialog;
 
     QColorDialog colorDialog;
@@ -157,9 +192,6 @@ private:
     QUndoStack *undoStack;
 
     bool unsavedChanges;
-
-    void closeEvent(QCloseEvent *event);
-
 };
 
 #endif // MAINWINDOW_H
