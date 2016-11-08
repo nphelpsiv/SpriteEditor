@@ -1,7 +1,18 @@
 /*
- * Represent the UI/Popup window that asks the user to save the game if desired
+ * QT-PIES SPRITE EDITOR
  *
-*/
+ * Model Class:
+ *
+ * Represents the UI/Popup window that asks the user to save the game if desired
+ *
+ * QT-Pies:
+ *      Justin Bush
+ *      Mckay Fenn
+ *      Alessandro Ferrero
+ *      Monish Gupta
+ *      Neal Phelps
+ *      John Young
+ */
 #ifndef SAVEONCLOSE_H
 #define SAVEONCLOSE_H
 

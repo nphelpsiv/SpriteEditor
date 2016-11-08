@@ -1,5 +1,17 @@
 /*
- * Class designed to represent the action that a frame has been removed
+ * QT-PIES SPRITE EDITOR
+ *
+ * Model Class:
+ *
+ * This class was designed to represent the action that a frame has been removed
+ *
+ * QT-Pies:
+ *      Justin Bush
+ *      Mckay Fenn
+ *      Alessandro Ferrero
+ *      Monish Gupta
+ *      Neal Phelps
+ *      John Young
  */
 #ifndef REMOVEFRAMECOMMAND_H
 #define REMOVEFRAMECOMMAND_H

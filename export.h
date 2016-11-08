@@ -1,5 +1,17 @@
 /*
+ * QT-PIES SPRITE EDITOR
+ *
+ * Model Class:
+ *
  * Class that represents the UI dialog to allow the user to give specific parameters for the export to an animated gif
+ *
+ * QT-Pies:
+ *      Justin Bush
+ *      Mckay Fenn
+ *      Alessandro Ferrero
+ *      Monish Gupta
+ *      Neal Phelps
+ *      John Young
  */
 #ifndef EXPORT_H
 #define EXPORT_H

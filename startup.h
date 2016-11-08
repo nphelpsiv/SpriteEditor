@@ -1,7 +1,18 @@
 /*
+ * QT-PIES SPRITE EDITOR
+ *
+ * Model Class:
+ *
  * Class designed to represent the UI when the user first opens the program
  *
-*/
+ * QT-Pies:
+ *      Justin Bush
+ *      Mckay Fenn
+ *      Alessandro Ferrero
+ *      Monish Gupta
+ *      Neal Phelps
+ *      John Young
+ */
 #ifndef STARTUP_H
 #define STARTUP_H
 

@@ -1,5 +1,17 @@
 /*
- * Class designed to represent the action that a frame has been moved
+ * QT-PIES SPRITE EDITOR
+ *
+ * Model Class:
+ *
+ * This class was designed to represent the action that a frame has been moved
+ *
+ * QT-Pies:
+ *      Justin Bush
+ *      Mckay Fenn
+ *      Alessandro Ferrero
+ *      Monish Gupta
+ *      Neal Phelps
+ *      John Young
  */
 #ifndef MOVEFRAMECOMMAND_H
 #define MOVEFRAMECOMMAND_H
