@@ -714,26 +714,9 @@ void MainWindow::on_actionClose_triggered()
     }
     else
     {
-        // If it hasn't been saved, at least ask if they're sure they want to close
-        QMessageBox msgBox;
-        msgBox.setText("Are you sure you want to close?");
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        int ret = msgBox.exec();
-
-
-        switch (ret) {
-            case QMessageBox::Yes:
-                msgBox.close();
-                this->close();
-                QApplication::quit();
-                break;
-            case QMessageBox::No:
-                msgBox.close();
-                break;
-            default:
-                // should never be reached
-                break;
-        }
+        // if the sprite has been saved since the last modification then just quit.
+        this->close();
+        QApplication::quit();
     }
 }
 
