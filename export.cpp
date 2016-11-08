@@ -54,13 +54,10 @@ void Export::on_buttonBox_accepted()
     emit exportSelected(fps, fileName.toStdString(), gifSize);
     this->hide();
 }
-
-
 void Export::on_otherSizeRadio_clicked()
 {
     ui->sizeComboBox->setEnabled(true);
 }
-
 void Export::on_actualSizeRadio_clicked()
 {
     ui->sizeComboBox->setEnabled(false);

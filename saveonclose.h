@@ -40,10 +40,7 @@ private slots:
 public:
     explicit SaveOnClose(QWidget *parent = 0);
     ~SaveOnClose();
-    /**
-     * Called when the MainWindow tries to open a previously made sprite
-     *
-     */
+
     void showFromOpen();
     /**
      * Called when the MainWindow tries to close the application
@@ -59,9 +56,10 @@ public:
 private:
     Ui::SaveOnClose *ui;
 
+    //Used for determining which actions to take
     bool showOnOpenClicked;
     bool showOnCloseClicked;
     bool showOnNewClicked;
 };
 
-#endif // SAVEONCLOSE_H
+#endif //SAVEONCLOSE_H

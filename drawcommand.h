@@ -11,6 +11,7 @@ class DrawCommand : public QUndoCommand
 {
     //member variables
 public:
+    //Constructor with the QImage of frame before and after drawing index and a pointer to the model.
     DrawCommand(QImage beforeF, QImage afterF, Model *mod, QUndoCommand *parent = 0);
     //To undo adding a frame we remove the frame that was added.
     void undo() Q_DECL_OVERRIDE;
@@ -23,6 +24,7 @@ private:
     QImage afterFrame;
     int frameIndex;
 
+    //View the frame that has the edits.
     void viewCorrectFrame();
 
 };

@@ -11,6 +11,7 @@ class AddFrameCommand : public QUndoCommand
 {
 //member variables
 public:
+    //Constructor with the added frames index and a pointer to the model.
     AddFrameCommand(int addedFrame, Model *mod, QUndoCommand *parent = 0);
     //To undo adding a frame we remove the frame that was added.
     void undo() Q_DECL_OVERRIDE;

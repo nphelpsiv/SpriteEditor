@@ -20,6 +20,7 @@ void DrawCommand::undo()
     model->update();
 }
 
+//This function is called when ever an AddFrameCommand is pushed onto the QUndoStack.
 void DrawCommand::redo()
 {
     if(frameIndex != model->currentFrame)

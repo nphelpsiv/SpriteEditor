@@ -1,3 +1,8 @@
+/*
+  * This is the dialog that first shows on Startup. It will ask for a size or ask to load a previous sprite.
+  * Made by the QT-Pies
+  */
+
 #include "startup.h"
 #include "ui_startup.h"
 #include <string>
@@ -11,6 +16,7 @@ Startup::Startup(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //If there was a cancel this allows it to close smoothly
     connect(&main, SIGNAL(canceld()), this, SLOT(cancel()));
 }
 
@@ -19,6 +25,12 @@ Startup::~Startup()
     delete ui;
 }
 
+/*
+ * When the user selects a Sprite Size and clicks New
+ * Get the size chosen and emit to the MainWindow
+ * Show the MainWindow and hide this
+ * @brief Startup::on_NewFileButton_clicked
+ */
 void Startup::on_NewFileButton_clicked()
 {
     QString value = ui->SizeDrop->currentText();
@@ -33,12 +45,22 @@ void Startup::on_NewFileButton_clicked()
 }
 
 
+/*
+ * When the user selects Load an old Sprite
+ * Hide this and emit to the MainWindow to open a file
+ * @brief Startup::on_LoadFileButton_clicked
+ */
 void Startup::on_LoadFileButton_clicked()
 {
     this->hide();
     emit main.loadButtonClicked();
 }
 
+
+/*
+ * For gracefully closing when canceling.
+ * @brief Startup::cancel
+ */
 void Startup::cancel()
 {
     this->show();

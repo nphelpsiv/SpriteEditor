@@ -120,17 +120,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     FPS = ui->FPSSpinBox->value();
 
-    // Set the intial alpha value to 255
-    //ui->AlphaLabelValue->setText(QString("255"));
-    //ui->AlphaSlider->setValue(255);
-
-
     on_PenButton_clicked();
 
     unsavedChanges = false;
 
-    // set up help menu
-    //ui->menuHelp->addAction("Help");
 }
 
 MainWindow::~MainWindow()
@@ -138,134 +131,20 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_PenButton_clicked()
+void MainWindow::getDrawingSize(int size)
 {
-    //When the pen is clicked, all non-pen tools should be deactivated.
-    emit model.penButtonClicked();
-    ui->PenButton->setChecked(true);
-    ui->EraserButton->setChecked(false);
-    ui->RectButton->setChecked(false);
-    ui->LineButton->setChecked(false);
-    ui->EllipseButton->setChecked(false);
-    ui->BucketButton->setChecked(false);
-    ui->ColorCasterButton->setChecked(false);
-    ui->ColorPickerButton->setChecked(false);
+    exportWindow.setActualSize(size);
+    emit model.setUp(size);
 }
-
-/*
- * For the following we let the model know a button has been clicked, and "check" the corresponding button clicked.
- */
-void MainWindow::on_EraserButton_clicked()
+void MainWindow::previewUpdate()
 {
-    emit model.eraserButtonClicked();
-    uncheckAllToolButtons();
-    ui->EraserButton->setChecked(true);
+    timerFrame++;
+    timerFrame = timerFrame % (model.getFrames().size());
+    if(timerFrame == 0){
+        timerFrame = 1;
+    }
+    emit preview.displayImage(model.getFrame(timerFrame));
 }
-
-void MainWindow::on_RectButton_clicked()
-{
-    emit model.rectButtonClicked();
-    uncheckAllToolButtons();
-    ui->RectButton->setChecked(true);
-}
-
-void MainWindow::on_LineButton_clicked()
-{
-    emit model.lineButtonClicked();
-    uncheckAllToolButtons();
-    ui->LineButton->setChecked(true);
-}
-
-void MainWindow::on_EllipseButton_clicked()
-{
-    emit model.ellipseButtonClicked();
-    uncheckAllToolButtons();
-    ui->EllipseButton->setChecked(true);
-}
-
-void MainWindow::on_BucketButton_clicked()
-{
-    emit model.bucketButtonClicked();
-    uncheckAllToolButtons();
-    ui->BucketButton->setChecked(true);
-}
-
-void MainWindow::on_ColorCasterButton_clicked()
-{
-    emit model.colorCasterButtonClicked();
-    uncheckAllToolButtons();
-    ui->ColorCasterButton->setChecked(true);
-}
-
-void MainWindow::on_ColorPickerButton_clicked()
-{
-    emit model.colorPickerButtonClicked();
-    uncheckAllToolButtons();
-    ui->ColorPickerButton->setChecked(true);
-}
-
-//Show the export window, this window handles further actions.
-void MainWindow::on_actionExport_triggered()
-{
-    exportWindow.show();
-}
-
-void MainWindow::on_ActualSizeCheck_stateChanged(int arg1)
-{
-    emit preview.actualSizeBoxChecked(arg1);
-}
-
-void MainWindow::on_FPSSpinBox_valueChanged(int arg1)
-{
-    FPS = arg1;
-    emit model.FPSSpinBoxChanged(arg1);
-}
-
-void MainWindow::on_SizeSlider_valueChanged(int value)
-{
-    emit model.sliderValueChanged(value);
-}
-
-/*
- * If a mirror button is toggled on, make sure that the pen is selected.
- */
-void MainWindow::on_MirrorHorizontalButton_toggled(bool checked)
-{
-    emit model.mirrorHorizontalButtonToggled(checked);
-    if(checked)
-        on_PenButton_clicked();
-}
-
-void MainWindow::on_MirrorVerticalButton_toggled(bool checked)
-{
-    emit model.mirrorVerticalButtonToggled(checked);
-    if(checked)
-        on_PenButton_clicked();
-}
-
-/*
- * For the following we let the model know a button has been clicked, take appropriate action.
- */
-void MainWindow::on_FlipHorizontalButton_clicked()
-{
-    emit model.flipHorizontalButtonClicked();
-}
-
-void MainWindow::on_FlipVerticalButton_clicked()
-{
-    emit model.flipVerticalButtonClicked();
-}
-
-void MainWindow::on_RotateClockwiseButton_clicked()
-{
-    emit model.rotateClockwiseButtonClicked();
-}
-
-void MainWindow::on_RotateCounterClockwiseButton_clicked()
-{
-    emit model.rotateCounterClockwiseButtonClicked();
-}
-
 void MainWindow::renablePreview()
 {
     ui->PreviewButton->setEnabled(true);
@@ -274,28 +153,6 @@ void MainWindow::renablePreview()
     timer.stop();
 }
 
-void MainWindow::on_ColorButton_clicked()
-{
-    // Get the color picked and then set the background of the button to that color.
-    QColor color = colorDialog.getColor();
-    QPixmap px(100, 100);
-    px.fill(color);
-    ui->ColorButton->setIcon(px);
-
-    // Now tell the model what color is picked.
-    emit model.colorPicked(color);
-}
-
-void MainWindow::changeAlphaSlider(int sliderValue)
-{
-  //message from model allowing model to change a slider value.
-  ui->AlphaSlider->setValue(sliderValue);
-}
-
-/*
- * Slot for when frame is added.
- * Recieves a vector of QImages from Model to update all the frames.
- */
 void MainWindow::frameAdded(vector<QImage> frames)
 {
     //update all previous frames before selecting the new one.
@@ -317,16 +174,6 @@ void MainWindow::frameAdded(vector<QImage> frames)
 
     emit model.changeFrame(currentFrame);
 }
-
-void MainWindow::moveScrollBarToSelected(int min, int max)
-{
-    ui->FramesViewArea->ensureWidgetVisible(frameButtons[currentFrame], 300);
-}
-
-/*
- * Slot for when frame is updated.
- * This will draw the frame in a mini version as an icon.
- */
 void MainWindow::frameUpdated(QImage image, int newIndex)
 {
     currentFrame = newIndex - 1;
@@ -335,11 +182,6 @@ void MainWindow::frameUpdated(QImage image, int newIndex)
     frameButtons[currentFrame]->setIcon(icon);
     frameButtons[currentFrame]->setIconSize(QSize(64,64));
 }
-
-/*
- * Slot for when a frame is selected.
- * Should switch to that frame in the drawing pane.
- */
 void MainWindow::frameButtonPressed()
 {
     int frameIndex;
@@ -359,7 +201,6 @@ void MainWindow::frameButtonPressed()
     currentFrame = frameIndex;
     emit model.changeFrame(frameIndex);
 }
-
 void MainWindow::frameRemoved(std::vector<QImage> frames)
 {
     //Need to update all buttons with the full vector of frames.
@@ -377,7 +218,7 @@ void MainWindow::frameRemoved(std::vector<QImage> frames)
         frameButtons[i]->setVisible(false);
     }
 
-    //decrement currentFrame if it was the last frame that was removed.
+    //Decrement currentFrame if it was the last frame that was removed.
     if(currentFrame == frames.size() - 1)
     {
         currentFrame--;
@@ -385,7 +226,6 @@ void MainWindow::frameRemoved(std::vector<QImage> frames)
 
     emit model.changeFrame(currentFrame);
 }
-
 void MainWindow::frameMoved(std::vector<QImage> frames, int index)
 {
    for(unsigned int i = 1; i < frames.size(); i++)
@@ -401,8 +241,11 @@ void MainWindow::frameMoved(std::vector<QImage> frames, int index)
    ui->FramesViewArea->ensureWidgetVisible(frameButtons[currentFrame], 300);
    emit model.changeFrame(currentFrame);
 }
+void MainWindow::moveScrollBarToSelected(int min, int max)
+{
+    ui->FramesViewArea->ensureWidgetVisible(frameButtons[currentFrame], 300);
+}
 
-//Allows the model to change the color of the colorSelectedButton.
 void MainWindow::colorChanged(QColor color)
 {
   QPixmap px(100, 100);
@@ -410,48 +253,109 @@ void MainWindow::colorChanged(QColor color)
   ui->ColorButton->setIcon(px);
   update();
 }
-
-void MainWindow::framesSaved(QImage oldFrame, QImage newFrame)
+void MainWindow::changeAlphaSlider(int sliderValue)
 {
-    QUndoCommand *drawCommand = new DrawCommand(oldFrame, newFrame, &model);
-    undoStack->push(drawCommand);
+  //message from model allowing model to change a slider value.
+  ui->AlphaSlider->setValue(sliderValue);
 }
 
-//Setting up Actions
-void MainWindow::createActions()
+void MainWindow::newProjectSelected(int size)
 {
+    std::cout << "size: " << size << std::endl;
+    emit model.newButtonClicked(size);
+    undoStack->clear();
+}
+void MainWindow::closeMainSpriteSelected()
+{
+    this->close();
+    QApplication::quit();
+}
+void MainWindow::loadButtonClicked()
+{
+    QFileDialog open;
+    QString fileName = open.getOpenFileName(this,
+       tr("Open Sprite"), "~/", tr("Sprite Files (*.ssp)"));
 
-    //Setting up our undoAction to connnect to our undoStack.
-    undoAction = undoStack->createUndoAction(this);
-    undoAction->setShortcut(QKeySequence::Undo);
-    undoAction->setIcon(QIcon(":undo.png"));
+       if (!fileName.isNull())
+       {
 
-    ui->UndoButton->setDefaultAction(undoAction);
+           emit model.openButtonClicked(fileName.toStdString());
+           undoStack->clear();
+           this->showNormal();
+           this->activateWindow();
+           this->raise();
+           this->show();
+       }
+       //means user hit cancel
+       else
+       {
+           emit canceld();
 
-    //Setting up our redoAction to connnect to our undoStack.
-    redoAction = undoStack->createRedoAction(this, tr("&Redo"));
-    redoAction->setShortcut(QKeySequence::Redo);
-    redoAction->setIcon(QIcon(":redo.png"));
-
-    ui->RedoButton->setDefaultAction(redoAction);
-
-    connect(undoStack, SIGNAL(indexChanged(int)),
-            this, SLOT(changesMade()));
-    connect(redoAction, SIGNAL(indexChanged(int)),
-            this, SLOT(changesMade()));
-
-    ui->actionOpen->setShortcut(QKeySequence::Open);
-    ui->actionSave->setShortcut(QKeySequence::Save);
-    ui->actionClose->setShortcut(QKeySequence::Close);
-    //connect(ui->actionClose, SIGNAL(triggered(bool)), this, SLOT(close()));
-    // I have it closing a different way
-
+       }
 
 }
-
-void MainWindow::uncheckAllToolButtons()
+void MainWindow::openFileSelected()
 {
-    ui->PenButton->setChecked(false);
+    QFileDialog open;
+    QString fileName = open.getOpenFileName(this,
+       tr("Open Sprite"), "~/", tr("Sprite Files (*.ssp)"));
+
+       if (!fileName.isNull())
+       {
+           emit model.openButtonClicked(fileName.toStdString());
+           undoStack->clear();
+       }
+}
+void MainWindow::saveAndClose()
+{
+    QFileDialog save;
+    QString fileName = save.getSaveFileName(this,
+       tr("Save Sprite"), "~/", tr("Sprite Files (*.ssp)"));
+    if (save.AcceptSave == 1)
+    {
+       emit model.saveAndCloseButtonClicked(fileName.toStdString());
+    }
+    else
+    {
+       QMessageBox msgBox;
+       msgBox.setText("Couldn't Save. The document needs a name.");
+       msgBox.exec();
+    }
+}
+void MainWindow::saveThenOpenSpriteSelected()
+{
+    on_actionSave_triggered();
+}
+void MainWindow::newWithSave()
+{
+    QFileDialog save;
+    QString fileName = save.getSaveFileName(this,
+       tr("Save Sprite"), "~/", tr("Sprite Files (*.ssp)"));
+    if (save.AcceptSave == 1 && !fileName.isNull())
+    {
+       emit model.saveThenNewButtonClicked(fileName.toStdString());
+    }
+    else
+    {
+       QMessageBox msgBox;
+       msgBox.setText("Couldn't save. The document needs a name.");
+       msgBox.exec();
+    }
+}
+void MainWindow::newNoSave()
+{
+    newProject.show();
+}
+void MainWindow::successfullySaved()
+{
+    unsavedChanges = false;
+}
+
+void MainWindow::on_PenButton_clicked()
+{
+    emit model.penButtonClicked();
+    //When the pen is clicked, all non-pen tools should be deactivated.
+    ui->PenButton->setChecked(true);
     ui->EraserButton->setChecked(false);
     ui->RectButton->setChecked(false);
     ui->LineButton->setChecked(false);
@@ -459,11 +363,100 @@ void MainWindow::uncheckAllToolButtons()
     ui->BucketButton->setChecked(false);
     ui->ColorCasterButton->setChecked(false);
     ui->ColorPickerButton->setChecked(false);
-    ui->MirrorHorizontalButton->setChecked(false);
-    ui->MirrorVerticalButton->setChecked(false);
+}
+void MainWindow::on_EraserButton_clicked()
+{
+    emit model.eraserButtonClicked();
+    uncheckAllToolButtons();
+    ui->EraserButton->setChecked(true);
+}
+void MainWindow::on_RectButton_clicked()
+{
+    emit model.rectButtonClicked();
+    uncheckAllToolButtons();
+    ui->RectButton->setChecked(true);
+}
+void MainWindow::on_LineButton_clicked()
+{
+    emit model.lineButtonClicked();
+    uncheckAllToolButtons();
+    ui->LineButton->setChecked(true);
+}
+void MainWindow::on_BucketButton_clicked()
+{
+    emit model.bucketButtonClicked();
+    uncheckAllToolButtons();
+    ui->BucketButton->setChecked(true);
+}
+void MainWindow::on_EllipseButton_clicked()
+{
+    emit model.ellipseButtonClicked();
+    uncheckAllToolButtons();
+    ui->EllipseButton->setChecked(true);
+}
+void MainWindow::on_ColorCasterButton_clicked()
+{
+    emit model.colorCasterButtonClicked();
+    uncheckAllToolButtons();
+    ui->ColorCasterButton->setChecked(true);
+}
+void MainWindow::on_ColorPickerButton_clicked()
+{
+    emit model.colorPickerButtonClicked();
+    uncheckAllToolButtons();
+    ui->ColorPickerButton->setChecked(true);
+}
+void MainWindow::on_MirrorHorizontalButton_toggled(bool checked)
+{
+    emit model.mirrorHorizontalButtonToggled(checked);
+    //If a mirror button is toggled on, make sure that the pen is selected.
+    if(checked)
+        on_PenButton_clicked();
+}
+void MainWindow::on_MirrorVerticalButton_toggled(bool checked)
+{
+    emit model.mirrorVerticalButtonToggled(checked);
+    //If a mirror button is toggled on, make sure that the pen is selected.
+    if(checked)
+        on_PenButton_clicked();
+}
+void MainWindow::on_FlipHorizontalButton_clicked()
+{
+    emit model.flipHorizontalButtonClicked();
+}
+void MainWindow::on_FlipVerticalButton_clicked()
+{
+    emit model.flipVerticalButtonClicked();
+}
+void MainWindow::on_RotateClockwiseButton_clicked()
+{
+    emit model.rotateClockwiseButtonClicked();
+}
+void MainWindow::on_RotateCounterClockwiseButton_clicked()
+{
+    emit model.rotateCounterClockwiseButtonClicked();
 }
 
-//Sets up and instantiates a prefrabricated preview window.
+void MainWindow::on_SizeSlider_valueChanged(int value)
+{
+    emit model.sliderValueChanged(value);
+}
+void MainWindow::on_AlphaSlider_valueChanged(int value)
+{
+    emit model.alphaValueChanged(value);
+}
+void MainWindow::on_ColorButton_clicked()
+{
+    //Get the color picked and then set the background of the button to that color.
+    QColor color = colorDialog.getColor();
+    QPixmap px(100, 100);
+    px.fill(color);
+    ui->ColorButton->setIcon(px);
+
+    //Now tell the model what color is picked.
+    emit model.colorPicked(color);
+}
+
 void MainWindow::on_PreviewButton_clicked()
 {
     timerFrame = 0;
@@ -473,22 +466,18 @@ void MainWindow::on_PreviewButton_clicked()
     int eq = 1000/FPS;
     timer.start(eq);
 }
-
-//Called when switching frames in the preview window.
-void MainWindow::previewUpdate()
+void MainWindow::on_ActualSizeCheck_stateChanged(int arg1)
 {
-    timerFrame++;
-    timerFrame = timerFrame % (model.getFrames().size());
-    if(timerFrame == 0){
-        timerFrame = 1;
-    }
-    emit preview.displayImage(model.getFrame(timerFrame));
+    emit preview.actualSizeBoxChecked(arg1);
+}
+void MainWindow::on_FPSSpinBox_valueChanged(int arg1)
+{
+    FPS = arg1;
+    emit model.FPSSpinBoxChanged(arg1);
 }
 
 void MainWindow::on_AddFrameButton_clicked()
 {
-    //QPushButton button = frameButtons[frameButtons.size() -1];
-    //button.
     if(frameButtons[frameButtons.size() -1 ]->isVisible())
     {
         QMessageBox msgBox;
@@ -506,7 +495,6 @@ void MainWindow::on_AddFrameButton_clicked()
     //Note* pushing onto the QUndoStack will automatically send a call to the redo function of the QUndoCommand.
     undoStack->push(addFrameCommand);
 }
-
 void MainWindow::on_DuplicateFrameButton_clicked()
 {
     //User should not be able to add more the defined size (May change that so it is infite later)
@@ -522,7 +510,6 @@ void MainWindow::on_DuplicateFrameButton_clicked()
     QUndoCommand *duplicateFrameCommand = new DuplicateFrameCommand(currentFrame, &model);
     undoStack->push(duplicateFrameCommand);
 }
-
 void MainWindow::on_RemoveFrameButton_clicked()
 {
     //Don't delete if there is only one frame.
@@ -532,71 +519,35 @@ void MainWindow::on_RemoveFrameButton_clicked()
     QUndoCommand *removeFrameCommand = new RemoveFrameCommand(currentFrame, &model);
     undoStack->push(removeFrameCommand);
 }
-
-
-void MainWindow::getDrawingSize(int size)
+void MainWindow::on_moveFrameLeftButton_clicked()
 {
-    exportWindow.setActualSize(size);
-    emit model.setUp(size);
+    if(currentFrame == 0)
+        return;
+
+    QUndoCommand *moveFrameCommand = new MoveFrameCommand(&model, currentFrame - 1, false);
+    undoStack->push(moveFrameCommand);
+}
+void MainWindow::on_moveFrameRightButton_clicked()
+{
+    if(!frameButtons[currentFrame + 1]->isVisible())
+        return;
+
+    QUndoCommand *moveFrameCommand = new MoveFrameCommand(&model, currentFrame + 1, true);
+    undoStack->push(moveFrameCommand);
+}
+void MainWindow::on_clearFrameButton_clicked()
+{
+    emit model.clearFrameButtonClicked(currentFrame);
 }
 
-void MainWindow::newProjectSelected(int size)
-{
-    std::cout << "size: " << size << std::endl;
-    emit model.newButtonClicked(size);
-    undoStack->clear();
-}
-
-/**
- * Have the saveCloseDialog choose what to do when trying to open a new Sprite
- * @brief MainWindow::on_actionNew_triggered
- */
 void MainWindow::on_actionNew_triggered()
 {
-    // first check to see if the sprite has been modified since the last save
+    //first check to see if the sprite has been modified since the last save
     if(unsavedChanges)
         saveCloseDialog.showFromNew();
     else
         newNoSave();
 }
-
-/**
- * Start a New Sprite
- * @brief MainWindow::newNoSave
- */
-void MainWindow::newNoSave()
-{
-    newProject.show();
-}
-
-/**
- * Send to the model that it needs saved.
- * This model method is slighlty different in that it will call back
- * to the mainwindow to show the newProjcect window after it has been saved.
- * @brief MainWindow::newWithSave
- */
-void MainWindow::newWithSave()
-{
-    QFileDialog save;
-    QString fileName = save.getSaveFileName(this,
-       tr("Save Sprite"), "~/", tr("Sprite Files (*.ssp)"));
-    if (save.AcceptSave == 1 && !fileName.isNull())
-    {
-       emit model.saveThenNewButtonClicked(fileName.toStdString());
-    }
-    else
-    {
-       QMessageBox msgBox;
-       msgBox.setText("Couldn't save. The document needs a name.");
-       msgBox.exec();
-    }
-}
-
-void MainWindow::successfullySaved()
-{
-    unsavedChanges = false;
-}
-
 void MainWindow::on_actionSave_triggered()
 {
     QFileDialog save;
@@ -617,12 +568,6 @@ void MainWindow::on_actionSave_triggered()
            msgBox.exec();
        }
 }
-
-void MainWindow::saveThenOpenSpriteSelected()
-{
-    on_actionSave_triggered();
-}
-
 void MainWindow::on_actionOpen_triggered()
 {
     if(unsavedChanges)
@@ -630,177 +575,86 @@ void MainWindow::on_actionOpen_triggered()
     else
         openFileSelected();
 }
-
-void MainWindow::openFileSelected()
+void MainWindow::on_actionExport_triggered()
 {
-    QFileDialog open;
-    QString fileName = open.getOpenFileName(this,
-       tr("Open Sprite"), "~/", tr("Sprite Files (*.ssp)"));
-
-       if (!fileName.isNull())
-       {
-           emit model.openButtonClicked(fileName.toStdString());
-           undoStack->clear();
-       }
+    exportWindow.show();
 }
 
-void MainWindow::loadButtonClicked()
-{
-    QFileDialog open;
-    QString fileName = open.getOpenFileName(this,
-       tr("Open Sprite"), "~/", tr("Sprite Files (*.ssp)"));
-
-       if (!fileName.isNull())
-       {
-
-           emit model.openButtonClicked(fileName.toStdString());
-           undoStack->clear();
-           this->showNormal();
-           this->activateWindow();
-           this->raise();
-           this->show();
-       }
-       //means user hit cancel
-       else
-       {
-           /*QProcess process;
-           process.startDetached("SpriteEditor" ,QStringList());
-           qApp->quit();*/
-           emit canceld();
-
-       }
-
-}
-
-void MainWindow::on_AlphaSlider_valueChanged(int value)
-{
-    //ui->AlphaLabelValue->setText(QString::number(value));
-    emit model.alphaValueChanged(value);
-}
-
-void MainWindow::on_moveFrameLeftButton_clicked()
-{
-    if(currentFrame == 0)
-        return;
-
-    QUndoCommand *moveFrameCommand = new MoveFrameCommand(&model, currentFrame - 1, false);
-    undoStack->push(moveFrameCommand);
-}
-
-void MainWindow::on_moveFrameRightButton_clicked()
-{
-    if(!frameButtons[currentFrame + 1]->isVisible())
-        return;
-
-    QUndoCommand *moveFrameCommand = new MoveFrameCommand(&model, currentFrame + 1, true);
-    undoStack->push(moveFrameCommand);
-}
-
-void MainWindow::on_clearFrameButton_clicked()
-{
-    emit model.clearFrameButtonClicked(currentFrame);
-}
-
-/**
- * When trying to close let the SaveCloseDialog determince which actions need to happen.
- * @brief MainWindow::on_actionClose_triggered
- */
 void MainWindow::on_actionClose_triggered()
 {
-    // If the sprite has been changed since the last save, ask if they want to save before closing.
+    //If the sprite has been changed since the last save, ask if they want to save before closing.
     if(unsavedChanges)
     {
         saveCloseDialog.showFromClose();
     }
     else
     {
-        // If it hasn't been saved, at least ask if they're sure they want to close
-        QMessageBox msgBox;
-        msgBox.setText("Are you sure you want to close?");
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        int ret = msgBox.exec();
-
-
-        switch (ret) {
-            case QMessageBox::Yes:
-                msgBox.close();
-                this->close();
-                QApplication::quit();
-                break;
-            case QMessageBox::No:
-                msgBox.close();
-                break;
-            default:
-                // should never be reached
-                break;
-        }
+        //If the sprite has been saved since the last modification then just quit.
+        this->close();
+        QApplication::quit();
     }
 }
-
-
-/**
- * Close this application
- * @brief MainWindow::closeMainSpriteSelected
- */
-void MainWindow::closeMainSpriteSelected()
+void MainWindow::on_actionHelp_triggered()
 {
-    this->close();
-    QApplication::quit();
+    QDesktopServices::openUrl(QUrl("https://docs.google.com/document/d/1W037-r2LDfaEfAxG1syYZ-I2qRfPx6KfBfls0xHNe5c/edit", QUrl::TolerantMode));
 }
 
-
-/**
- * Send to the model that it needs saved.
- * This model method is slighlty different in that it will
- * close the application after it's saved.
- * @brief MainWindow::newWithSave
- */
-void MainWindow::saveAndClose()
+void MainWindow::framesSaved(QImage oldFrame, QImage newFrame)
 {
-    QFileDialog save;
-    QString fileName = save.getSaveFileName(this,
-       tr("Save Sprite"), "~/", tr("Sprite Files (*.ssp)"));
-    if (save.AcceptSave == 1)
-    {
-       emit model.saveAndCloseButtonClicked(fileName.toStdString());
-    }
-    else
-    {
-       QMessageBox msgBox;
-       msgBox.setText("Couldn't Save. The document needs a name.");
-       msgBox.exec();
-    }
+    QUndoCommand *drawCommand = new DrawCommand(oldFrame, newFrame, &model);
+    undoStack->push(drawCommand);
+}
+
+void MainWindow::uncheckAllToolButtons()
+{
+    ui->PenButton->setChecked(false);
+    ui->EraserButton->setChecked(false);
+    ui->RectButton->setChecked(false);
+    ui->LineButton->setChecked(false);
+    ui->EllipseButton->setChecked(false);
+    ui->BucketButton->setChecked(false);
+    ui->ColorCasterButton->setChecked(false);
+    ui->ColorPickerButton->setChecked(false);
+    ui->MirrorHorizontalButton->setChecked(false);
+    ui->MirrorVerticalButton->setChecked(false);
+}
+
+void MainWindow::changesMade(int i)
+{
+    unsavedChanges = true;
+}
+
+void MainWindow::createActions()
+{
+
+    //Setting up our undoAction to connnect to our undoStack.
+    undoAction = undoStack->createUndoAction(this);
+    undoAction->setShortcut(QKeySequence::Undo);
+    undoAction->setIcon(QIcon(":undo.png"));
+
+    ui->UndoButton->setDefaultAction(undoAction);
+
+    //Setting up our redoAction to connnect to our undoStack.
+    redoAction = undoStack->createRedoAction(this, tr("&Redo"));
+    redoAction->setShortcut(QKeySequence::Redo);
+    redoAction->setIcon(QIcon(":redo.png"));
+
+    ui->RedoButton->setDefaultAction(redoAction);
+
+    connect(undoStack, SIGNAL(indexChanged(int)),
+            this, SLOT(changesMade(int)));
+
+    ui->actionOpen->setShortcut(QKeySequence::Open);
+    ui->actionSave->setShortcut(QKeySequence::Save);
+    ui->actionClose->setShortcut(QKeySequence::Close);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    // for some reason this is closing very first, it's not acting like it's just a boolean
     if(event->isAccepted())
     {
         event->ignore();
         on_actionClose_triggered();
     }
-    //on_actionClose_triggered();
 }
 
-void MainWindow::changesMade()
-{
-    unsavedChanges = true;
-}
-
-void MainWindow::on_actionHelp_triggered()
-{
-    //QFile HelpFile("qrc:SpriteEditorDocumentation.pdf");
-    //HelpFile.copy(qApp->applicationDirPath().append(":SpriteEditorDocumentation.pdf"));
-
-    // This is only going to a specific url
-    // I think I got the actual pdf into the resources folder
-    // But I can't quite get it to open a relative path
-    QDesktopServices::openUrl(QUrl("https://docs.google.com/document/d/1W037-r2LDfaEfAxG1syYZ-I2qRfPx6KfBfls0xHNe5c/edit", QUrl::TolerantMode));
-
-    // How it should be with a relative path
-        // QDesktopServices::openUrl(QUrl::fromLocalFile(QDir::currentPath().append("/myFile.pdf")));
-    // But QDir::currentPath() is the build/debug folder.
-    // It's easy to go up a folder with QDir::cdUp()
-    // but then I don't know how to go into the next one if it'll always be a different name
-}

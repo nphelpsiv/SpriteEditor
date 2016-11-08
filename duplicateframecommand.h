@@ -11,10 +11,13 @@ class DuplicateFrameCommand : public QUndoCommand
 {
     //member variables
 public:
+    //Constructor with the index of the duplicated frame and a pointer to the model.
     DuplicateFrameCommand(int duplicatedFrame, Model *mod, QUndoCommand *parent = 0);
     //To undo adding a frame we remove the frame that was added.
+
+    //Remove the frame that was duplicated.
     void undo() Q_DECL_OVERRIDE;
-    //To undo adding a frame we remove the frame that was added.
+    //This function is called when ever an DuplicateFrameCommand is pushed onto the QUndoStack.
     void redo() Q_DECL_OVERRIDE;
 
 private:
