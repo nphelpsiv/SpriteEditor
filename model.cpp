@@ -141,15 +141,29 @@ void Model::mouseReleaseEvent(QMouseEvent *event)
         emit framesSaved(oldFrame, frames[currentFrame]);
 }
 
+/**
+ * Set the current color to the given color from the MainWindow
+ * @brief Model::colorPicked
+ * @param c
+ */
 void Model::colorPicked(QColor c)
 {
+    // Set the current color
     currentColor = QColor(c.red(), c.green(), c.blue());
+
+    // emit that that the color/alpha changed
     emit(changeAlphaSlider(currentColor.alpha()));
     emit colorChanged(currentColor);
 }
 
+/**
+ * Set the currentColor when the alpha value is changed
+ * @brief Model::alphaValueChanged
+ * @param alpha
+ */
 void Model::alphaValueChanged(int alpha)
 {
+    // Make a new color with the given alpha value
     QColor newColor(currentColor.red(), currentColor.green(), currentColor.blue(), alpha);
     currentColor = newColor;
 
@@ -317,6 +331,13 @@ void Model::clearFrameButtonClicked(int i)
         emit framesSaved(oldFrame, frames[currentFrame]);
 }
 
+/**
+ * Save a new .ssp with the given fileName
+ * Make a new file and go through our vector of QImages
+ * Stream to the file the data specified in the assignment specifications.
+ * @brief Model::saveButtonClicked
+ * @param fileName
+ */
 void Model::saveButtonClicked(string fileName)
 {
    // Set up saving
@@ -353,10 +374,12 @@ void Model::saveButtonClicked(string fileName)
                    QColor color = curFrame.pixelColor(j, i);
                    if (j == size.width() -1 )
                    {
+                       // print to the file the specified pixel color values
                        stream << color.red() << " " << color.green() << " "  << color.blue() << " "  << color.alpha();
                    }
                    else
                    {
+                       // Same as above but will put a space between
                        stream << color.red() << " " << color.green() << " "  << color.blue() << " "  << color.alpha() << " ";
                    }
                }
@@ -364,10 +387,11 @@ void Model::saveButtonClicked(string fileName)
            }
        }
    }
+   // Safely close the file
    file.close();
 
-
-   emit successfulSave();
+    // emit that the file was saved successfully
+    emit successfulSave();
 }
 
 /**
@@ -394,29 +418,36 @@ void Model::saveThenNewButtonClicked(string s)
     emit startNewSprite();
 }
 
+
+/**
+ * Open a new sprite with a given fileName
+ * Open the file and read in the values to directly modify our vector of QImages
+ * @brief Model::openButtonClicked
+ * @param fileName
+ */
 void Model::openButtonClicked(string fileName)
 {
-   // covert to QString for easy opening of file
-   QString qFileName = QString::fromStdString(fileName);
-   QFile file(qFileName);
+    // covert to QString for easy opening of file
+    QString qFileName = QString::fromStdString(fileName);
+    QFile file(qFileName);
 
 
-   // If there's a problem opening the file
-   if(!file.open(QIODevice::ReadOnly)) {
+    // If there's a problem opening the file
+    if(!file.open(QIODevice::ReadOnly)) {
        QMessageBox::information(0, "error", file.errorString());
-   }
+    }
 
 
-   // Start reading in
-   QTextStream in(&file);
+    // Start reading in
+    QTextStream in(&file);
 
 
-   int countLine = 0;       //line number in .ssp file.
-   int frameCount = 0;      //number of frames
-   int currentFrameRow = 0; //constrained to (0 to size-1)
-   int size = 0;            //size of square frame
-   while(!in.atEnd())
-   {
+    int countLine = 0;       //line number in .ssp file.
+    int frameCount = 0;      //number of frames
+    int currentFrameRow = 0; //constrained to (0 to size-1)
+    int size = 0;            //size of square frame
+    while(!in.atEnd())
+    {
        countLine++;
        QString line = in.readLine();
 
@@ -427,6 +458,7 @@ void Model::openButtonClicked(string fileName)
            // if first line setup size
            if (countLine == 1 && i == 0)
            {
+               // Remove all current frames to start clean
                int startingSize = frames.size();
                for (int j = 0; j < startingSize - 1; j++)
                {
@@ -463,14 +495,8 @@ void Model::openButtonClicked(string fileName)
                    break;
                }
 
-               // Print out what the pixel values are to see if we are getting correct values
-               //cout << "Current Frame = " << frameCount << ". Pixel at " << "(" << i/4 << ", " << currentFrameRow - 1 << "): " << tokens.at(i).toStdString() << "," << tokens.at(i + 1).toStdString() << "," << tokens.at(i + 2).toStdString() << "," << tokens.at(i + 3).toStdString() << endl;
-
+               // Get the color at a pixel
                QColor c(tokens.at(i).toInt(), tokens.at(i + 1).toInt(), tokens.at(i + 2).toInt(), tokens.at(i + 3).toInt());
-
-               // SetPixelColor was not doing anything
-               //QPoint position(i/4, currentFrameRow - 1);
-               //((QImage)frames[frameCount]).setPixelColor(position, c);
 
                // So we draw with a painter
                QPainter newPaint(&frames[frameCount]);
@@ -481,17 +507,17 @@ void Model::openButtonClicked(string fileName)
            }
        }
        currentFrameRow++;
-   }
+    }
 
-   //frames.erase(frames.begin() + frameCount + 1, frames.end());
-   //Draw frames.
-   for (int i = 0; i < frames.size() - 1; i++)
-   {
+    //frames.erase(frames.begin() + frameCount + 1, frames.end());
+    //Draw frames.
+    for (int i = 0; i < frames.size() - 1; i++)
+    {
       changeFrame(i);
-   }
+    }
 
-
-   file.close();
+    // Safely close the file
+    file.close();
 }
 
 void Model::FPSSpinBoxChanged(int change)
