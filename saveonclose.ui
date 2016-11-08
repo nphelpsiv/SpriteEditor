@@ -1229,18 +1229,20 @@ QProgressBar::chunk {
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>9</y>
+     <y>30</y>
      <width>381</width>
-     <height>41</height>
+     <height>51</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <pointsize>12</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
    </property>
    <property name="text">
-    <string>The Sprite has been modified since it was last changed.</string>
+    <string>You have unsaved changes.</string>
    </property>
    <property name="textFormat">
     <enum>Qt::PlainText</enum>
@@ -1248,19 +1250,22 @@ QProgressBar::chunk {
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QLabel" name="BoldLabel">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>59</y>
+     <y>80</y>
      <width>381</width>
      <height>41</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <pointsize>12</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -1278,7 +1283,7 @@ QProgressBar::chunk {
   <widget class="QPushButton" name="SaveCloseYES">
    <property name="geometry">
     <rect>
-     <x>74</x>
+     <x>84</x>
      <y>132</y>
      <width>101</width>
      <height>31</height>
@@ -1293,7 +1298,7 @@ QProgressBar::chunk {
     <rect>
      <x>210</x>
      <y>132</y>
-     <width>101</width>
+     <width>121</width>
      <height>31</height>
     </rect>
    </property>
