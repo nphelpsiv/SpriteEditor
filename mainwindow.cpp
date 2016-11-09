@@ -512,7 +512,7 @@ void MainWindow::on_DuplicateFrameButton_clicked()
 void MainWindow::on_RemoveFrameButton_clicked()
 {
     //Don't delete if there is only one frame.
-    if(frameButtons[1]->isVisible())
+    if(!frameButtons[1]->isVisible())
         return;
 
     QUndoCommand *removeFrameCommand = new RemoveFrameCommand(currentFrame, &model);
